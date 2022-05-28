@@ -1,0 +1,86 @@
+﻿@model DataAnalyst.Models.RegisterViewModel
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<div id="divRegister">
+    <div class="col-md-12">
+        <section id="loginForm">
+
+            @*@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { id= "FrmReg"}))
+            {
+                @Html.AntiForgeryToken()
+                <h4>Set User Role</h4>
+                <hr />
+
+                <div class="form-group">
+                    <div class="input-group">
+                        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                            <div class="input-group-addon">
+                                <i class="fa fa-user"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                            <div class="input-group-addon">
+                                <i class="fa fa-key"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                            <div class="input-group-addon">
+                                <i class="fa fa-key"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" name="btnReg" id="btnRegister" class="btn btn-default" value="Register" />
+                    </div>
+                </div>
+            }*@
+
+        </section>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("btnRegister").submit(function () {
+            $.ajax({
+                type: $(this).prop('method'),
+                datatype: 'json',
+                cache:false,
+                url: $(this).prop('action'),
+                data: $(this).serialize(),
+                beforeSend: function () {
+
+                },
+                success: function () {
+                    toastr["success"]('@TempData["Success"]');
+                },
+                error: function (ex, ty, msg) {
+                    toastr["error"](msg);
+                }
+            });
+        });
+        
+    });
+</script>

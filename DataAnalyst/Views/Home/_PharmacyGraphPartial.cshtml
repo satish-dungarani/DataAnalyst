@@ -1,0 +1,115 @@
+﻿
+<!-- Main row -->
+<div class="row">
+    <!-- Left col -->
+    <section class="col-lg-7 connectedSortable">
+
+        <!-- quick email widget -->
+        <div class="box box-info">
+            <div class="box-header">
+                <i class="fa  fa-bar-chart"></i>
+                <h3 class="box-title">Pharmacy Purchase Spend and Rebate</h3>
+                <!-- tools box -->
+                <div class="pull-right box-tools">
+                    @*<button class="btn btn-info btn-sm pull-right" data-widget="collapse" data-toggle="tooltip" title="Collapse" style="margin-right: 5px;"><i class="fa fa-navicon"></i></button>*@
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <div id="PMPLineChart" style="max-width: 800px; height: 300px; margin: 0 auto"></div>
+            </div>
+        </div>
+
+    </section><!-- /.Left col -->
+    <!-- right col (We are only adding the ID to make the widgets sortable)-->
+    <section class="col-lg-5 connectedSortable">
+        <div class="box box-info">
+            <div class="box-header">
+                <i class="fa  fa-pie-chart"></i>
+                <h3 class="box-title">Pharmacy Rebate %</h3>
+                <!-- tools box -->
+                <div class="pull-right box-tools">
+                    @*<button class="btn btn-info btn-sm pull-right" data-widget="collapse" data-toggle="tooltip" title="Collapse" style="margin-right: 5px;"><i class="fa fa-minus"></i></button>*@
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <div id="PMPPieChart" style="max-width: 800px; height: 300px; margin: 0 auto"></div>
+            </div>
+
+        </div>
+    </section><!-- right col -->
+
+    <!--Supplier Chrat Base on Pharmacy-->
+    <section class="col-lg-7 connectedSortable">
+
+        <!-- quick email widget -->
+        <div class="box box-info">
+            <div class="box-header">
+                <i class="fa  fa-bar-chart"></i>
+                <h3 class="box-title">Individual Supplier Sales Spend and Rebate</h3>
+                <!-- tools box -->
+                <div class="pull-right box-tools">
+                    @*<button class="btn btn-info btn-sm pull-right" data-widget="collapse" data-toggle="tooltip" title="Collapse" style="margin-right: 5px;"><i class="fa fa-navicon"></i></button>*@
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <div id="SBPLineChart" style="max-width: 800px; height: 300px; margin: 0 auto"></div>
+            </div>
+        </div>
+
+    </section><!-- /.Left col -->
+    <!-- right col (We are only adding the ID to make the widgets sortable)-->
+    <section class="col-lg-5 connectedSortable">
+        <div class="box box-info">
+            <div class="box-header">
+                <i class="fa  fa-pie-chart"></i>
+                <h3 class="box-title">Individual Supplier Rebate %</h3>
+                <!-- tools box -->
+                <div class="pull-right box-tools">
+                    @*<button class="btn btn-info btn-sm pull-right" data-widget="collapse" data-toggle="tooltip" title="Collapse" style="margin-right: 5px;"><i class="fa fa-minus"></i></button>*@
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <div id="SBPPieChart" style="max-width: 800px; height: 300px; margin: 0 auto"></div>
+            </div>
+
+        </div>
+    </section><!-- right col -->
+
+    <section class="col-lg-12 connectedSortable">
+            <div class="box box-info">
+                <div class="box-header">
+                    <h3 class="box-title">Pharmacy Purchase Comparision </h3>
+                    <!-- tools box -->
+                    <div class="pull-right box-tools">
+                        @*<button class="btn btn-info btn-sm pull-right" data-widget="collapse" data-toggle="tooltip" title="Collapse" style="margin-right: 5px;"><i class="fa fa-minus"></i></button>*@
+                    </div><!-- /. tools -->
+                </div>
+                <div class="box-body">
+                    <div id="divComparition">
+                        @Html.Partial("_ComparisionPartial", new List<DataAnalyst.Models.ProcessDataModel>())
+                    </div>
+                </div>
+            </div>
+    </section><!-- right col -->
+
+    <section class="col-lg-12 connectedSortable">
+
+        <!--Pharmacy Bar-->
+        <div class="box box-info">
+            <div class="box-header">
+                <h3 class="box-title">Pharmacy Category Spend Data</h3>
+                <!-- tools box -->
+                <div class="pull-right box-tools">
+                    @*<button class="btn btn-info btn-sm pull-right" data-widget="collapse" data-toggle="tooltip" title="Collapse" style="margin-right: 5px;"><i class="fa fa-minus"></i></button>*@
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <div id="divPPD">
+                    @Html.Partial("_PharmacyProcessDataPartial", new List<DataAnalyst.Models.ProcessDataModel>())
+                </div>
+            </div>
+        </div>
+
+    </section><!-- /.Left col -->
+
+</div><!-- /.row (main row) -->

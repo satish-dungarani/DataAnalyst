@@ -1,0 +1,200 @@
+﻿@using System.Globalization;
+@model List<DataAnalyst.Models.ProcessDataModel>
+
+@{
+    var _ThList = "";
+    var _PrevSup = 0;
+    var _TdList = "";
+    var _TdListStR = "";
+    var _TdListNdR = "";
+    decimal _RowTotalSpend = 0, _RowTotalRebate = 0;
+    var _ScndHeader = "";
+}
+@*<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Summary For Supplier</h3>
+
+        <div class="box-tools pull-right">
+        </div>
+    </div>*@
+<!-- /.box-header -->
+<div class="box-body">
+
+    @*@if (@Model.Select(x => x.Duration).Distinct().Count() == 1)
+        {*@
+            @*@for (int i = 0; i < Model.Count; i++)
+            {
+                if (i == 0)
+                {
+                    _ThList = "<tr><th >" + ViewBag.Type + " Name </th>";
+                    //_ScndHeader = "<tr><th rowspan =2>Supplier Name </th>";
+                    _TdList = "<tr>";
+                    _TdList = _TdList + "<th>" + Model[i].ValueName + "</th>" + "<td  style=\"text-align:right\">" + ((decimal)Model[i].TotalSpend).ToString("C2",CultureInfo.CreateSpecificCulture("en-GB")) + "<br /> <span style=\"color:#2B60DE\">" + ((decimal)Model[i].TotalRebate).ToString("C2",CultureInfo.CreateSpecificCulture("en-GB")) + "</span></td>";
+                    _RowTotalSpend = Convert.ToDecimal(Model[i].TotalSpend);
+                    _RowTotalRebate = Convert.ToDecimal(Model[i].TotalRebate);
+                }
+
+                if (@Model[i].ValueId == _PrevSup || i == 0)
+                {
+                    //_ThList = _ThList + "<th style=\"text-align:center\">" + Model[i].Duration + "</th>";
+                    _ScndHeader = _ScndHeader + "<th style=\"text-align:right\">" + Model[i].Duration + "<br/>Amount <br/><span style=\"color:#2B60DE\"> Rebate </span></th>";
+                    _PrevSup = Model[i].ValueId;
+                }
+
+                if (i > 0 )
+                {
+                    if (Model[i - 1].ValueId != Model[i].ValueId)
+                    {
+                        _TdList = _TdList + "<th  style=\"text-align:right\">" + ((decimal)_RowTotalSpend).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")) + "<br /> <span style=\"color:#2B60DE\">" + ((decimal)_RowTotalRebate).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")) + "</span></th></tr><tr>";
+                        _TdList = _TdList + "<th>" + Model[i].ValueName + "</th>";
+                        _RowTotalSpend = 0; _RowTotalRebate = 0;
+                    }
+
+                }
+
+                if (i != 0)
+                {
+                    //_TdList = _TdList + "<th>" + Model[i].ValueName + "</th>";
+                    _TdList = _TdList + "<td  style=\"text-align:right\">" + ((decimal)Model[i].TotalSpend).ToString("C2",CultureInfo.CreateSpecificCulture("en-GB")) + "<br /> <span style=\"color:#2B60DE\">" + ((decimal)Model[i].TotalRebate).ToString("C2",CultureInfo.CreateSpecificCulture("en-GB")) + "</span></td>";
+                    _RowTotalSpend = _RowTotalSpend + Convert.ToDecimal(Model[i].TotalSpend);
+                    _RowTotalRebate = _RowTotalRebate + Convert.ToDecimal(Model[i].TotalRebate);
+                }
+
+
+                if (i == Model.Count - 1)
+                {
+                    _TdList = _TdList + "<th  style=\"text-align:right\">" + ((decimal)_RowTotalSpend).ToString("C2",CultureInfo.CreateSpecificCulture("en-GB")) + "<br /> <span style=\"color:#2B60DE\">" + ((decimal)_RowTotalRebate).ToString("C2",CultureInfo.CreateSpecificCulture("en-GB")) + "</span></th></tr>";
+                    //_ThList = _ThList + "<th style=\"text-align:center\"></th></tr>";
+                    _ScndHeader = _ScndHeader + "<th style=\"text-align:right\">Total <br/>  Amount <br/> <span style=\"color:#2B60DE\">Rebate </span></th></tr>";
+                }
+            }*@
+        @*}
+    else
+    {*@
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        if (i == 0)
+        {
+            _ThList = "<tr><th >" + ViewBag.Type + " Name </th> <th>  </th>";
+            //_ScndHeader = "<tr><th rowspan =2>Supplier Name </th>";
+            //_ScndHeader = "<tr>";
+            _TdListStR = "<tr> ";
+            _TdListNdR = _TdListStR ;
+            _TdListStR = _TdListStR + "<th rowspan=2>" + Model[i].ValueName + "</th><th> Spend </th>" + "<td  style=\"text-align:right\">" + ((decimal)Model[i].TotalSpend).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")) + "</td> ";
+            _TdListNdR = _TdListNdR + "<th style=\"display:none\">" + Model[i].ValueName + "</th> <th> Rebate </th> <td  style=\"text-align:right\"><span style=\"color:#2B60DE\">" + ((decimal)Model[i].TotalRebate).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")) + " </span></td>";
+            _RowTotalSpend = Convert.ToDecimal(Model[i].TotalSpend);
+            _RowTotalRebate = Convert.ToDecimal(Model[i].TotalRebate);
+        }
+
+        if (@Model[i].ValueId == _PrevSup || i == 0)
+        {
+            //_ThList = _ThList + "<th style=\"text-align:center\">" + Model[i].Duration + "</th>";
+            _ScndHeader = _ScndHeader + "<th style=\"text-align:right\"> " + Model[i].Duration + "<br/>Amount </th>";
+            _PrevSup = Model[i].ValueId;
+        }
+
+        if (i > 0)
+        {
+            if (Model[i - 1].ValueId != Model[i].ValueId)
+            {
+                _TdListStR = _TdListStR + "<th  style=\"text-align:right\">" + ((decimal)_RowTotalSpend).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")) + "</th> </tr>";
+                _TdListNdR = _TdListNdR + "<th  style=\"text-align:right\"><span style=\"color:#2B60DE\">" + ((decimal)_RowTotalRebate).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")) + "</span></th></tr>";
+                _TdListStR = _TdListStR  + _TdListNdR;
+                _TdListStR = _TdListStR +  "<tr>";
+                _TdListNdR = "<tr> ";
+                _TdListStR = _TdListStR + "<th rowspan=2>" + Model[i].ValueName + "</th> <th> Spend </th>";
+                _TdListNdR = _TdListNdR + "<th style=\"display:none\">" + Model[i].ValueName + "</th> <th> Rebate </th>";
+                _RowTotalSpend = 0; _RowTotalRebate = 0;
+            }
+
+        }
+
+        if (i != 0)
+        {
+            //_TdList = _TdList + "<th>" + Model[i].ValueName + "</th>";
+            _TdListStR = _TdListStR + "<td  style=\"text-align:right\">" + ((decimal)Model[i].TotalSpend).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")) + "</td> ";
+            _TdListNdR = _TdListNdR + "<td  style=\"text-align:right\"> <span style=\"color:#2B60DE\">" + ((decimal)Model[i].TotalRebate).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")) + "</span></td>";
+            _RowTotalSpend = _RowTotalSpend + Convert.ToDecimal(Model[i].TotalSpend);
+            _RowTotalRebate = _RowTotalRebate + Convert.ToDecimal(Model[i].TotalRebate);
+        }
+
+
+        if (i == Model.Count - 1)
+        {
+            _TdListStR = _TdListStR + "<th  style=\"text-align:right\">" + ((decimal)_RowTotalSpend).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")) + "</th> </tr>";
+            _TdListNdR = _TdListNdR + "<th  style=\"text-align:right\"><span style=\"color:#2B60DE\">" + ((decimal)_RowTotalRebate).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")) + "</span></th></tr>";
+            _TdListStR = _TdListStR + _TdListNdR;
+            //_ThList = _ThList + "<th style=\"text-align:center\">Total</th></tr>";
+            _ScndHeader = _ScndHeader + "<th style=\"text-align:right\">Total <br/> Amount </th></tr>";
+        }
+    }
+    @*}*@
+
+    @*<table class="table table-bordered table-striped" id="tblCompare">
+        <thead>
+            @Html.Raw(_ThList + _ScndHeader)
+        </thead>
+        <tbody>
+            @Html.Raw(_TdList)
+        </tbody>
+    </table>*@
+
+    <table class="table table-bordered table-striped" id="tblCompare">
+        <thead>
+            @Html.Raw(_ThList + _ScndHeader)
+        </thead>
+        <tbody>
+            @Html.Raw(_TdListStR)
+        </tbody>
+    </table>
+</div>
+<!-- /.box-body -->
+@*<div class="box-footer text-center">
+
+    </div>*@
+<!-- /.box-footer -->
+@*</div>*@
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+        //$('#tblMaster tbody').on('click', 'tr', function () {
+        //    debugger;
+        //    if ($(this).hasClass('selected')) {
+        //        $(this).removeClass('selected');
+        //    }
+        //    else {
+        //        $('#tblMaster').DataTable().$('tr.selected').removeClass('selected');
+        //        $(this).addClass('selected');
+        //    }
+        //});
+
+        //debugger;
+        //jQuery('#tblCompare').dataTable().fnDestroy();
+        //var oTable = jQuery('#tblCompare').DataTable({
+        //    "bServerSide": false,
+        //    "bProcessing": true,
+        //    scrollX: true,
+        //    scrollCollapse: true,
+        //    //"responsive": true,
+        //    "searching": true,
+        //    "ordering": true,
+        //    "paging": true,
+        //    "autoWidth": true,
+        //    //"dom": 'C<"clear">lfrtip',
+        //    //"colVis": {
+        //    //    "buttonText": "Change columns"
+        //    //},
+        //    //fixedColumns: {
+        //    //    leftColumns: 1,
+        //    //    leftColumns: 2,
+        //    //    leftColumns: 3,
+        //    //},
+        //});
+    })
+
+
+</script>

@@ -1,0 +1,11 @@
+﻿
+@{
+    Layout = "";
+}
+@Html.DropDownList("PharmacyList", new SelectList((IEnumerable<SelectListItem>)ViewData["PharmacyList"], "Value", "Text"), new { @class = "form-control select2 " , multiple = "multiple"})
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".select2").select2();
+    })
+</script>

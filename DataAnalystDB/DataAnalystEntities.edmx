@@ -1,0 +1,2291 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DataAnalystDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CustSuppAssociation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="refPharmacyID" Type="int" Nullable="false" />
+          <Property Name="refSupplierID" Type="int" Nullable="false" />
+          <Property Name="AccountNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="InsUser" Type="int" Nullable="false" />
+          <Property Name="InsDate" Type="datetime" Nullable="false" />
+          <Property Name="InsTerminal" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="UpdUser" Type="int" />
+          <Property Name="UpdDate" Type="datetime" />
+          <Property Name="UpdTerminal" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="ImportData">
+          <Key>
+            <PropertyRef Name="ImportId" />
+          </Key>
+          <Property Name="ImportId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DataYear" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="DataMonth" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="FinYear" Type="nvarchar" MaxLength="8" />
+          <Property Name="QuaterType" Type="nvarchar" MaxLength="3" />
+          <Property Name="HalfYearType" Type="nvarchar" MaxLength="3" />
+          <Property Name="PharmacyName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="AccountNo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Generic" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="EthicalPI" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="SurgicalDressing" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="NonGeneric" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="NonPrescription" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="Insulin" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="Status" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="Electrical" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="Drinks" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="NonDiscount" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="OTC" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="Mobility" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="Specials" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="NP8" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="Other1" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="Other2" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="Other3" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="TotalSpend" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalRebate" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="InsUser" Type="int" Nullable="false" />
+          <Property Name="InsDate" Type="datetime" Nullable="false" />
+          <Property Name="InsTerminal" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="UpdUser" Type="int" />
+          <Property Name="UpdDate" Type="datetime" />
+          <Property Name="UpdTerminal" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="MastersList">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MasterName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="OrdNo" Type="numeric" Precision="5" Scale="2" />
+          <Property Name="IsSystemGenerated" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MasterValue">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="RefMasterId" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ValueName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ShortName" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="OrdNo" Type="numeric" Precision="5" Scale="2" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="InsUser" Type="int" Nullable="false" />
+          <Property Name="InsDate" Type="datetime" Nullable="false" />
+          <Property Name="InsTerminal" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="UpdUser" Type="int" />
+          <Property Name="UpdDate" Type="datetime" />
+          <Property Name="UpdTerminal" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="PharmacyMas">
+          <Key>
+            <PropertyRef Name="PharmacyID" />
+          </Key>
+          <Property Name="PharmacyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PharmacyName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="150" />
+          <Property Name="Address1" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Address2" Type="nvarchar" MaxLength="70" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PostCode" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="RespPerson" Type="nvarchar" MaxLength="150" />
+          <Property Name="Telephone" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Fax" Type="nvarchar" MaxLength="15" />
+          <Property Name="EmailID" Type="nvarchar" MaxLength="100" />
+          <Property Name="DCRegNo" Type="nvarchar" MaxLength="100" />
+          <Property Name="PharmacoRegNo" Type="nvarchar" MaxLength="500" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="InsUser" Type="int" Nullable="false" />
+          <Property Name="InsDate" Type="datetime" Nullable="false" />
+          <Property Name="InsTerminal" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="UpdUser" Type="int" />
+          <Property Name="UpdDate" Type="datetime" />
+          <Property Name="UpdTerminal" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="ProcessData">
+          <Key>
+            <PropertyRef Name="ProcessID" />
+          </Key>
+          <Property Name="ProcessID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DataYear" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="DataMonth" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="FinYear" Type="nvarchar" MaxLength="8" />
+          <Property Name="QuaterType" Type="nvarchar" MaxLength="3" />
+          <Property Name="HalfYearType" Type="nvarchar" MaxLength="3" />
+          <Property Name="refPharmacyID" Type="int" Nullable="false" />
+          <Property Name="refSupplierID" Type="int" Nullable="false" />
+          <Property Name="AccountNo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Generic" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="EthicalPI" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="SurgicalDressing" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="NonGeneric" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="NonPrescription" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="Insulin" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="Status" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="Electrical" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="Drinks" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="NonDiscount" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="OTC" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="Mobility" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="Specials" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="NP8" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="Other1" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="Other2" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="Other3" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="TotalSpend" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalRebate" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="InsUser" Type="int" Nullable="false" />
+          <Property Name="InsDate" Type="datetime" Nullable="false" />
+          <Property Name="InsTerminal" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="UpdUser" Type="int" />
+          <Property Name="UpdDate" Type="datetime" />
+          <Property Name="UpdTerminal" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="SupplierMas">
+          <Key>
+            <PropertyRef Name="SupplierId" />
+          </Key>
+          <Property Name="SupplierId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SupplierName" Type="nvarchar" MaxLength="70" Nullable="false" />
+          <Property Name="Address1" Type="nvarchar" MaxLength="70" />
+          <Property Name="Address2" Type="nvarchar" MaxLength="70" />
+          <Property Name="City" Type="nvarchar" MaxLength="30" />
+          <Property Name="PostCode" Type="nvarchar" MaxLength="15" />
+          <Property Name="RespPerson" Type="nvarchar" MaxLength="30" />
+          <Property Name="Telephone" Type="nvarchar" MaxLength="15" />
+          <Property Name="FaxNo" Type="nvarchar" MaxLength="15" />
+          <Property Name="EmailID" Type="nvarchar" MaxLength="100" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="InsUser" Type="int" Nullable="false" />
+          <Property Name="InsDate" Type="datetime" Nullable="false" />
+          <Property Name="InsTerminal" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="UpdUser" Type="int" />
+          <Property Name="UpdDate" Type="datetime" />
+          <Property Name="UpdTerminal" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="UserMaster">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="DOB" Type="date" />
+          <Property Name="MobileNo" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="ContactNo1" Type="nvarchar" MaxLength="15" />
+          <Property Name="ContactNo2" Type="nvarchar" MaxLength="15" />
+          <Property Name="EmailID" Type="nvarchar" MaxLength="100" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="RefRoleID" Type="int" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+          <Property Name="InsUser" Type="int" Nullable="false" />
+          <Property Name="InsDate" Type="datetime" Nullable="false" />
+          <Property Name="InsTerminal" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="UpdUser" Type="int" />
+          <Property Name="UpdDate" Type="datetime" />
+          <Property Name="UpdTerminal" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <Association Name="FK_CustSuppAssociation_CustSuppAssociation">
+          <End Role="PharmacyMas" Type="Self.PharmacyMas" Multiplicity="1" />
+          <End Role="CustSuppAssociation" Type="Self.CustSuppAssociation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PharmacyMas">
+              <PropertyRef Name="PharmacyID" />
+            </Principal>
+            <Dependent Role="CustSuppAssociation">
+              <PropertyRef Name="refPharmacyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustSuppAssociation_SupplierMas">
+          <End Role="SupplierMas" Type="Self.SupplierMas" Multiplicity="1" />
+          <End Role="CustSuppAssociation" Type="Self.CustSuppAssociation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SupplierMas">
+              <PropertyRef Name="SupplierId" />
+            </Principal>
+            <Dependent Role="CustSuppAssociation">
+              <PropertyRef Name="refSupplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MasterValue_MastersList">
+          <End Role="MastersList" Type="Self.MastersList" Multiplicity="1" />
+          <End Role="MasterValue" Type="Self.MasterValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MastersList">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MasterValue">
+              <PropertyRef Name="RefMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProcessData_PharmacyMas">
+          <End Role="PharmacyMas" Type="Self.PharmacyMas" Multiplicity="1" />
+          <End Role="ProcessData" Type="Self.ProcessData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PharmacyMas">
+              <PropertyRef Name="PharmacyID" />
+            </Principal>
+            <Dependent Role="ProcessData">
+              <PropertyRef Name="refPharmacyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProcessData_SupplierMas">
+          <End Role="SupplierMas" Type="Self.SupplierMas" Multiplicity="1" />
+          <End Role="ProcessData" Type="Self.ProcessData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SupplierMas">
+              <PropertyRef Name="SupplierId" />
+            </Principal>
+            <Dependent Role="ProcessData">
+              <PropertyRef Name="refSupplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="sp_CustAppAssociation_Save" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pID" Type="int" Mode="In" />
+          <Parameter Name="prefPharmacyId" Type="int" Mode="In" />
+          <Parameter Name="prefSupplierId" Type="int" Mode="In" />
+          <Parameter Name="pAccountNo" Type="nvarchar" Mode="In" />
+          <Parameter Name="pUser" Type="int" Mode="In" />
+          <Parameter Name="pTerminal" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_CustSuppAssociation_Select" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="prefPharmacyID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_CustSuppAssociation_SelectWhere" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pdefWhere" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_ImportData_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pDataYear" Type="nvarchar" Mode="In" />
+          <Parameter Name="pDataMonth" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_ImportData_Save" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pDataYear" Type="nvarchar" Mode="In" />
+          <Parameter Name="pDataMonth" Type="nvarchar" Mode="In" />
+          <Parameter Name="pPharmacyName" Type="nvarchar" Mode="In" />
+          <Parameter Name="pAccountNo" Type="nvarchar" Mode="In" />
+          <Parameter Name="pGeneric" Type="numeric" Mode="In" />
+          <Parameter Name="pEthicalPI" Type="numeric" Mode="In" />
+          <Parameter Name="pSurgicalDressing" Type="numeric" Mode="In" />
+          <Parameter Name="pNonGeneric" Type="numeric" Mode="In" />
+          <Parameter Name="pNonPrescription" Type="numeric" Mode="In" />
+          <Parameter Name="pInsulin" Type="numeric" Mode="In" />
+          <Parameter Name="pStatus" Type="numeric" Mode="In" />
+          <Parameter Name="pElectrical" Type="numeric" Mode="In" />
+          <Parameter Name="pDrinks" Type="numeric" Mode="In" />
+          <Parameter Name="pNonDiscount" Type="numeric" Mode="In" />
+          <Parameter Name="pOTC" Type="numeric" Mode="In" />
+          <Parameter Name="pMobility" Type="numeric" Mode="In" />
+          <Parameter Name="pSpecials" Type="numeric" Mode="In" />
+          <Parameter Name="pNP8" Type="numeric" Mode="In" />
+          <Parameter Name="pOther1" Type="numeric" Mode="In" />
+          <Parameter Name="pOther2" Type="numeric" Mode="In" />
+          <Parameter Name="pOther3" Type="numeric" Mode="In" />
+          <Parameter Name="pTotalSpend" Type="numeric" Mode="In" />
+          <Parameter Name="pTotalRebate" Type="numeric" Mode="In" />
+          <Parameter Name="pUser" Type="int" Mode="In" />
+          <Parameter Name="pTerminal" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_ImportData_SelectWhere" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="dfltWhere" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_MasterList_Select" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_MasterValue_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_MasterValue_Save" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pRefMasterID" Type="int" Mode="In" />
+          <Parameter Name="pID" Type="int" Mode="In" />
+          <Parameter Name="pValueName" Type="nvarchar" Mode="In" />
+          <Parameter Name="pShortName" Type="nvarchar" Mode="In" />
+          <Parameter Name="pOrdNo" Type="numeric" Mode="In" />
+          <Parameter Name="pIsActive" Type="bit" Mode="In" />
+          <Parameter Name="pUser" Type="int" Mode="In" />
+          <Parameter Name="pTerminal" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_MasterValue_Select" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pRefMasterID" Type="int" Mode="In" />
+          <Parameter Name="pID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_MasterValue_SelectWhere" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pRefMasterID" Type="int" Mode="In" />
+          <Parameter Name="dfltWhere" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_MenuRoleRights_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pRefRoleId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_MenuRoleRights_Save" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pRefRoleId" Type="int" Mode="In" />
+          <Parameter Name="pRefMenuId" Type="int" Mode="In" />
+          <Parameter Name="pCanInsert" Type="bit" Mode="In" />
+          <Parameter Name="pCanUpdate" Type="bit" Mode="In" />
+          <Parameter Name="pCanDelete" Type="bit" Mode="In" />
+          <Parameter Name="pCanView" Type="bit" Mode="In" />
+          <Parameter Name="pUser" Type="int" Mode="In" />
+          <Parameter Name="pTerminal" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_MenuRoleRights_Select" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pRefRoleId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_PharmacyMaster_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pPharmacyID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_PharmacyMaster_Save" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pPharmacyID" Type="int" Mode="In" />
+          <Parameter Name="pPharmacyName" Type="nvarchar" Mode="In" />
+          <Parameter Name="pCompanyName" Type="nvarchar" Mode="In" />
+          <Parameter Name="pAddress1" Type="nvarchar" Mode="In" />
+          <Parameter Name="pAddress2" Type="nvarchar" Mode="In" />
+          <Parameter Name="pCity" Type="nvarchar" Mode="In" />
+          <Parameter Name="pPostCode" Type="nvarchar" Mode="In" />
+          <Parameter Name="pRespPerson" Type="nvarchar" Mode="In" />
+          <Parameter Name="pTelephone" Type="nvarchar" Mode="In" />
+          <Parameter Name="pFaxNo" Type="nvarchar" Mode="In" />
+          <Parameter Name="pEmailID" Type="nvarchar" Mode="In" />
+          <Parameter Name="pDCRegNo" Type="nvarchar" Mode="In" />
+          <Parameter Name="pPharmacoRegNo" Type="nvarchar" Mode="In" />
+          <Parameter Name="pIsActive" Type="bit" Mode="In" />
+          <Parameter Name="pUser" Type="int" Mode="In" />
+          <Parameter Name="pTerminal" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_PharmacyMaster_Select" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pPharmacyID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_PharmacyMaster_SelectWhere" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="dfltWhere" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_ProcessData_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pDataYear" Type="nvarchar" Mode="In" />
+          <Parameter Name="pDataMonth" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_ProcessData_MonthlyForAllSupp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pStartDate" Type="date" Mode="In" />
+          <Parameter Name="pEndDate" Type="date" Mode="In" />
+          <Parameter Name="pMemberType" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_ProcessData_PharmacyMonthlyPurchase" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pStartDate" Type="date" Mode="In" />
+          <Parameter Name="pEndDate" Type="date" Mode="In" />
+          <Parameter Name="pMonthFilterType" Type="nvarchar" Mode="In" />
+          <Parameter Name="pPharmacyId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_ProcessData_PharmacyProcessData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pStartDate" Type="date" Mode="In" />
+          <Parameter Name="pEndDate" Type="date" Mode="In" />
+          <Parameter Name="pPharmacyId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_ProcessData_PharmacyPurchaseBaseOnSupplier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pStartDate" Type="date" Mode="In" />
+          <Parameter Name="pEndDate" Type="date" Mode="In" />
+          <Parameter Name="pMemberType" Type="int" Mode="In" />
+          <Parameter Name="pSupplierIdList" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_ProcessData_PharmacyPurchaseComparison" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pStartDate" Type="date" Mode="In" />
+          <Parameter Name="pEndDate" Type="date" Mode="In" />
+          <Parameter Name="pMonthFilterType" Type="nvarchar" Mode="In" />
+          <Parameter Name="pPharmacyId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_ProcessData_PharmacyWise" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pStartDate" Type="date" Mode="In" />
+          <Parameter Name="pEndDate" Type="date" Mode="In" />
+          <Parameter Name="pMemberType" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_ProcessData_PharmacyWiseYearlyComparition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pYearList" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="pMemberType" Type="int" Mode="In" />
+          <Parameter Name="pSupplierIdList" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="pPharmacyIdList" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="pDurationType" Type="nvarchar" Mode="In" />
+          <Parameter Name="pDurationNo" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_ProcessData_Save" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pDataYear" Type="nvarchar" Mode="In" />
+          <Parameter Name="pDataMonth" Type="nvarchar" Mode="In" />
+          <Parameter Name="pUser" Type="int" Mode="In" />
+          <Parameter Name="pTerminal" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_ProcessData_SelectCondition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="dfltWhere" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_ProcessData_SelectedSupplierMonthlySales" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pStartDate" Type="date" Mode="In" />
+          <Parameter Name="pEndDate" Type="date" Mode="In" />
+          <Parameter Name="pMemberType" Type="int" Mode="In" />
+          <Parameter Name="pMonthFilterType" Type="nvarchar" Mode="In" />
+          <Parameter Name="pSupplierIdList" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_ProcessData_SelectWhere" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pStartDate" Type="date" Mode="In" />
+          <Parameter Name="pEndDate" Type="date" Mode="In" />
+          <Parameter Name="pMemberType" Type="int" Mode="In" />
+          <Parameter Name="pSupplierIdList" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="pPharmacyIdList" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="pDurationType" Type="nvarchar" Mode="In" />
+          <Parameter Name="pRptType" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_ProcessData_SupplierMonthlySales" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pStartDate" Type="date" Mode="In" />
+          <Parameter Name="pEndDate" Type="date" Mode="In" />
+          <Parameter Name="pMemberType" Type="int" Mode="In" />
+          <Parameter Name="pMonthFilterType" Type="nvarchar" Mode="In" />
+          <Parameter Name="pSupplierIdList" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_ProcessData_SupplierProcessData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pStartDate" Type="date" Mode="In" />
+          <Parameter Name="pEndDate" Type="date" Mode="In" />
+          <Parameter Name="pMemberType" Type="int" Mode="In" />
+          <Parameter Name="pSupplierIdList" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_ProcessData_SupplierSalesBaseOnPharmacy" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pStartDate" Type="date" Mode="In" />
+          <Parameter Name="pEndDate" Type="date" Mode="In" />
+          <Parameter Name="pPharmacyId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_ProcessData_SupplierSalesComparison" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pStartDate" Type="date" Mode="In" />
+          <Parameter Name="pEndDate" Type="date" Mode="In" />
+          <Parameter Name="pMemberType" Type="int" Mode="In" />
+          <Parameter Name="pMonthFilterType" Type="nvarchar" Mode="In" />
+          <Parameter Name="pSupplierIdList" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_ProcessData_SupplierWise" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pStartDate" Type="date" Mode="In" />
+          <Parameter Name="pEndDate" Type="date" Mode="In" />
+          <Parameter Name="pMemberType" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_RetrieveMenuRightsWise_Select" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pUserName" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_SupplierMaster_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pSupplierID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_SupplierMaster_Save" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pSupplierID" Type="int" Mode="In" />
+          <Parameter Name="pSupplierName" Type="nvarchar" Mode="In" />
+          <Parameter Name="pAddress1" Type="nvarchar" Mode="In" />
+          <Parameter Name="pAddress2" Type="nvarchar" Mode="In" />
+          <Parameter Name="pCity" Type="nvarchar" Mode="In" />
+          <Parameter Name="pPostCode" Type="nvarchar" Mode="In" />
+          <Parameter Name="pRespPerson" Type="nvarchar" Mode="In" />
+          <Parameter Name="pTelephone" Type="nvarchar" Mode="In" />
+          <Parameter Name="pFaxNo" Type="nvarchar" Mode="In" />
+          <Parameter Name="pEmailID" Type="nvarchar" Mode="In" />
+          <Parameter Name="pIsActive" Type="bit" Mode="In" />
+          <Parameter Name="pUser" Type="int" Mode="In" />
+          <Parameter Name="pTerminal" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_SupplierMaster_Select" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pSupplierID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_SupplierMaster_SelectWhere" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="dfltWhere" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_UserMaster_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_UserMaster_Save" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pID" Type="int" Mode="In" />
+          <Parameter Name="pFirstName" Type="nvarchar" Mode="In" />
+          <Parameter Name="pLastName" Type="nvarchar" Mode="In" />
+          <Parameter Name="pGender" Type="nvarchar" Mode="In" />
+          <Parameter Name="pDOB" Type="date" Mode="In" />
+          <Parameter Name="pMobileNo" Type="nvarchar" Mode="In" />
+          <Parameter Name="pContactNo1" Type="nvarchar" Mode="In" />
+          <Parameter Name="pContactNo2" Type="nvarchar" Mode="In" />
+          <Parameter Name="pEmailID" Type="nvarchar" Mode="In" />
+          <Parameter Name="pIsActive" Type="bit" Mode="In" />
+          <Parameter Name="pRefRoleID" Type="int" Mode="In" />
+          <Parameter Name="pUserName" Type="nvarchar" Mode="In" />
+          <Parameter Name="pUser" Type="int" Mode="In" />
+          <Parameter Name="pTerminal" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_UserMaster_Select" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_UserMaster_SelectWhere" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="dfltWhere" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_UserMaster_SetUserRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pID" Type="int" Mode="In" />
+          <Parameter Name="pRefRoleID" Type="int" Mode="In" />
+          <Parameter Name="pUserName" Type="nvarchar" Mode="In" />
+          <Parameter Name="pUpdUser" Type="int" Mode="In" />
+          <Parameter Name="pUpdTerminal" Type="nvarchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="DataAnalystDBModelStoreContainer">
+          <EntitySet Name="CustSuppAssociation" EntityType="Self.CustSuppAssociation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ImportData" EntityType="Self.ImportData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MastersList" EntityType="Self.MastersList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MasterValue" EntityType="Self.MasterValue" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PharmacyMas" EntityType="Self.PharmacyMas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProcessData" EntityType="Self.ProcessData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SupplierMas" EntityType="Self.SupplierMas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserMaster" EntityType="Self.UserMaster" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CustSuppAssociation_CustSuppAssociation" Association="Self.FK_CustSuppAssociation_CustSuppAssociation">
+            <End Role="PharmacyMas" EntitySet="PharmacyMas" />
+            <End Role="CustSuppAssociation" EntitySet="CustSuppAssociation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustSuppAssociation_SupplierMas" Association="Self.FK_CustSuppAssociation_SupplierMas">
+            <End Role="SupplierMas" EntitySet="SupplierMas" />
+            <End Role="CustSuppAssociation" EntitySet="CustSuppAssociation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MasterValue_MastersList" Association="Self.FK_MasterValue_MastersList">
+            <End Role="MastersList" EntitySet="MastersList" />
+            <End Role="MasterValue" EntitySet="MasterValue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProcessData_PharmacyMas" Association="Self.FK_ProcessData_PharmacyMas">
+            <End Role="PharmacyMas" EntitySet="PharmacyMas" />
+            <End Role="ProcessData" EntitySet="ProcessData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProcessData_SupplierMas" Association="Self.FK_ProcessData_SupplierMas">
+            <End Role="SupplierMas" EntitySet="SupplierMas" />
+            <End Role="ProcessData" EntitySet="ProcessData" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DataAnalystDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CustSuppAssociation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="refPharmacyID" Type="Int32" Nullable="false" />
+          <Property Name="refSupplierID" Type="Int32" Nullable="false" />
+          <Property Name="AccountNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InsUser" Type="Int32" Nullable="false" />
+          <Property Name="InsDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="InsTerminal" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UpdUser" Type="Int32" />
+          <Property Name="UpdDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdTerminal" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PharmacyMas" Relationship="Self.FK_CustSuppAssociation_CustSuppAssociation" FromRole="CustSuppAssociation" ToRole="PharmacyMas" />
+          <NavigationProperty Name="SupplierMas" Relationship="Self.FK_CustSuppAssociation_SupplierMas" FromRole="CustSuppAssociation" ToRole="SupplierMas" />
+        </EntityType>
+        <EntityType Name="ImportData">
+          <Key>
+            <PropertyRef Name="ImportId" />
+          </Key>
+          <Property Name="ImportId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DataYear" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DataMonth" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PharmacyName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AccountNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Generic" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="EthicalPI" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SurgicalDressing" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="NonGeneric" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="NonPrescription" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Insulin" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Status" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Electrical" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Drinks" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="NonDiscount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="OTC" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Mobility" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Specials" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="NP8" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Other1" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Other2" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Other3" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalSpend" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalRebate" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="InsUser" Type="Int32" Nullable="false" />
+          <Property Name="InsDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="InsTerminal" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UpdUser" Type="Int32" />
+          <Property Name="UpdDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdTerminal" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="FinYear" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="QuaterType" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="HalfYearType" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="MastersList">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MasterName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OrdNo" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="IsSystemGenerated" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="MasterValue" Relationship="DataAnalystDBModel.FK_MasterValue_MastersList" FromRole="MastersList" ToRole="MasterValue" />
+        </EntityType>
+        <EntityType Name="PharmacyMas">
+          <Key>
+            <PropertyRef Name="PharmacyID" />
+          </Key>
+          <Property Name="PharmacyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PharmacyName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address1" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address2" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PostCode" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RespPerson" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Fax" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="EmailID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DCRegNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PharmacoRegNo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="InsUser" Type="Int32" Nullable="false" />
+          <Property Name="InsDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="InsTerminal" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UpdUser" Type="Int32" />
+          <Property Name="UpdDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdTerminal" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CustSuppAssociation" Relationship="Self.FK_CustSuppAssociation_CustSuppAssociation" FromRole="PharmacyMas" ToRole="CustSuppAssociation" />
+          <NavigationProperty Name="ProcessData" Relationship="Self.FK_ProcessData_PharmacyMas" FromRole="PharmacyMas" ToRole="ProcessData" />
+          <Property Name="CompanyName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ProcessData">
+          <Key>
+            <PropertyRef Name="ProcessID" />
+          </Key>
+          <Property Name="ProcessID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DataYear" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DataMonth" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="refPharmacyID" Type="Int32" Nullable="false" />
+          <Property Name="refSupplierID" Type="Int32" Nullable="false" />
+          <Property Name="AccountNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Generic" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="EthicalPI" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SurgicalDressing" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="NonGeneric" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="NonPrescription" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Insulin" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Status" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Electrical" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Drinks" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="NonDiscount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="OTC" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Mobility" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Specials" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="NP8" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Other1" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Other2" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Other3" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalSpend" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalRebate" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="InsUser" Type="Int32" Nullable="false" />
+          <Property Name="InsDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="InsTerminal" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UpdUser" Type="Int32" />
+          <Property Name="UpdDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdTerminal" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PharmacyMas" Relationship="Self.FK_ProcessData_PharmacyMas" FromRole="ProcessData" ToRole="PharmacyMas" />
+          <NavigationProperty Name="SupplierMas" Relationship="Self.FK_ProcessData_SupplierMas" FromRole="ProcessData" ToRole="SupplierMas" />
+          <Property Name="FinYear" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="QuaterType" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="HalfYearType" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SupplierMas">
+          <Key>
+            <PropertyRef Name="SupplierId" />
+          </Key>
+          <Property Name="SupplierId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SupplierName" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address1" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Name="Address2" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="PostCode" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="RespPerson" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Telephone" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="FaxNo" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="EmailID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="InsUser" Type="Int32" Nullable="false" />
+          <Property Name="InsDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="InsTerminal" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UpdUser" Type="Int32" />
+          <Property Name="UpdDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdTerminal" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CustSuppAssociation" Relationship="Self.FK_CustSuppAssociation_SupplierMas" FromRole="SupplierMas" ToRole="CustSuppAssociation" />
+          <NavigationProperty Name="ProcessData" Relationship="Self.FK_ProcessData_SupplierMas" FromRole="SupplierMas" ToRole="ProcessData" />
+        </EntityType>
+        <EntityType Name="UserMaster">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DOB" Type="DateTime" Precision="0" />
+          <Property Name="MobileNo" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContactNo1" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="ContactNo2" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="EmailID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="RefRoleID" Type="Int32" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InsUser" Type="Int32" Nullable="false" />
+          <Property Name="InsDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="InsTerminal" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UpdUser" Type="Int32" />
+          <Property Name="UpdDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdTerminal" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_CustSuppAssociation_CustSuppAssociation">
+          <End Role="PharmacyMas" Type="Self.PharmacyMas" Multiplicity="1" />
+          <End Role="CustSuppAssociation" Type="Self.CustSuppAssociation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PharmacyMas">
+              <PropertyRef Name="PharmacyID" />
+            </Principal>
+            <Dependent Role="CustSuppAssociation">
+              <PropertyRef Name="refPharmacyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustSuppAssociation_SupplierMas">
+          <End Role="SupplierMas" Type="Self.SupplierMas" Multiplicity="1" />
+          <End Role="CustSuppAssociation" Type="Self.CustSuppAssociation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SupplierMas">
+              <PropertyRef Name="SupplierId" />
+            </Principal>
+            <Dependent Role="CustSuppAssociation">
+              <PropertyRef Name="refSupplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProcessData_PharmacyMas">
+          <End Role="PharmacyMas" Type="Self.PharmacyMas" Multiplicity="1" />
+          <End Role="ProcessData" Type="Self.ProcessData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PharmacyMas">
+              <PropertyRef Name="PharmacyID" />
+            </Principal>
+            <Dependent Role="ProcessData">
+              <PropertyRef Name="refPharmacyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProcessData_SupplierMas">
+          <End Role="SupplierMas" Type="Self.SupplierMas" Multiplicity="1" />
+          <End Role="ProcessData" Type="Self.ProcessData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SupplierMas">
+              <PropertyRef Name="SupplierId" />
+            </Principal>
+            <Dependent Role="ProcessData">
+              <PropertyRef Name="refSupplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DataAnalystDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CustSuppAssociation" EntityType="Self.CustSuppAssociation" />
+          <EntitySet Name="ImportData" EntityType="Self.ImportData" />
+          <EntitySet Name="MastersList" EntityType="Self.MastersList" />
+          <EntitySet Name="PharmacyMas" EntityType="Self.PharmacyMas" />
+          <EntitySet Name="ProcessData" EntityType="Self.ProcessData" />
+          <EntitySet Name="SupplierMas" EntityType="Self.SupplierMas" />
+          <EntitySet Name="UserMaster" EntityType="Self.UserMaster" />
+          <AssociationSet Name="FK_CustSuppAssociation_CustSuppAssociation" Association="Self.FK_CustSuppAssociation_CustSuppAssociation">
+            <End Role="PharmacyMas" EntitySet="PharmacyMas" />
+            <End Role="CustSuppAssociation" EntitySet="CustSuppAssociation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustSuppAssociation_SupplierMas" Association="Self.FK_CustSuppAssociation_SupplierMas">
+            <End Role="SupplierMas" EntitySet="SupplierMas" />
+            <End Role="CustSuppAssociation" EntitySet="CustSuppAssociation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProcessData_PharmacyMas" Association="Self.FK_ProcessData_PharmacyMas">
+            <End Role="PharmacyMas" EntitySet="PharmacyMas" />
+            <End Role="ProcessData" EntitySet="ProcessData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProcessData_SupplierMas" Association="Self.FK_ProcessData_SupplierMas">
+            <End Role="SupplierMas" EntitySet="SupplierMas" />
+            <End Role="ProcessData" EntitySet="ProcessData" />
+          </AssociationSet>
+          <FunctionImport Name="sp_MenuRoleRights_Save" ReturnType="Collection(Boolean)">
+            <Parameter Name="pRefRoleId" Mode="In" Type="Int32" />
+            <Parameter Name="pRefMenuId" Mode="In" Type="Int32" />
+            <Parameter Name="pCanInsert" Mode="In" Type="Boolean" />
+            <Parameter Name="pCanUpdate" Mode="In" Type="Boolean" />
+            <Parameter Name="pCanDelete" Mode="In" Type="Boolean" />
+            <Parameter Name="pCanView" Mode="In" Type="Boolean" />
+            <Parameter Name="pUser" Mode="In" Type="Int32" />
+            <Parameter Name="pTerminal" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_MenuRoleRights_Select" ReturnType="Collection(DataAnalystDBModel.sp_MenuRoleRights_Select_Result)">
+          <Parameter Name="pRefRoleId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_UserMaster_Delete" ReturnType="Collection(Boolean)">
+          <Parameter Name="pID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_UserMaster_Save" ReturnType="Collection(Decimal)">
+            <Parameter Name="pID" Mode="In" Type="Int32" />
+            <Parameter Name="pFirstName" Mode="In" Type="String" />
+            <Parameter Name="pLastName" Mode="In" Type="String" />
+            <Parameter Name="pGender" Mode="In" Type="String" />
+            <Parameter Name="pDOB" Mode="In" Type="DateTime" />
+            <Parameter Name="pMobileNo" Mode="In" Type="String" />
+            <Parameter Name="pContactNo1" Mode="In" Type="String" />
+            <Parameter Name="pContactNo2" Mode="In" Type="String" />
+            <Parameter Name="pEmailID" Mode="In" Type="String" />
+            <Parameter Name="pIsActive" Mode="In" Type="Boolean" />
+            <Parameter Name="pRefRoleID" Mode="In" Type="Int32" />
+            <Parameter Name="pUserName" Mode="In" Type="String" />
+            <Parameter Name="pUser" Mode="In" Type="Int32" />
+            <Parameter Name="pTerminal" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_UserMaster_Select" ReturnType="Collection(DataAnalystDBModel.sp_UserMaster_Select_Result)">
+          <Parameter Name="pID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_UserMaster_SelectWhere" ReturnType="Collection(DataAnalystDBModel.sp_UserMaster_SelectWhere_Result)">
+          <Parameter Name="dfltWhere" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_MasterList_Select" ReturnType="Collection(DataAnalystDBModel.sp_MasterList_Select_Result)">
+          <Parameter Name="pId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_MasterValue_Delete" ReturnType="Collection(Boolean)">
+          <Parameter Name="pID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_MasterValue_Select" ReturnType="Collection(DataAnalystDBModel.sp_MasterValue_Select_Result)">
+            <Parameter Name="pRefMasterID" Mode="In" Type="Int32" />
+            <Parameter Name="pID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_MasterValue_SelectWhere" ReturnType="Collection(DataAnalystDBModel.sp_MasterValue_SelectWhere_Result)">
+            <Parameter Name="pRefMasterID" Mode="In" Type="Int32" />
+            <Parameter Name="dfltWhere" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_RetrieveMenuRightsWise_Select" ReturnType="Collection(DataAnalystDBModel.sp_RetrieveMenuRightsWise_Select_Result)">
+          <Parameter Name="pUserName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_MasterValue_Save" ReturnType="Collection(Boolean)">
+            <Parameter Name="pRefMasterID" Mode="In" Type="Int32" />
+            <Parameter Name="pID" Mode="In" Type="Int32" />
+            <Parameter Name="pValueName" Mode="In" Type="String" />
+            <Parameter Name="pShortName" Mode="In" Type="String" />
+            <Parameter Name="pOrdNo" Mode="In" Type="Decimal" />
+            <Parameter Name="pIsActive" Mode="In" Type="Boolean" />
+            <Parameter Name="pUser" Mode="In" Type="Int32" />
+            <Parameter Name="pTerminal" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="MasterValue" EntityType="DataAnalystDBModel.MasterValue" />
+          <AssociationSet Name="FK_MasterValue_MastersList" Association="DataAnalystDBModel.FK_MasterValue_MastersList">
+            <End Role="MastersList" EntitySet="MastersList" />
+            <End Role="MasterValue" EntitySet="MasterValue" />
+          </AssociationSet>
+          <FunctionImport Name="sp_UserMaster_SetUserRole" ReturnType="Collection(Boolean)">
+            <Parameter Name="pID" Mode="In" Type="Int32" />
+            <Parameter Name="pRefRoleID" Mode="In" Type="Int32" />
+            <Parameter Name="pUserName" Mode="In" Type="String" />
+            <Parameter Name="pUpdUser" Mode="In" Type="Int32" />
+            <Parameter Name="pUpdTerminal" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_MenuRoleRights_Delete" ReturnType="Collection(Boolean)">
+          <Parameter Name="pRefRoleId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_SupplierMaster_Delete" ReturnType="Collection(Boolean)">
+          <Parameter Name="pSupplierID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_SupplierMaster_Save" ReturnType="Collection(Decimal)">
+            <Parameter Name="pSupplierID" Mode="In" Type="Int32" />
+            <Parameter Name="pSupplierName" Mode="In" Type="String" />
+            <Parameter Name="pAddress1" Mode="In" Type="String" />
+            <Parameter Name="pAddress2" Mode="In" Type="String" />
+            <Parameter Name="pCity" Mode="In" Type="String" />
+            <Parameter Name="pPostCode" Mode="In" Type="String" />
+            <Parameter Name="pRespPerson" Mode="In" Type="String" />
+            <Parameter Name="pTelephone" Mode="In" Type="String" />
+            <Parameter Name="pFaxNo" Mode="In" Type="String" />
+            <Parameter Name="pEmailID" Mode="In" Type="String" />
+            <Parameter Name="pIsActive" Mode="In" Type="Boolean" />
+            <Parameter Name="pUser" Mode="In" Type="Int32" />
+            <Parameter Name="pTerminal" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_SupplierMaster_Select" ReturnType="Collection(DataAnalystDBModel.sp_SupplierMaster_Select_Result)">
+          <Parameter Name="pSupplierID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_SupplierMaster_SelectWhere" ReturnType="Collection(DataAnalystDBModel.sp_SupplierMaster_SelectWhere_Result)">
+          <Parameter Name="dfltWhere" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_PharmacyMaster_Delete" ReturnType="Collection(Boolean)">
+          <Parameter Name="pPharmacyID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_PharmacyMaster_Select" ReturnType="Collection(DataAnalystDBModel.sp_PharmacyMaster_Select_Result)">
+          <Parameter Name="pPharmacyID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_PharmacyMaster_SelectWhere" ReturnType="Collection(DataAnalystDBModel.sp_PharmacyMaster_SelectWhere_Result)">
+          <Parameter Name="dfltWhere" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_CustSuppAssociation_Select" ReturnType="Collection(DataAnalystDBModel.sp_CustSuppAssociation_Select_Result)">
+          <Parameter Name="prefPharmacyID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_CustAppAssociation_Save" ReturnType="Collection(Decimal)">
+            <Parameter Name="pID" Mode="In" Type="Int32" />
+            <Parameter Name="prefPharmacyId" Mode="In" Type="Int32" />
+            <Parameter Name="prefSupplierId" Mode="In" Type="Int32" />
+            <Parameter Name="pAccountNo" Mode="In" Type="String" />
+            <Parameter Name="pUser" Mode="In" Type="Int32" />
+            <Parameter Name="pTerminal" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ImportData_Save" ReturnType="Collection(Boolean)">
+            <Parameter Name="pDataYear" Mode="In" Type="String" />
+            <Parameter Name="pDataMonth" Mode="In" Type="String" />
+            <Parameter Name="pPharmacyName" Mode="In" Type="String" />
+            <Parameter Name="pAccountNo" Mode="In" Type="String" />
+            <Parameter Name="pGeneric" Mode="In" Type="Decimal" />
+            <Parameter Name="pEthicalPI" Mode="In" Type="Decimal" />
+            <Parameter Name="pSurgicalDressing" Mode="In" Type="Decimal" />
+            <Parameter Name="pNonGeneric" Mode="In" Type="Decimal" />
+            <Parameter Name="pNonPrescription" Mode="In" Type="Decimal" />
+            <Parameter Name="pInsulin" Mode="In" Type="Decimal" />
+            <Parameter Name="pStatus" Mode="In" Type="Decimal" />
+            <Parameter Name="pElectrical" Mode="In" Type="Decimal" />
+            <Parameter Name="pDrinks" Mode="In" Type="Decimal" />
+            <Parameter Name="pNonDiscount" Mode="In" Type="Decimal" />
+            <Parameter Name="pOTC" Mode="In" Type="Decimal" />
+            <Parameter Name="pMobility" Mode="In" Type="Decimal" />
+            <Parameter Name="pSpecials" Mode="In" Type="Decimal" />
+            <Parameter Name="pNP8" Mode="In" Type="Decimal" />
+            <Parameter Name="pOther1" Mode="In" Type="Decimal" />
+            <Parameter Name="pOther2" Mode="In" Type="Decimal" />
+            <Parameter Name="pOther3" Mode="In" Type="Decimal" />
+            <Parameter Name="pTotalSpend" Mode="In" Type="Decimal" />
+            <Parameter Name="pTotalRebate" Mode="In" Type="Decimal" />
+            <Parameter Name="pUser" Mode="In" Type="Int32" />
+            <Parameter Name="pTerminal" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ImportData_SelectWhere" ReturnType="Collection(DataAnalystDBModel.sp_ImportData_SelectWhere_Result)">
+          <Parameter Name="dfltWhere" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ProcessData_Save" ReturnType="Collection(Boolean)">
+            <Parameter Name="pDataYear" Mode="In" Type="String" />
+            <Parameter Name="pDataMonth" Mode="In" Type="String" />
+            <Parameter Name="pUser" Mode="In" Type="Int32" />
+            <Parameter Name="pTerminal" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ProcessData_SelectCondition" ReturnType="Collection(DataAnalystDBModel.sp_ProcessData_SelectCondition_Result)">
+          <Parameter Name="dfltWhere" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ProcessData_SelectWhere">
+            <Parameter Name="pStartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pEndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pMemberType" Mode="In" Type="Int32" />
+            <Parameter Name="pSupplierIdList" Mode="In" Type="String" />
+            <Parameter Name="pPharmacyIdList" Mode="In" Type="String" />
+            <Parameter Name="pDurationType" Mode="In" Type="String" />
+            <Parameter Name="pRptType" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ImportData_Delete" ReturnType="Collection(Boolean)">
+            <Parameter Name="pDataYear" Mode="In" Type="String" />
+            <Parameter Name="pDataMonth" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ProcessData_Delete" ReturnType="Collection(Boolean)">
+            <Parameter Name="pDataYear" Mode="In" Type="String" />
+            <Parameter Name="pDataMonth" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_PharmacyMaster_Save" ReturnType="Collection(Decimal)">
+            <Parameter Name="pPharmacyID" Mode="In" Type="Int32" />
+            <Parameter Name="pPharmacyName" Mode="In" Type="String" />
+            <Parameter Name="pCompanyName" Mode="In" Type="String" />
+            <Parameter Name="pAddress1" Mode="In" Type="String" />
+            <Parameter Name="pAddress2" Mode="In" Type="String" />
+            <Parameter Name="pCity" Mode="In" Type="String" />
+            <Parameter Name="pPostCode" Mode="In" Type="String" />
+            <Parameter Name="pRespPerson" Mode="In" Type="String" />
+            <Parameter Name="pTelephone" Mode="In" Type="String" />
+            <Parameter Name="pFaxNo" Mode="In" Type="String" />
+            <Parameter Name="pEmailID" Mode="In" Type="String" />
+            <Parameter Name="pDCRegNo" Mode="In" Type="String" />
+            <Parameter Name="pPharmacoRegNo" Mode="In" Type="String" />
+            <Parameter Name="pIsActive" Mode="In" Type="Boolean" />
+            <Parameter Name="pUser" Mode="In" Type="Int32" />
+            <Parameter Name="pTerminal" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_CustSuppAssociation_SelectWhere" ReturnType="Collection(DataAnalystDBModel.sp_CustSuppAssociation_SelectWhere_Result)">
+          <Parameter Name="pdefWhere" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ProcessData_MonthlyForAllSupp" ReturnType="Collection(DataAnalystDBModel.sp_ProcessData_MonthlyForAllSupp_Result)">
+            <Parameter Name="pStartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pEndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pMemberType" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ProcessData_PharmacyMonthlyPurchase" ReturnType="Collection(DataAnalystDBModel.sp_ProcessData_PharmacyMonthlyPurchase_Result)">
+            <Parameter Name="pStartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pEndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pMonthFilterType" Mode="In" Type="String" />
+            <Parameter Name="pPharmacyId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ProcessData_PharmacyProcessData" ReturnType="Collection(DataAnalystDBModel.sp_ProcessData_PharmacyProcessData_Result)">
+            <Parameter Name="pStartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pEndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pPharmacyId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ProcessData_PharmacyPurchaseBaseOnSupplier" ReturnType="Collection(DataAnalystDBModel.sp_ProcessData_PharmacyPurchaseBaseOnSupplier_Result)">
+            <Parameter Name="pStartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pEndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pMemberType" Mode="In" Type="Int32" />
+            <Parameter Name="pSupplierIdList" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ProcessData_PharmacyPurchaseComparison" ReturnType="Collection(DataAnalystDBModel.sp_ProcessData_PharmacyPurchaseComparison_Result)">
+            <Parameter Name="pStartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pEndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pMonthFilterType" Mode="In" Type="String" />
+            <Parameter Name="pPharmacyId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ProcessData_PharmacyWise" ReturnType="Collection(DataAnalystDBModel.sp_ProcessData_PharmacyWise_Result)">
+            <Parameter Name="pStartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pEndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pMemberType" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ProcessData_PharmacyWiseYearlyComparition">
+            <Parameter Name="pYearList" Mode="In" Type="String" />
+            <Parameter Name="pMemberType" Mode="In" Type="Int32" />
+            <Parameter Name="pSupplierIdList" Mode="In" Type="String" />
+            <Parameter Name="pPharmacyIdList" Mode="In" Type="String" />
+            <Parameter Name="pDurationType" Mode="In" Type="String" />
+            <Parameter Name="pDurationNo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ProcessData_SelectedSupplierMonthlySales" ReturnType="Collection(DataAnalystDBModel.sp_ProcessData_SelectedSupplierMonthlySales_Result)">
+            <Parameter Name="pStartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pEndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pMemberType" Mode="In" Type="Int32" />
+            <Parameter Name="pMonthFilterType" Mode="In" Type="String" />
+            <Parameter Name="pSupplierIdList" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ProcessData_SupplierMonthlySales" ReturnType="Collection(DataAnalystDBModel.sp_ProcessData_SupplierMonthlySales_Result)">
+            <Parameter Name="pStartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pEndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pMemberType" Mode="In" Type="Int32" />
+            <Parameter Name="pMonthFilterType" Mode="In" Type="String" />
+            <Parameter Name="pSupplierIdList" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ProcessData_SupplierProcessData" ReturnType="Collection(DataAnalystDBModel.sp_ProcessData_SupplierProcessData_Result)">
+            <Parameter Name="pStartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pEndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pMemberType" Mode="In" Type="Int32" />
+            <Parameter Name="pSupplierIdList" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ProcessData_SupplierSalesBaseOnPharmacy" ReturnType="Collection(DataAnalystDBModel.sp_ProcessData_SupplierSalesBaseOnPharmacy_Result)">
+            <Parameter Name="pStartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pEndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pPharmacyId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ProcessData_SupplierSalesComparison" ReturnType="Collection(DataAnalystDBModel.sp_ProcessData_SupplierSalesComparison_Result)">
+            <Parameter Name="pStartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pEndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pMemberType" Mode="In" Type="Int32" />
+            <Parameter Name="pMonthFilterType" Mode="In" Type="String" />
+            <Parameter Name="pSupplierIdList" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ProcessData_SupplierWise" ReturnType="Collection(DataAnalystDBModel.sp_ProcessData_SupplierWise_Result)">
+            <Parameter Name="pStartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pEndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pMemberType" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_MenuRoleRights_Select_Result">
+          <Property Type="String" Name="MenuName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="RefRoleId" Nullable="true" />
+          <Property Type="Int32" Name="RefMenuId" Nullable="false" />
+          <Property Type="Boolean" Name="CanInsert" Nullable="false" />
+          <Property Type="Boolean" Name="CanUpdate" Nullable="false" />
+          <Property Type="Boolean" Name="CanDelete" Nullable="false" />
+          <Property Type="Boolean" Name="CanView" Nullable="false" />
+          <Property Type="Int32" Name="InsUser" Nullable="true" />
+          <Property Type="DateTime" Name="InsDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="InsTerminal" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="UpdUser" Nullable="true" />
+          <Property Type="DateTime" Name="UpdDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UpdTerminal" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="sp_UserMaster_Select_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="FullName" Nullable="false" MaxLength="101" />
+          <Property Type="String" Name="Gender" Nullable="false" MaxLength="5" />
+          <Property Type="DateTime" Name="DOB" Nullable="true" />
+          <Property Type="String" Name="MobileNo" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="ContactNo1" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="ContactNo2" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="EmailID" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Int32" Name="RefRoleID" Nullable="true" />
+          <Property Type="String" Name="UserRole" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="UserName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="InsUser" Nullable="false" />
+          <Property Type="DateTime" Name="InsDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="InsTerminal" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="UpdUser" Nullable="true" />
+          <Property Type="DateTime" Name="UpdDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UpdTerminal" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="sp_MasterList_Select_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="MasterName" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="OrdNo" Nullable="true" Precision="5" Scale="2" />
+          <Property Type="Boolean" Name="IsSystemGenerated" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_MasterValue_Select_Result">
+          <Property Type="Int32" Name="RefMasterId" Nullable="false" />
+          <Property Type="String" Name="MasterName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="ValueName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ShortName" Nullable="false" MaxLength="10" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Decimal" Name="OrdNo" Nullable="true" Precision="5" Scale="2" />
+          <Property Type="Int32" Name="InsUser" Nullable="false" />
+          <Property Type="DateTime" Name="InsDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="InsTerminal" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="UpdUser" Nullable="true" />
+          <Property Type="DateTime" Name="UpdDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UpdTerminal" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="sp_MasterValue_SelectWhere_Result">
+          <Property Type="Int32" Name="RefMasterId" Nullable="false" />
+          <Property Type="String" Name="MasterName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="ValueName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ShortName" Nullable="false" MaxLength="10" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Decimal" Name="OrdNo" Nullable="true" Precision="5" Scale="2" />
+          <Property Type="Int32" Name="InsUser" Nullable="false" />
+          <Property Type="DateTime" Name="InsDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="InsTerminal" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="UpdUser" Nullable="true" />
+          <Property Type="DateTime" Name="UpdDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UpdTerminal" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="sp_UserMaster_SelectWhere_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="FullName" Nullable="false" MaxLength="101" />
+          <Property Type="String" Name="Gender" Nullable="false" MaxLength="5" />
+          <Property Type="DateTime" Name="DOB" Nullable="true" />
+          <Property Type="String" Name="MobileNo" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="ContactNo1" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="ContactNo2" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="EmailID" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Int32" Name="RefRoleID" Nullable="true" />
+          <Property Type="String" Name="UserRole" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="UserName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="InsUser" Nullable="false" />
+          <Property Type="DateTime" Name="InsDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="InsTerminal" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="UpdUser" Nullable="true" />
+          <Property Type="DateTime" Name="UpdDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UpdTerminal" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="sp_RetrieveMenuRightsWise_Select_Result">
+          <Property Type="String" Name="MenuName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="MenuDes" Nullable="true" MaxLength="250" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Int32" Name="ParentMenuID" Nullable="true" />
+          <Property Type="Int32" Name="refMenuGroupId" Nullable="true" />
+          <Property Type="Int32" Name="OrderNo" Nullable="false" />
+          <Property Type="String" Name="ControllerName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ActionName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="MenuPath" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="RefRoleId" Nullable="false" />
+          <Property Type="Int32" Name="RefMenuId" Nullable="false" />
+          <Property Type="Boolean" Name="CanInsert" Nullable="false" />
+          <Property Type="Boolean" Name="CanUpdate" Nullable="false" />
+          <Property Type="Boolean" Name="CanDelete" Nullable="false" />
+          <Property Type="Boolean" Name="CanView" Nullable="false" />
+          <Property Type="Int32" Name="InsUser" Nullable="false" />
+          <Property Type="DateTime" Name="InsDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="InsTerminal" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="UpdUser" Nullable="true" />
+          <Property Type="DateTime" Name="UpdDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UpdTerminal" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <EntityType Name="MasterValue">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="RefMasterId" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ValueName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ShortName" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="OrdNo" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="InsUser" Type="Int32" Nullable="false" />
+          <Property Name="InsDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="InsTerminal" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="UpdUser" Type="Int32" />
+          <Property Name="UpdDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdTerminal" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MastersList" Relationship="DataAnalystDBModel.FK_MasterValue_MastersList" FromRole="MasterValue" ToRole="MastersList" />
+        </EntityType>
+        <Association Name="FK_MasterValue_MastersList">
+          <End Type="DataAnalystDBModel.MastersList" Role="MastersList" Multiplicity="1" />
+          <End Type="DataAnalystDBModel.MasterValue" Role="MasterValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MastersList">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MasterValue">
+              <PropertyRef Name="RefMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="sp_SupplierMaster_Select_Result">
+          <Property Type="Int32" Name="SupplierId" Nullable="false" />
+          <Property Type="String" Name="SupplierName" Nullable="false" MaxLength="70" />
+          <Property Type="String" Name="Address1" Nullable="false" MaxLength="70" />
+          <Property Type="String" Name="Address2" Nullable="true" MaxLength="70" />
+          <Property Type="String" Name="City" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="PostCode" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="RespPerson" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Telephone" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="FaxNo" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="EmailID" Nullable="false" MaxLength="100" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Int32" Name="InsUser" Nullable="false" />
+          <Property Type="DateTime" Name="InsDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="InsTerminal" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="UpdUser" Nullable="true" />
+          <Property Type="DateTime" Name="UpdDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UpdTerminal" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="sp_SupplierMaster_SelectWhere_Result">
+          <Property Type="Int32" Name="SupplierId" Nullable="false" />
+          <Property Type="String" Name="SupplierName" Nullable="false" MaxLength="70" />
+          <Property Type="String" Name="Address1" Nullable="false" MaxLength="70" />
+          <Property Type="String" Name="Address2" Nullable="true" MaxLength="70" />
+          <Property Type="String" Name="City" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="PostCode" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="RespPerson" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Telephone" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="FaxNo" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="EmailID" Nullable="false" MaxLength="100" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Int32" Name="InsUser" Nullable="false" />
+          <Property Type="DateTime" Name="InsDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="InsTerminal" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="UpdUser" Nullable="true" />
+          <Property Type="DateTime" Name="UpdDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UpdTerminal" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="sp_PharmacyMaster_Select_Result">
+          <Property Type="Int32" Name="PharmacyID" Nullable="false" />
+          <Property Type="String" Name="PharmacyName" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="Address1" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="Address2" Nullable="true" MaxLength="70" />
+          <Property Type="String" Name="City" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="PostCode" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="RespPerson" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Telephone" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Fax" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="EmailID" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="DCRegNo" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="PharmacoRegNo" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Int32" Name="InsUser" Nullable="false" />
+          <Property Type="DateTime" Name="InsDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="InsTerminal" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="UpdUser" Nullable="true" />
+          <Property Type="DateTime" Name="UpdDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UpdTerminal" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="CompanyName" Nullable="true" MaxLength="150" />
+        </ComplexType>
+        <ComplexType Name="sp_PharmacyMaster_SelectWhere_Result">
+          <Property Type="Int32" Name="PharmacyID" Nullable="false" />
+          <Property Type="String" Name="PharmacyName" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="Address1" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="Address2" Nullable="true" MaxLength="70" />
+          <Property Type="String" Name="City" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="PostCode" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="RespPerson" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Telephone" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Fax" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="EmailID" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="DCRegNo" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="PharmacoRegNo" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Int32" Name="InsUser" Nullable="false" />
+          <Property Type="DateTime" Name="InsDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="InsTerminal" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="UpdUser" Nullable="true" />
+          <Property Type="DateTime" Name="UpdDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UpdTerminal" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="CompanyName" Nullable="true" MaxLength="150" />
+        </ComplexType>
+        <ComplexType Name="sp_CustSuppAssociation_Select_Result">
+          <Property Type="Int32" Name="refPharmacyID" Nullable="true" />
+          <Property Type="String" Name="SupplierName" Nullable="false" MaxLength="70" />
+          <Property Type="String" Name="AccountNo" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="SupplierId" Nullable="false" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_ImportData_SelectWhere_Result">
+          <Property Type="Int32" Name="ImportId" Nullable="false" />
+          <Property Type="String" Name="DataYear" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="DataMonth" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="PharmacyName" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="AccountNo" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="Generic" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="EthicalPI" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="SurgicalDressing" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="NonGeneric" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="NonPrescription" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Insulin" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Status" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Electrical" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Drinks" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="NonDiscount" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="OTC" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Mobility" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Specials" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="NP8" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Other1" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Other2" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Other3" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="TotalSpend" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="TotalRebate" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="InsUser" Nullable="false" />
+          <Property Type="DateTime" Name="InsDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="InsTerminal" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="UpdUser" Nullable="true" />
+          <Property Type="DateTime" Name="UpdDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UpdTerminal" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="sp_ProcessData_SelectCondition_Result">
+          <Property Type="Int32" Name="ProcessID" Nullable="false" />
+          <Property Type="String" Name="DataYear" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="DataMonth" Nullable="false" MaxLength="5" />
+          <Property Type="Int32" Name="refPharmacyID" Nullable="false" />
+          <Property Type="Int32" Name="refSupplierID" Nullable="false" />
+          <Property Type="String" Name="AccountNo" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="Generic" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="EthicalPI" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="SurgicalDressing" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="NonGeneric" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="NonPrescription" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Insulin" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Status" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Electrical" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Drinks" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="NonDiscount" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="OTC" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Mobility" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Specials" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="NP8" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Other1" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Other2" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Other3" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="TotalSpend" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="TotalRebate" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="InsUser" Nullable="false" />
+          <Property Type="DateTime" Name="InsDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="InsTerminal" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="UpdUser" Nullable="true" />
+          <Property Type="DateTime" Name="UpdDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UpdTerminal" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="PharmacyName" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="70" />
+          <Property Type="String" Name="FinYear" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="QuaterType" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="HalfYearType" Nullable="true" MaxLength="3" />
+        </ComplexType>
+        <ComplexType Name="sp_CustSuppAssociation_SelectWhere_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="refPharmacyID" Nullable="false" />
+          <Property Type="String" Name="PharmacyName" Nullable="true" MaxLength="150" />
+          <Property Type="Int32" Name="refSupplierID" Nullable="false" />
+          <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="70" />
+          <Property Type="String" Name="AccountNo" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="sp_ProcessData_MonthlyForAllSupp_Result">
+          <Property Type="String" Name="MonthYear" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="YearMon" Nullable="true" MaxLength="15" />
+          <Property Type="Decimal" Name="TotalSpands" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="TotalRebates" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="RebatePer" Nullable="false" Precision="38" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="sp_ProcessData_PharmacyMonthlyPurchase_Result">
+          <Property Type="String" Name="Duration" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="YearMon" Nullable="true" MaxLength="15" />
+          <Property Type="Decimal" Name="TotalSpands" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="TotalRebates" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="RebatePer" Nullable="false" Precision="38" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="sp_ProcessData_PharmacyProcessData_Result">
+          <Property Type="Int32" Name="SupplierId" Nullable="false" />
+          <Property Type="String" Name="SupplierName" Nullable="false" MaxLength="70" />
+          <Property Type="Decimal" Name="Generic" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="EthicalPI" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="SurgicalDressing" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="NonGeneric" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="NonPrescription" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Insulin" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Status" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Electrical" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Drinks" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="NonDiscount" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="OTC" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Mobility" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Specials" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="NP8" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Other1" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Other2" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Other3" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="TotalSpend" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="TotalRebate" Nullable="true" Precision="38" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="sp_ProcessData_PharmacyPurchaseBaseOnSupplier_Result">
+          <Property Type="Int32" Name="PharmacyID" Nullable="false" />
+          <Property Type="String" Name="PharmacyName" Nullable="false" MaxLength="150" />
+          <Property Type="Decimal" Name="TotalSpands" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="TotalRebates" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="RebatePer" Nullable="false" Precision="38" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="sp_ProcessData_PharmacyPurchaseComparison_Result">
+          <Property Type="String" Name="YearMon" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="MonthYear" Nullable="true" MaxLength="15" />
+          <Property Type="Int32" Name="SupplierId" Nullable="false" />
+          <Property Type="String" Name="SupplierName" Nullable="false" MaxLength="70" />
+          <Property Type="Decimal" Name="TotalSpend" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="TotalRebate" Nullable="true" Precision="38" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="sp_ProcessData_PharmacyWise_Result">
+          <Property Type="Int32" Name="PharmacyID" Nullable="false" />
+          <Property Type="String" Name="PharmacyName" Nullable="false" MaxLength="150" />
+          <Property Type="Decimal" Name="TotalSpands" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="TotalRebates" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="RebatePer" Nullable="false" Precision="38" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="sp_ProcessData_SelectedSupplierMonthlySales_Result">
+          <Property Type="String" Name="Duration" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="YearMon" Nullable="true" MaxLength="15" />
+          <Property Type="Int32" Name="SupplierId" Nullable="false" />
+          <Property Type="String" Name="SupplierName" Nullable="false" MaxLength="70" />
+          <Property Type="Decimal" Name="TotalSpands" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="TotalRebates" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="FinalSpands" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="FinalRebate" Nullable="true" Precision="38" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="sp_ProcessData_SupplierMonthlySales_Result">
+          <Property Type="String" Name="Duration" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="YearMon" Nullable="true" MaxLength="15" />
+          <Property Type="Decimal" Name="TotalSpands" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="TotalRebates" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="RebatePer" Nullable="false" Precision="38" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="sp_ProcessData_SupplierProcessData_Result">
+          <Property Type="Int32" Name="PharmacyID" Nullable="false" />
+          <Property Type="String" Name="PharmacyName" Nullable="false" MaxLength="150" />
+          <Property Type="Decimal" Name="Generic" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="EthicalPI" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="SurgicalDressing" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="NonGeneric" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="NonPrescription" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Insulin" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Status" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Electrical" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Drinks" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="NonDiscount" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="OTC" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Mobility" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Specials" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="NP8" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Other1" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Other2" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Other3" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="TotalSpend" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="TotalRebate" Nullable="true" Precision="38" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="sp_ProcessData_SupplierSalesBaseOnPharmacy_Result">
+          <Property Type="Int32" Name="SupplierId" Nullable="false" />
+          <Property Type="String" Name="SupplierName" Nullable="false" MaxLength="70" />
+          <Property Type="Decimal" Name="TotalSpands" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="TotalRebates" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="RebatePer" Nullable="false" Precision="38" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="sp_ProcessData_SupplierSalesComparison_Result">
+          <Property Type="String" Name="YearMon" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="MonthYear" Nullable="true" MaxLength="15" />
+          <Property Type="Int32" Name="PharmacyID" Nullable="false" />
+          <Property Type="String" Name="PharmacyName" Nullable="false" MaxLength="150" />
+          <Property Type="Decimal" Name="TotalSpend" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="TotalRebate" Nullable="true" Precision="38" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="sp_ProcessData_SupplierWise_Result">
+          <Property Type="Int32" Name="SupplierId" Nullable="false" />
+          <Property Type="String" Name="SupplierName" Nullable="false" MaxLength="70" />
+          <Property Type="Decimal" Name="TotalSpands" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="TotalRebates" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="RebatePer" Nullable="false" Precision="38" Scale="6" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DataAnalystDBModelStoreContainer" CdmEntityContainer="DataAnalystDBEntities">
+          <EntitySetMapping Name="CustSuppAssociation">
+            <EntityTypeMapping TypeName="DataAnalystDBModel.CustSuppAssociation">
+              <MappingFragment StoreEntitySet="CustSuppAssociation">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="refPharmacyID" ColumnName="refPharmacyID" />
+                <ScalarProperty Name="refSupplierID" ColumnName="refSupplierID" />
+                <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
+                <ScalarProperty Name="InsUser" ColumnName="InsUser" />
+                <ScalarProperty Name="InsDate" ColumnName="InsDate" />
+                <ScalarProperty Name="InsTerminal" ColumnName="InsTerminal" />
+                <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+                <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+                <ScalarProperty Name="UpdTerminal" ColumnName="UpdTerminal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ImportData">
+            <EntityTypeMapping TypeName="DataAnalystDBModel.ImportData">
+              <MappingFragment StoreEntitySet="ImportData">
+                <ScalarProperty Name="HalfYearType" ColumnName="HalfYearType" />
+                <ScalarProperty Name="QuaterType" ColumnName="QuaterType" />
+                <ScalarProperty Name="FinYear" ColumnName="FinYear" />
+                <ScalarProperty Name="ImportId" ColumnName="ImportId" />
+                <ScalarProperty Name="DataYear" ColumnName="DataYear" />
+                <ScalarProperty Name="DataMonth" ColumnName="DataMonth" />
+                <ScalarProperty Name="PharmacyName" ColumnName="PharmacyName" />
+                <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
+                <ScalarProperty Name="Generic" ColumnName="Generic" />
+                <ScalarProperty Name="EthicalPI" ColumnName="EthicalPI" />
+                <ScalarProperty Name="SurgicalDressing" ColumnName="SurgicalDressing" />
+                <ScalarProperty Name="NonGeneric" ColumnName="NonGeneric" />
+                <ScalarProperty Name="NonPrescription" ColumnName="NonPrescription" />
+                <ScalarProperty Name="Insulin" ColumnName="Insulin" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Electrical" ColumnName="Electrical" />
+                <ScalarProperty Name="Drinks" ColumnName="Drinks" />
+                <ScalarProperty Name="NonDiscount" ColumnName="NonDiscount" />
+                <ScalarProperty Name="OTC" ColumnName="OTC" />
+                <ScalarProperty Name="Mobility" ColumnName="Mobility" />
+                <ScalarProperty Name="Specials" ColumnName="Specials" />
+                <ScalarProperty Name="NP8" ColumnName="NP8" />
+                <ScalarProperty Name="Other1" ColumnName="Other1" />
+                <ScalarProperty Name="Other2" ColumnName="Other2" />
+                <ScalarProperty Name="Other3" ColumnName="Other3" />
+                <ScalarProperty Name="TotalSpend" ColumnName="TotalSpend" />
+                <ScalarProperty Name="TotalRebate" ColumnName="TotalRebate" />
+                <ScalarProperty Name="InsUser" ColumnName="InsUser" />
+                <ScalarProperty Name="InsDate" ColumnName="InsDate" />
+                <ScalarProperty Name="InsTerminal" ColumnName="InsTerminal" />
+                <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+                <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+                <ScalarProperty Name="UpdTerminal" ColumnName="UpdTerminal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MastersList">
+            <EntityTypeMapping TypeName="DataAnalystDBModel.MastersList">
+              <MappingFragment StoreEntitySet="MastersList">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MasterName" ColumnName="MasterName" />
+                <ScalarProperty Name="OrdNo" ColumnName="OrdNo" />
+                <ScalarProperty Name="IsSystemGenerated" ColumnName="IsSystemGenerated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PharmacyMas">
+            <EntityTypeMapping TypeName="DataAnalystDBModel.PharmacyMas">
+              <MappingFragment StoreEntitySet="PharmacyMas">
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="PharmacyID" ColumnName="PharmacyID" />
+                <ScalarProperty Name="PharmacyName" ColumnName="PharmacyName" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="RespPerson" ColumnName="RespPerson" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+                <ScalarProperty Name="DCRegNo" ColumnName="DCRegNo" />
+                <ScalarProperty Name="PharmacoRegNo" ColumnName="PharmacoRegNo" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="InsUser" ColumnName="InsUser" />
+                <ScalarProperty Name="InsDate" ColumnName="InsDate" />
+                <ScalarProperty Name="InsTerminal" ColumnName="InsTerminal" />
+                <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+                <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+                <ScalarProperty Name="UpdTerminal" ColumnName="UpdTerminal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProcessData">
+            <EntityTypeMapping TypeName="DataAnalystDBModel.ProcessData">
+              <MappingFragment StoreEntitySet="ProcessData">
+                <ScalarProperty Name="HalfYearType" ColumnName="HalfYearType" />
+                <ScalarProperty Name="QuaterType" ColumnName="QuaterType" />
+                <ScalarProperty Name="FinYear" ColumnName="FinYear" />
+                <ScalarProperty Name="ProcessID" ColumnName="ProcessID" />
+                <ScalarProperty Name="DataYear" ColumnName="DataYear" />
+                <ScalarProperty Name="DataMonth" ColumnName="DataMonth" />
+                <ScalarProperty Name="refPharmacyID" ColumnName="refPharmacyID" />
+                <ScalarProperty Name="refSupplierID" ColumnName="refSupplierID" />
+                <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
+                <ScalarProperty Name="Generic" ColumnName="Generic" />
+                <ScalarProperty Name="EthicalPI" ColumnName="EthicalPI" />
+                <ScalarProperty Name="SurgicalDressing" ColumnName="SurgicalDressing" />
+                <ScalarProperty Name="NonGeneric" ColumnName="NonGeneric" />
+                <ScalarProperty Name="NonPrescription" ColumnName="NonPrescription" />
+                <ScalarProperty Name="Insulin" ColumnName="Insulin" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Electrical" ColumnName="Electrical" />
+                <ScalarProperty Name="Drinks" ColumnName="Drinks" />
+                <ScalarProperty Name="NonDiscount" ColumnName="NonDiscount" />
+                <ScalarProperty Name="OTC" ColumnName="OTC" />
+                <ScalarProperty Name="Mobility" ColumnName="Mobility" />
+                <ScalarProperty Name="Specials" ColumnName="Specials" />
+                <ScalarProperty Name="NP8" ColumnName="NP8" />
+                <ScalarProperty Name="Other1" ColumnName="Other1" />
+                <ScalarProperty Name="Other2" ColumnName="Other2" />
+                <ScalarProperty Name="Other3" ColumnName="Other3" />
+                <ScalarProperty Name="TotalSpend" ColumnName="TotalSpend" />
+                <ScalarProperty Name="TotalRebate" ColumnName="TotalRebate" />
+                <ScalarProperty Name="InsUser" ColumnName="InsUser" />
+                <ScalarProperty Name="InsDate" ColumnName="InsDate" />
+                <ScalarProperty Name="InsTerminal" ColumnName="InsTerminal" />
+                <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+                <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+                <ScalarProperty Name="UpdTerminal" ColumnName="UpdTerminal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SupplierMas">
+            <EntityTypeMapping TypeName="DataAnalystDBModel.SupplierMas">
+              <MappingFragment StoreEntitySet="SupplierMas">
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="RespPerson" ColumnName="RespPerson" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="FaxNo" ColumnName="FaxNo" />
+                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="InsUser" ColumnName="InsUser" />
+                <ScalarProperty Name="InsDate" ColumnName="InsDate" />
+                <ScalarProperty Name="InsTerminal" ColumnName="InsTerminal" />
+                <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+                <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+                <ScalarProperty Name="UpdTerminal" ColumnName="UpdTerminal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserMaster">
+            <EntityTypeMapping TypeName="DataAnalystDBModel.UserMaster">
+              <MappingFragment StoreEntitySet="UserMaster">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="ContactNo1" ColumnName="ContactNo1" />
+                <ScalarProperty Name="ContactNo2" ColumnName="ContactNo2" />
+                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="RefRoleID" ColumnName="RefRoleID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="InsUser" ColumnName="InsUser" />
+                <ScalarProperty Name="InsDate" ColumnName="InsDate" />
+                <ScalarProperty Name="InsTerminal" ColumnName="InsTerminal" />
+                <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+                <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+                <ScalarProperty Name="UpdTerminal" ColumnName="UpdTerminal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_MenuRoleRights_Save" FunctionName="DataAnalystDBModel.Store.sp_MenuRoleRights_Save" />
+          <FunctionImportMapping FunctionImportName="sp_MenuRoleRights_Select" FunctionName="DataAnalystDBModel.Store.sp_MenuRoleRights_Select">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_MenuRoleRights_Select_Result">
+                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
+                <ScalarProperty Name="RefRoleId" ColumnName="RefRoleId" />
+                <ScalarProperty Name="RefMenuId" ColumnName="RefMenuId" />
+                <ScalarProperty Name="CanInsert" ColumnName="CanInsert" />
+                <ScalarProperty Name="CanUpdate" ColumnName="CanUpdate" />
+                <ScalarProperty Name="CanDelete" ColumnName="CanDelete" />
+                <ScalarProperty Name="CanView" ColumnName="CanView" />
+                <ScalarProperty Name="InsUser" ColumnName="InsUser" />
+                <ScalarProperty Name="InsDate" ColumnName="InsDate" />
+                <ScalarProperty Name="InsTerminal" ColumnName="InsTerminal" />
+                <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+                <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+                <ScalarProperty Name="UpdTerminal" ColumnName="UpdTerminal" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_UserMaster_Delete" FunctionName="DataAnalystDBModel.Store.sp_UserMaster_Delete" />
+          <FunctionImportMapping FunctionImportName="sp_UserMaster_Save" FunctionName="DataAnalystDBModel.Store.sp_UserMaster_Save" />
+          <FunctionImportMapping FunctionImportName="sp_UserMaster_Select" FunctionName="DataAnalystDBModel.Store.sp_UserMaster_Select">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_UserMaster_Select_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="ContactNo1" ColumnName="ContactNo1" />
+                <ScalarProperty Name="ContactNo2" ColumnName="ContactNo2" />
+                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="RefRoleID" ColumnName="RefRoleID" />
+                <ScalarProperty Name="UserRole" ColumnName="UserRole" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="InsUser" ColumnName="InsUser" />
+                <ScalarProperty Name="InsDate" ColumnName="InsDate" />
+                <ScalarProperty Name="InsTerminal" ColumnName="InsTerminal" />
+                <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+                <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+                <ScalarProperty Name="UpdTerminal" ColumnName="UpdTerminal" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_UserMaster_SelectWhere" FunctionName="DataAnalystDBModel.Store.sp_UserMaster_SelectWhere" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_UserMaster_SelectWhere_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="ContactNo1" ColumnName="ContactNo1" />
+                <ScalarProperty Name="ContactNo2" ColumnName="ContactNo2" />
+                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="RefRoleID" ColumnName="RefRoleID" />
+                <ScalarProperty Name="UserRole" ColumnName="UserRole" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="InsUser" ColumnName="InsUser" />
+                <ScalarProperty Name="InsDate" ColumnName="InsDate" />
+                <ScalarProperty Name="InsTerminal" ColumnName="InsTerminal" />
+                <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+                <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+                <ScalarProperty Name="UpdTerminal" ColumnName="UpdTerminal" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_MasterList_Select" FunctionName="DataAnalystDBModel.Store.sp_MasterList_Select">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_MasterList_Select_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MasterName" ColumnName="MasterName" />
+                <ScalarProperty Name="OrdNo" ColumnName="OrdNo" />
+                <ScalarProperty Name="IsSystemGenerated" ColumnName="IsSystemGenerated" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_MasterValue_Delete" FunctionName="DataAnalystDBModel.Store.sp_MasterValue_Delete" />
+          <FunctionImportMapping FunctionImportName="sp_MasterValue_Select" FunctionName="DataAnalystDBModel.Store.sp_MasterValue_Select">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_MasterValue_Select_Result">
+                <ScalarProperty Name="RefMasterId" ColumnName="RefMasterId" />
+                <ScalarProperty Name="MasterName" ColumnName="MasterName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ValueName" ColumnName="ValueName" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="OrdNo" ColumnName="OrdNo" />
+                <ScalarProperty Name="InsUser" ColumnName="InsUser" />
+                <ScalarProperty Name="InsDate" ColumnName="InsDate" />
+                <ScalarProperty Name="InsTerminal" ColumnName="InsTerminal" />
+                <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+                <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+                <ScalarProperty Name="UpdTerminal" ColumnName="UpdTerminal" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_MasterValue_SelectWhere" FunctionName="DataAnalystDBModel.Store.sp_MasterValue_SelectWhere" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_MasterValue_SelectWhere_Result">
+                <ScalarProperty Name="RefMasterId" ColumnName="RefMasterId" />
+                <ScalarProperty Name="MasterName" ColumnName="MasterName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ValueName" ColumnName="ValueName" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="OrdNo" ColumnName="OrdNo" />
+                <ScalarProperty Name="InsUser" ColumnName="InsUser" />
+                <ScalarProperty Name="InsDate" ColumnName="InsDate" />
+                <ScalarProperty Name="InsTerminal" ColumnName="InsTerminal" />
+                <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+                <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+                <ScalarProperty Name="UpdTerminal" ColumnName="UpdTerminal" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_RetrieveMenuRightsWise_Select" FunctionName="DataAnalystDBModel.Store.sp_RetrieveMenuRightsWise_Select">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_RetrieveMenuRightsWise_Select_Result">
+                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MenuDes" ColumnName="MenuDes" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ParentMenuID" ColumnName="ParentMenuID" />
+                <ScalarProperty Name="refMenuGroupId" ColumnName="refMenuGroupId" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="MenuPath" ColumnName="MenuPath" />
+                <ScalarProperty Name="RefRoleId" ColumnName="RefRoleId" />
+                <ScalarProperty Name="RefMenuId" ColumnName="RefMenuId" />
+                <ScalarProperty Name="CanInsert" ColumnName="CanInsert" />
+                <ScalarProperty Name="CanUpdate" ColumnName="CanUpdate" />
+                <ScalarProperty Name="CanDelete" ColumnName="CanDelete" />
+                <ScalarProperty Name="CanView" ColumnName="CanView" />
+                <ScalarProperty Name="InsUser" ColumnName="InsUser" />
+                <ScalarProperty Name="InsDate" ColumnName="InsDate" />
+                <ScalarProperty Name="InsTerminal" ColumnName="InsTerminal" />
+                <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+                <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+                <ScalarProperty Name="UpdTerminal" ColumnName="UpdTerminal" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_MasterValue_Save" FunctionName="DataAnalystDBModel.Store.sp_MasterValue_Save" />
+          <EntitySetMapping Name="MasterValue">
+            <EntityTypeMapping TypeName="DataAnalystDBModel.MasterValue">
+              <MappingFragment StoreEntitySet="MasterValue">
+                <ScalarProperty Name="UpdTerminal" ColumnName="UpdTerminal" />
+                <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+                <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+                <ScalarProperty Name="InsTerminal" ColumnName="InsTerminal" />
+                <ScalarProperty Name="InsDate" ColumnName="InsDate" />
+                <ScalarProperty Name="InsUser" ColumnName="InsUser" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="OrdNo" ColumnName="OrdNo" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="ValueName" ColumnName="ValueName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RefMasterId" ColumnName="RefMasterId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_UserMaster_SetUserRole" FunctionName="DataAnalystDBModel.Store.sp_UserMaster_SetUserRole" />
+          <FunctionImportMapping FunctionImportName="sp_MenuRoleRights_Delete" FunctionName="DataAnalystDBModel.Store.sp_MenuRoleRights_Delete" />
+          <FunctionImportMapping FunctionImportName="sp_SupplierMaster_Delete" FunctionName="DataAnalystDBModel.Store.sp_SupplierMaster_Delete" />
+          <FunctionImportMapping FunctionImportName="sp_SupplierMaster_Save" FunctionName="DataAnalystDBModel.Store.sp_SupplierMaster_Save" />
+          <FunctionImportMapping FunctionImportName="sp_SupplierMaster_Select" FunctionName="DataAnalystDBModel.Store.sp_SupplierMaster_Select">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_SupplierMaster_Select_Result">
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="RespPerson" ColumnName="RespPerson" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="FaxNo" ColumnName="FaxNo" />
+                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="InsUser" ColumnName="InsUser" />
+                <ScalarProperty Name="InsDate" ColumnName="InsDate" />
+                <ScalarProperty Name="InsTerminal" ColumnName="InsTerminal" />
+                <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+                <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+                <ScalarProperty Name="UpdTerminal" ColumnName="UpdTerminal" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_SupplierMaster_SelectWhere" FunctionName="DataAnalystDBModel.Store.sp_SupplierMaster_SelectWhere">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_SupplierMaster_SelectWhere_Result">
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="RespPerson" ColumnName="RespPerson" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="FaxNo" ColumnName="FaxNo" />
+                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="InsUser" ColumnName="InsUser" />
+                <ScalarProperty Name="InsDate" ColumnName="InsDate" />
+                <ScalarProperty Name="InsTerminal" ColumnName="InsTerminal" />
+                <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+                <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+                <ScalarProperty Name="UpdTerminal" ColumnName="UpdTerminal" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_PharmacyMaster_Delete" FunctionName="DataAnalystDBModel.Store.sp_PharmacyMaster_Delete" />
+          <FunctionImportMapping FunctionImportName="sp_PharmacyMaster_Select" FunctionName="DataAnalystDBModel.Store.sp_PharmacyMaster_Select">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_PharmacyMaster_Select_Result">
+                <ScalarProperty Name="PharmacyID" ColumnName="PharmacyID" />
+                <ScalarProperty Name="PharmacyName" ColumnName="PharmacyName" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="RespPerson" ColumnName="RespPerson" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+                <ScalarProperty Name="DCRegNo" ColumnName="DCRegNo" />
+                <ScalarProperty Name="PharmacoRegNo" ColumnName="PharmacoRegNo" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="InsUser" ColumnName="InsUser" />
+                <ScalarProperty Name="InsDate" ColumnName="InsDate" />
+                <ScalarProperty Name="InsTerminal" ColumnName="InsTerminal" />
+                <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+                <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+                <ScalarProperty Name="UpdTerminal" ColumnName="UpdTerminal" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_PharmacyMaster_SelectWhere" FunctionName="DataAnalystDBModel.Store.sp_PharmacyMaster_SelectWhere">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_PharmacyMaster_SelectWhere_Result">
+                <ScalarProperty Name="PharmacyID" ColumnName="PharmacyID" />
+                <ScalarProperty Name="PharmacyName" ColumnName="PharmacyName" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="RespPerson" ColumnName="RespPerson" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+                <ScalarProperty Name="DCRegNo" ColumnName="DCRegNo" />
+                <ScalarProperty Name="PharmacoRegNo" ColumnName="PharmacoRegNo" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="InsUser" ColumnName="InsUser" />
+                <ScalarProperty Name="InsDate" ColumnName="InsDate" />
+                <ScalarProperty Name="InsTerminal" ColumnName="InsTerminal" />
+                <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+                <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+                <ScalarProperty Name="UpdTerminal" ColumnName="UpdTerminal" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_CustSuppAssociation_Select" FunctionName="DataAnalystDBModel.Store.sp_CustSuppAssociation_Select">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_CustSuppAssociation_Select_Result">
+                <ScalarProperty Name="refPharmacyID" ColumnName="refPharmacyID" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_CustAppAssociation_Save" FunctionName="DataAnalystDBModel.Store.sp_CustAppAssociation_Save" />
+          <FunctionImportMapping FunctionImportName="sp_ImportData_Save" FunctionName="DataAnalystDBModel.Store.sp_ImportData_Save" />
+          <FunctionImportMapping FunctionImportName="sp_ImportData_SelectWhere" FunctionName="DataAnalystDBModel.Store.sp_ImportData_SelectWhere">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_ImportData_SelectWhere_Result">
+                <ScalarProperty Name="ImportId" ColumnName="ImportId" />
+                <ScalarProperty Name="DataYear" ColumnName="DataYear" />
+                <ScalarProperty Name="DataMonth" ColumnName="DataMonth" />
+                <ScalarProperty Name="PharmacyName" ColumnName="PharmacyName" />
+                <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
+                <ScalarProperty Name="Generic" ColumnName="Generic" />
+                <ScalarProperty Name="EthicalPI" ColumnName="EthicalPI" />
+                <ScalarProperty Name="SurgicalDressing" ColumnName="SurgicalDressing" />
+                <ScalarProperty Name="NonGeneric" ColumnName="NonGeneric" />
+                <ScalarProperty Name="NonPrescription" ColumnName="NonPrescription" />
+                <ScalarProperty Name="Insulin" ColumnName="Insulin" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Electrical" ColumnName="Electrical" />
+                <ScalarProperty Name="Drinks" ColumnName="Drinks" />
+                <ScalarProperty Name="NonDiscount" ColumnName="NonDiscount" />
+                <ScalarProperty Name="OTC" ColumnName="OTC" />
+                <ScalarProperty Name="Mobility" ColumnName="Mobility" />
+                <ScalarProperty Name="Specials" ColumnName="Specials" />
+                <ScalarProperty Name="NP8" ColumnName="NP8" />
+                <ScalarProperty Name="Other1" ColumnName="Other1" />
+                <ScalarProperty Name="Other2" ColumnName="Other2" />
+                <ScalarProperty Name="Other3" ColumnName="Other3" />
+                <ScalarProperty Name="TotalSpend" ColumnName="TotalSpend" />
+                <ScalarProperty Name="TotalRebate" ColumnName="TotalRebate" />
+                <ScalarProperty Name="InsUser" ColumnName="InsUser" />
+                <ScalarProperty Name="InsDate" ColumnName="InsDate" />
+                <ScalarProperty Name="InsTerminal" ColumnName="InsTerminal" />
+                <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+                <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+                <ScalarProperty Name="UpdTerminal" ColumnName="UpdTerminal" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ProcessData_Save" FunctionName="DataAnalystDBModel.Store.sp_ProcessData_Save" />
+          <FunctionImportMapping FunctionImportName="sp_ProcessData_SelectCondition" FunctionName="DataAnalystDBModel.Store.sp_ProcessData_SelectCondition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_ProcessData_SelectCondition_Result">
+                <ScalarProperty Name="ProcessID" ColumnName="ProcessID" />
+                <ScalarProperty Name="DataYear" ColumnName="DataYear" />
+                <ScalarProperty Name="DataMonth" ColumnName="DataMonth" />
+                <ScalarProperty Name="refPharmacyID" ColumnName="refPharmacyID" />
+                <ScalarProperty Name="refSupplierID" ColumnName="refSupplierID" />
+                <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
+                <ScalarProperty Name="Generic" ColumnName="Generic" />
+                <ScalarProperty Name="EthicalPI" ColumnName="EthicalPI" />
+                <ScalarProperty Name="SurgicalDressing" ColumnName="SurgicalDressing" />
+                <ScalarProperty Name="NonGeneric" ColumnName="NonGeneric" />
+                <ScalarProperty Name="NonPrescription" ColumnName="NonPrescription" />
+                <ScalarProperty Name="Insulin" ColumnName="Insulin" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Electrical" ColumnName="Electrical" />
+                <ScalarProperty Name="Drinks" ColumnName="Drinks" />
+                <ScalarProperty Name="NonDiscount" ColumnName="NonDiscount" />
+                <ScalarProperty Name="OTC" ColumnName="OTC" />
+                <ScalarProperty Name="Mobility" ColumnName="Mobility" />
+                <ScalarProperty Name="Specials" ColumnName="Specials" />
+                <ScalarProperty Name="NP8" ColumnName="NP8" />
+                <ScalarProperty Name="Other1" ColumnName="Other1" />
+                <ScalarProperty Name="Other2" ColumnName="Other2" />
+                <ScalarProperty Name="Other3" ColumnName="Other3" />
+                <ScalarProperty Name="TotalSpend" ColumnName="TotalSpend" />
+                <ScalarProperty Name="TotalRebate" ColumnName="TotalRebate" />
+                <ScalarProperty Name="InsUser" ColumnName="InsUser" />
+                <ScalarProperty Name="InsDate" ColumnName="InsDate" />
+                <ScalarProperty Name="InsTerminal" ColumnName="InsTerminal" />
+                <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+                <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+                <ScalarProperty Name="UpdTerminal" ColumnName="UpdTerminal" />
+                <ScalarProperty Name="PharmacyName" ColumnName="PharmacyName" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="FinYear" ColumnName="FinYear" />
+                <ScalarProperty Name="QuaterType" ColumnName="QuaterType" />
+                <ScalarProperty Name="HalfYearType" ColumnName="HalfYearType" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ProcessData_SelectWhere" FunctionName="DataAnalystDBModel.Store.sp_ProcessData_SelectWhere" />
+          <FunctionImportMapping FunctionImportName="sp_ImportData_Delete" FunctionName="DataAnalystDBModel.Store.sp_ImportData_Delete" />
+          <FunctionImportMapping FunctionImportName="sp_ProcessData_Delete" FunctionName="DataAnalystDBModel.Store.sp_ProcessData_Delete" />
+          <FunctionImportMapping FunctionImportName="sp_PharmacyMaster_Save" FunctionName="DataAnalystDBModel.Store.sp_PharmacyMaster_Save" />
+          <FunctionImportMapping FunctionImportName="sp_CustSuppAssociation_SelectWhere" FunctionName="DataAnalystDBModel.Store.sp_CustSuppAssociation_SelectWhere">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_CustSuppAssociation_SelectWhere_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="refPharmacyID" ColumnName="refPharmacyID" />
+                <ScalarProperty Name="PharmacyName" ColumnName="PharmacyName" />
+                <ScalarProperty Name="refSupplierID" ColumnName="refSupplierID" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ProcessData_MonthlyForAllSupp" FunctionName="DataAnalystDBModel.Store.sp_ProcessData_MonthlyForAllSupp">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_ProcessData_MonthlyForAllSupp_Result">
+                <ScalarProperty Name="MonthYear" ColumnName="MonthYear" />
+                <ScalarProperty Name="YearMon" ColumnName="YearMon" />
+                <ScalarProperty Name="TotalSpands" ColumnName="TotalSpands" />
+                <ScalarProperty Name="TotalRebates" ColumnName="TotalRebates" />
+                <ScalarProperty Name="RebatePer" ColumnName="RebatePer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ProcessData_PharmacyMonthlyPurchase" FunctionName="DataAnalystDBModel.Store.sp_ProcessData_PharmacyMonthlyPurchase">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_ProcessData_PharmacyMonthlyPurchase_Result">
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="YearMon" ColumnName="YearMon" />
+                <ScalarProperty Name="TotalSpands" ColumnName="TotalSpands" />
+                <ScalarProperty Name="TotalRebates" ColumnName="TotalRebates" />
+                <ScalarProperty Name="RebatePer" ColumnName="RebatePer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ProcessData_PharmacyProcessData" FunctionName="DataAnalystDBModel.Store.sp_ProcessData_PharmacyProcessData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_ProcessData_PharmacyProcessData_Result">
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="Generic" ColumnName="Generic" />
+                <ScalarProperty Name="EthicalPI" ColumnName="EthicalPI" />
+                <ScalarProperty Name="SurgicalDressing" ColumnName="SurgicalDressing" />
+                <ScalarProperty Name="NonGeneric" ColumnName="NonGeneric" />
+                <ScalarProperty Name="NonPrescription" ColumnName="NonPrescription" />
+                <ScalarProperty Name="Insulin" ColumnName="Insulin" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Electrical" ColumnName="Electrical" />
+                <ScalarProperty Name="Drinks" ColumnName="Drinks" />
+                <ScalarProperty Name="NonDiscount" ColumnName="NonDiscount" />
+                <ScalarProperty Name="OTC" ColumnName="OTC" />
+                <ScalarProperty Name="Mobility" ColumnName="Mobility" />
+                <ScalarProperty Name="Specials" ColumnName="Specials" />
+                <ScalarProperty Name="NP8" ColumnName="NP8" />
+                <ScalarProperty Name="Other1" ColumnName="Other1" />
+                <ScalarProperty Name="Other2" ColumnName="Other2" />
+                <ScalarProperty Name="Other3" ColumnName="Other3" />
+                <ScalarProperty Name="TotalSpend" ColumnName="TotalSpend" />
+                <ScalarProperty Name="TotalRebate" ColumnName="TotalRebate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ProcessData_PharmacyPurchaseBaseOnSupplier" FunctionName="DataAnalystDBModel.Store.sp_ProcessData_PharmacyPurchaseBaseOnSupplier">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_ProcessData_PharmacyPurchaseBaseOnSupplier_Result">
+                <ScalarProperty Name="PharmacyID" ColumnName="PharmacyID" />
+                <ScalarProperty Name="PharmacyName" ColumnName="PharmacyName" />
+                <ScalarProperty Name="TotalSpands" ColumnName="TotalSpands" />
+                <ScalarProperty Name="TotalRebates" ColumnName="TotalRebates" />
+                <ScalarProperty Name="RebatePer" ColumnName="RebatePer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ProcessData_PharmacyPurchaseComparison" FunctionName="DataAnalystDBModel.Store.sp_ProcessData_PharmacyPurchaseComparison">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_ProcessData_PharmacyPurchaseComparison_Result">
+                <ScalarProperty Name="YearMon" ColumnName="YearMon" />
+                <ScalarProperty Name="MonthYear" ColumnName="MonthYear" />
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="TotalSpend" ColumnName="TotalSpend" />
+                <ScalarProperty Name="TotalRebate" ColumnName="TotalRebate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ProcessData_PharmacyWise" FunctionName="DataAnalystDBModel.Store.sp_ProcessData_PharmacyWise">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_ProcessData_PharmacyWise_Result">
+                <ScalarProperty Name="PharmacyID" ColumnName="PharmacyID" />
+                <ScalarProperty Name="PharmacyName" ColumnName="PharmacyName" />
+                <ScalarProperty Name="TotalSpands" ColumnName="TotalSpands" />
+                <ScalarProperty Name="TotalRebates" ColumnName="TotalRebates" />
+                <ScalarProperty Name="RebatePer" ColumnName="RebatePer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ProcessData_PharmacyWiseYearlyComparition" FunctionName="DataAnalystDBModel.Store.sp_ProcessData_PharmacyWiseYearlyComparition" />
+          <FunctionImportMapping FunctionImportName="sp_ProcessData_SelectedSupplierMonthlySales" FunctionName="DataAnalystDBModel.Store.sp_ProcessData_SelectedSupplierMonthlySales">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_ProcessData_SelectedSupplierMonthlySales_Result">
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="YearMon" ColumnName="YearMon" />
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="TotalSpands" ColumnName="TotalSpands" />
+                <ScalarProperty Name="TotalRebates" ColumnName="TotalRebates" />
+                <ScalarProperty Name="FinalSpands" ColumnName="FinalSpands" />
+                <ScalarProperty Name="FinalRebate" ColumnName="FinalRebate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ProcessData_SupplierMonthlySales" FunctionName="DataAnalystDBModel.Store.sp_ProcessData_SupplierMonthlySales">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_ProcessData_SupplierMonthlySales_Result">
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="YearMon" ColumnName="YearMon" />
+                <ScalarProperty Name="TotalSpands" ColumnName="TotalSpands" />
+                <ScalarProperty Name="TotalRebates" ColumnName="TotalRebates" />
+                <ScalarProperty Name="RebatePer" ColumnName="RebatePer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ProcessData_SupplierProcessData" FunctionName="DataAnalystDBModel.Store.sp_ProcessData_SupplierProcessData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_ProcessData_SupplierProcessData_Result">
+                <ScalarProperty Name="PharmacyID" ColumnName="PharmacyID" />
+                <ScalarProperty Name="PharmacyName" ColumnName="PharmacyName" />
+                <ScalarProperty Name="Generic" ColumnName="Generic" />
+                <ScalarProperty Name="EthicalPI" ColumnName="EthicalPI" />
+                <ScalarProperty Name="SurgicalDressing" ColumnName="SurgicalDressing" />
+                <ScalarProperty Name="NonGeneric" ColumnName="NonGeneric" />
+                <ScalarProperty Name="NonPrescription" ColumnName="NonPrescription" />
+                <ScalarProperty Name="Insulin" ColumnName="Insulin" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Electrical" ColumnName="Electrical" />
+                <ScalarProperty Name="Drinks" ColumnName="Drinks" />
+                <ScalarProperty Name="NonDiscount" ColumnName="NonDiscount" />
+                <ScalarProperty Name="OTC" ColumnName="OTC" />
+                <ScalarProperty Name="Mobility" ColumnName="Mobility" />
+                <ScalarProperty Name="Specials" ColumnName="Specials" />
+                <ScalarProperty Name="NP8" ColumnName="NP8" />
+                <ScalarProperty Name="Other1" ColumnName="Other1" />
+                <ScalarProperty Name="Other2" ColumnName="Other2" />
+                <ScalarProperty Name="Other3" ColumnName="Other3" />
+                <ScalarProperty Name="TotalSpend" ColumnName="TotalSpend" />
+                <ScalarProperty Name="TotalRebate" ColumnName="TotalRebate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ProcessData_SupplierSalesBaseOnPharmacy" FunctionName="DataAnalystDBModel.Store.sp_ProcessData_SupplierSalesBaseOnPharmacy">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_ProcessData_SupplierSalesBaseOnPharmacy_Result">
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="TotalSpands" ColumnName="TotalSpands" />
+                <ScalarProperty Name="TotalRebates" ColumnName="TotalRebates" />
+                <ScalarProperty Name="RebatePer" ColumnName="RebatePer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ProcessData_SupplierSalesComparison" FunctionName="DataAnalystDBModel.Store.sp_ProcessData_SupplierSalesComparison">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_ProcessData_SupplierSalesComparison_Result">
+                <ScalarProperty Name="YearMon" ColumnName="YearMon" />
+                <ScalarProperty Name="MonthYear" ColumnName="MonthYear" />
+                <ScalarProperty Name="PharmacyID" ColumnName="PharmacyID" />
+                <ScalarProperty Name="PharmacyName" ColumnName="PharmacyName" />
+                <ScalarProperty Name="TotalSpend" ColumnName="TotalSpend" />
+                <ScalarProperty Name="TotalRebate" ColumnName="TotalRebate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ProcessData_SupplierWise" FunctionName="DataAnalystDBModel.Store.sp_ProcessData_SupplierWise">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataAnalystDBModel.sp_ProcessData_SupplierWise_Result">
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="TotalSpands" ColumnName="TotalSpands" />
+                <ScalarProperty Name="TotalRebates" ColumnName="TotalRebates" />
+                <ScalarProperty Name="RebatePer" ColumnName="RebatePer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,202 @@
+﻿@using System.Data;
+@model DataTable
+
+
+<table class="table table-bordered table-striped " id="tblMaster">
+
+    <thead>
+        <tr>
+            @*<th></th>*@
+            <th></th>
+            <th></th>
+            @for (int i = 0; i < @Model.Columns.Count; i++)
+            {
+                if (Model.Columns[i].Caption.ToUpper() != "ISACTIVE" && Model.Columns[i].Caption.ToUpper() != "REFPHARMACYID" && Model.Columns[i].Caption.ToUpper() != "PHARMACYID")
+                {
+                    if (Model.Columns[i].Caption.ToUpper() == "PHARMACYNAME" || Model.Columns[i].Caption.ToUpper() == "ADDRESS1" || Model.Columns[i].Caption.ToUpper() == "DCREGNO" || Model.Columns[i].Caption.ToUpper() == "PHARMACOREGNO" || Model.Columns[i].Caption.ToUpper() == "RESPPERSON" || Model.Columns[i].Caption.ToUpper() == "POSTCODE" || Model.Columns[i].Caption.ToUpper() == "FAX" || Model.Columns[i].Caption.ToUpper() == "EMAILID" || Model.Columns[i].Caption.ToUpper() == "ADDRESS2" || Model.Columns[i].Caption.ToUpper() == "CITY" || Model.Columns[i].Caption.ToUpper() == "TELEPHONE" || Model.Columns[i].Caption.ToUpper() == "COMPANYNAME")
+                    {
+                        <th>@Model.Columns[i].Caption</th>
+                    }
+                    else
+                    {
+                        <th style="display:none">@Model.Columns[i].Caption</th>
+                    }
+
+                }
+            }
+           
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @for (int j = 0; j < @Model.Rows.Count; j++)
+        {
+            <tr>
+                @*<td>
+                    @if (@Model.Rows[j]["IsActive"].ToString().ToUpper() == "TRUE")
+                    {
+                        <i id='row" + @Model.Rows[j]["PharmacyId"].ToString() + "' class="ui-tooltip fa fa-check" style="font-size: 18px; cursor:pointer;" onclick='updateActiveStatus(@Model.Rows[j]["PharmacyId"].ToString() , "@Model.Rows[j]["IsActive"].ToString()")'></i>
+                    }
+                    else
+                    {
+                        <i id='row" + @Model.Rows[j]["PharmacyId"].ToString()  + "' class='ui-tooltip fa fa-remove' style='font-size: 18px; cursor:pointer;' onclick='updateActiveStatus( @Model.Rows[j]["PharmacyId"].ToString() , "@Model.Rows[j]["IsActive"].ToString()")'></i>
+                    }
+
+                </td>*@
+                <td>
+                    <i class='ui-tooltip fa fa-pencil' style='font-size: 18px; cursor:pointer;' onclick="editSession(@Model.Rows[j]["PharmacyId"].ToString() )"></i>
+                </td>
+                <td>
+                    <i class='ui-tooltip fa fa-trash-o' style='font-size: 18px; cursor:pointer;' data-original-title='Delete' onclick='Delete( @Model.Rows[j]["PharmacyId"].ToString() )'></i>
+                </td>
+                @for (int k = 0; k < @Model.Columns.Count; k++)
+                {
+                    if (Model.Columns[k].Caption.ToUpper() != "ISACTIVE" && Model.Columns[k].Caption.ToUpper() != "REFPHARMACYID" && Model.Columns[k].Caption.ToUpper() != "PHARMACYID")
+                    {
+                        if (Model.Columns[k].Caption.ToUpper() == "PHARMACYNAME" || Model.Columns[k].Caption.ToUpper() == "ADDRESS1" || Model.Columns[k].Caption.ToUpper() == "DCREGNO" || Model.Columns[k].Caption.ToUpper() == "PHARMACOREGNO" || Model.Columns[k].Caption.ToUpper() == "RESPPERSON" || Model.Columns[k].Caption.ToUpper() == "POSTCODE" || Model.Columns[k].Caption.ToUpper() == "FAX" || Model.Columns[k].Caption.ToUpper() == "EMAILID" || Model.Columns[k].Caption.ToUpper() == "ADDRESS2" || Model.Columns[k].Caption.ToUpper() == "CITY" || Model.Columns[k].Caption.ToUpper() == "TELEPHONE" || Model.Columns[k].Caption.ToUpper() == "COMPANYNAME")
+                        {
+                            <td>@Model.Rows[j][k].ToString()</td>
+                        }
+                        else
+                        {
+                            <td style="display:none">@Model.Rows[j][k].ToString()</td>
+                            
+                        }
+
+                    }
+
+                }
+               
+
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    jQuery('#tblMaster').dataTable().fnDestroy();
+    var oTable = jQuery('#tblMaster').dataTable({
+        "bServerSide": false,
+        @*"sAjaxSource": '@Url.Action("AjaxHandler", "Pharmacy")',*@
+        "bProcessing": true,
+        "scrollX": true,
+        //"responsive": true,
+        "searching": true,
+        "ordering": true,
+        //"bSortable": true,
+        "lengthChange": true,
+        "paging": true,
+        //dom: 'C<"clear">lfrtip',
+        // "columnDefs": [
+        //{
+        //    "targets": [ 0 ],
+        //    "visible": false,
+        //    "searchable": false
+        //}],
+        dom: 'Bfrtip',
+        lengthMenu: [
+                            [10, 25, 50, -1],
+                            ['10 rows', '25 rows', '50 rows', 'Show all']
+        ],
+        buttons: [
+            'pageLength',
+             {
+                 extend: 'excelFlash',
+                 title: 'Pharmacy List'
+             },
+                    {
+                        extend: 'pdfFlash',
+                        orientation: 'landscape',
+                        pageSize: 'LEGAL',
+                        title: 'Pharmacy List.pdf'
+                    },
+                    {
+                        extend: 'csvFlash',
+                        title: 'Pharmacy List'
+                    },
+                    'copy',
+                    'print'
+        ],
+        "info": true,
+        "autoWidth": true,
+        "aaSorting": [[3, 'asc']],
+        //"columnDefs": [
+        //{
+        //    "targets": [5],
+        //    "visible": false,
+        //    "searchable": false
+        //},
+        //{
+        //    "targets": [6],
+        //    "visible": false
+        //},
+        //{
+        //    "targets": [7],
+        //    "visible": false,
+        //    "searchable": false
+        //},
+        //],
+        
+        //"aoColumns": [
+
+        //              { "sName": "PharmacyName" },
+        //              {
+        //                  "sName": "Address1",
+        //                  //"bVisible": false
+        //              },
+        //              { "sName": "RespPerson" },
+        //              { "sName": "Telephone" },
+        //              { "sName": "EmailID" },
+        //              {
+        //                  "sName": "DCRegNo"
+        //                  //"bVisible": false
+        //              },
+        //              {
+        //                  "sName": "PharmacoRegNo"
+
+        //              },
+        //              {
+        //                  "sName": "Fax"
+
+        //              },
+
+        //              {
+        //                  "sName": "IsActive",
+        //                  "sClass": "text-center",
+        //                  "sWidth": "10px",
+        //                  "bSearchable": false,
+        //                  "bSortable": false,
+        //                  "mRender": function (data, type, oObj) {
+        //                      if (oObj[8] == 'True')
+        //                          return "<i id='row" + oObj[9] + "' class='ui-tooltip fa fa-check' style='font-size: 18px; cursor:pointer;' onclick=\"updateActiveStatus(" + oObj[9] + ",'" + oObj[8] + "')\"></i>";
+        //                      else
+        //                          return "<i id='row" + oObj[9] + "' class='ui-tooltip fa fa-remove' style='font-size: 18px; cursor:pointer;' onclick=\"updateActiveStatus(" + oObj[9] + ",'" + oObj[8] + "')\"></i>";
+        //                  }
+        //              },
+        //              {
+        //                  "sName": "ID",
+        //                  "sClass": "text-center",
+        //                  "sWidth": "10px",
+        //                  "bSearchable": false,
+        //                  "bSortable": false,
+        //                  "mRender": function (data, type, oObj) {
+
+        //                      return "<i class='ui-tooltip fa fa-pencil' style='font-size: 18px; cursor:pointer;' onclick=\"editSession('" + oObj[9] + "')\"></i>";
+        //                  }
+        //              },
+        //              {
+        //                  "sName": "ID",
+        //                  "sClass": "text-center",
+        //                  "sWidth": "10px",
+        //                  "bSearchable": false,
+        //                  "bSortable": false,
+        //                  "mRender": function (data, type, oObj) {
+        //                      return "<i class='ui-tooltip fa fa-trash-o' style='font-size: 18px; cursor:pointer;' data-original-title='Delete' onclick=\"Delete('" + oObj[9] + "')\"></i>";
+        //                  }
+        //              }
+        //]
+    })
+</script>
+

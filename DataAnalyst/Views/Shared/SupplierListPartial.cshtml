@@ -1,0 +1,6 @@
+﻿
+@{
+    Layout = "";
+}
+@Html.DropDownList("SupplierList", new SelectList((IEnumerable<SelectListItem>)ViewData["SupplierList"], "Value", "Text"), new { @class = "form-control" })
+

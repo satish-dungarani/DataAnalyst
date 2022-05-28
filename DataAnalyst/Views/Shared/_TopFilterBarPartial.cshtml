@@ -1,0 +1,41 @@
+﻿
+
+        <div class="col-md-12">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Member Type</label>
+                    <div class="radio">
+                        <div class="form-group">
+                            
+                            @Html.RadioButton("Member", -1, true, new { @class = "minimal" })
+                            All Members
+                            &nbsp;&nbsp;
+                            
+                            @Html.RadioButton("Member", 0, false, new { @class = "minimal" })
+                            DC Members
+                            &nbsp;&nbsp;
+                            
+                            @Html.RadioButton("Member", 1, false, new { @class = "minimal" })
+                            Non-DC Members
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label>Date Filter</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        @Html.TextBox("DateFilter", null, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label></label>
+                    <div class="input-group">
+                        <input type="button" name="btnFilter" value="Filter" class="btn btn-primary" onclick="return LoadAllChart();" />
+                    </div>
+                </div>
+            </div>
+        </div>
+   

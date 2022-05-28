@@ -1,0 +1,490 @@
+﻿@using DataAnalyst.Models
+@model ImportDataModel
+
+@{
+    ViewBag.Title = "Import Data";
+}
+<div class="content-wrapper" style="min-height: 946px;">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Import Data
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/Home/Index"><i class="fa fa-dashboard"></i>Home</a></li>
+            <li><a href="/ImportData/Index">Import Data</a></li>
+            @*<li class="active">Index</li>*@
+        </ol>
+    </section>
+
+    <section class="content manageGrid">
+        @*<div class="row"> <div class="col-md-12"></div></div>*@
+        @*<div class="box">*@
+        <div class="box box-primary">
+            @using (Html.BeginForm("SaveImport", "ImportData", FormMethod.Post, new { Id = "FrmImport", enctype = "multipart/form-data" }))
+            {
+                <div class="box-header">
+                    <div class="row">
+                        <div class="col-md-12">
+
+
+                            <div class="box-body">
+
+                                <div class="col-md-12">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title text-blue text-bold">Import Info</h3>
+                                    </div>
+                                    @Html.Hidden("FullPath")
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Year</label>
+                                            @Html.TextBoxFor(Model => Model.DataYear, new { @class = "form-control", @maxlength = 70 })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Month</label>
+                                            @Html.TextBoxFor(Model => Model.DataMonth, new { @class = "form-control", @maxlength = 70 })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Import File</label>
+                                            <input type="file" name="FilePath" id="FilePath" value=" " accept=".xlsx" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <br />
+                                            <div class="row" style="margin-top: 5px;">
+                                                <input type="submit" name="btnSubmit" value="Import" class="btn btn-primary" />
+                                                <input type="button" name="btnProcess" id="btnProcess" value="Process" class="btn btn-success" />
+                                                <input type="button" name="btnDelete" id="btnDelete" value="Delete" class="btn btn-danger" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+
+        <div class="box box-primary">
+            <div class="box-header">
+                <div class="row">
+                    <div class="form-group">
+                        <div id="ImportDataList">
+                            @Html.Partial("_ImportDataListPartial", new List<ImportDataModel>())
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+
+        $("#divRegister").modal('hide');
+
+        if ('@TempData["Success"]' != '')
+            toastr["success"]('@TempData["Success"]');
+        else if ('@TempData["Warning"]' != '')
+            toastr["warning"]('@TempData["Warning"]');
+
+
+        $("#DataYear").datepicker({
+            showOnFocus: true,
+            format: 'yyyy',
+            viewMode: 'years',
+            minViewMode: 'years',
+            autoclose: true,
+        });
+
+
+        $("#DataMonth").datepicker({
+            showOnFocus: true,
+            format: 'mm',
+            viewMode: 'months',
+            maxViewMode: 'months',
+            minViewMode: 'months',
+            autoclose: true,
+        });
+
+        $("#DataYear").on('change', function () {
+            if ($("#DataMonth").val() != "" && $("#DataYear").val() != "") {
+                GetImportList();
+            }
+        });
+
+        $("#DataMonth").on('change', function () {
+            if ($("#DataYear").val() != "" && $("#DataMonth").val() != "") {
+                GetImportList();
+            }
+        });
+
+
+        $("#FrmImport").submit(function (evnt) {
+
+            if (!Validation())
+                return false;
+
+            evnt.preventDefault();
+            var $form = $(this);
+            var formdata = new FormData();
+            //var formdata = $(this);
+            formdata.append("ExcelfileData", document.getElementById("FilePath").files[0]);
+            //if (!$form.valid()) return;
+
+            $.ajax({
+
+                type: $form.prop('method'),
+                url: '@Url.Action("UpLoadFile","ImportData")',
+                data: formdata,
+                dataType: 'json',
+                //traditional: true,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+
+                    if (response.Result) {
+
+                        $("#FullPath").val(response.FPath);
+                        Save($form);
+                    }
+                    else {
+                        toastr["warning"](response.Msg);
+                    }
+                },
+                error: function (ex, st, th) {
+
+                    $("#ajaxLoader").hide();
+                    toastr["error"](th);
+                }
+            })
+        });
+
+        function Save($form) {
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                cache: false,
+                url: '@Url.Action("ImportDataExiest", "ImportData")',
+                data: { pDataYear: $("#DataYear").val(), pDataMonth: $("#DataMonth").val() },
+                beforeSend: function () {
+
+                    $("#ajaxLoader").show();
+                },
+                success: function (response) {
+                    $("#ajaxLoader").hide();
+                    debugger;
+                    if (response) {
+                        bootbox.confirm({
+                            size: 'small',
+                            message: "DataAlready available in Table. Are you sure to Remove old Data?",
+                            buttons: {
+
+                                'cancel': {
+                                    label: 'No',
+                                    className: 'btn-danger'
+                                },
+                                'confirm': {
+                                    label: 'Yes',
+                                    className: 'btn-success'
+                                }
+
+                            },
+                            callback: function (result) {
+                                if (result) {
+                                    SaveImportData($form);
+                                }
+                            }
+                        })
+                    }
+                    else {
+                        SaveImportData($form);
+                    }
+                },
+                error: function (jhx, stcode, status) {
+
+                    $("#ajaxLoader").hide();
+                    toastr["error"](status);
+                }
+            });
+
+        }
+
+        //Transfer Data From Import to Process
+        $("#btnProcess").on('click', function () {
+            //data year filed validate
+            var _DataYear = $("#DataYear");
+            if (_DataYear.val() == "" || _DataYear == undefined) {
+                toastr["warning"]('Data Year Can not left blank!');
+                $("#DataYear").focus();
+                return false;
+            }
+
+            //data month filed validate
+            var _DataMonth = $("#DataMonth");
+            if (_DataMonth.val() == "" || _DataMonth == undefined) {
+                toastr["warning"]('Data Month Can not left blank!');
+                $("#DataMonth").focus();
+                return false;
+            }
+
+            @*$.ajax({
+                type: 'post',
+                dataType: 'json',
+                cache: false,
+                url: '@Url.Action("ProcessDataExiest", "ImportData")',
+                data: { pDataYear: $("#DataYear").val(), pDataMonth: $("#DataMonth").val() },
+                beforeSend: function () {
+
+                    $("#ajaxLoader").show();
+                },
+                success: function (response) {
+                    $("#ajaxLoader").hide();
+                    debugger;
+                    if (response) {
+                        bootbox.confirm({
+                            size: 'small',
+                            message: "Are you sure to Remove Old Data?",
+                            buttons: {
+
+                                'cancel': {
+                                    label: 'No',
+                                    className: 'btn-danger'
+                                },
+                                'confirm': {
+                                    label: 'Yes',
+                                    className: 'btn-success'
+                                }
+
+                            },
+                            callback: function (result) {
+                                if (result) {
+                                    SaveProcessData(result);
+                                }
+                            }
+                        })
+                    }
+                    else {*@
+            SaveProcessData(false);
+            //        }
+            //    },
+            //    error: function (jhx, stcode, status) {
+
+            //        $("#ajaxLoader").hide();
+            //        toastr["error"](status);
+            //    }
+            //});
+        });
+
+
+        //Delet Data From Import Table
+        $("#btnDelete").on('click', function () {
+            debugger
+            if ($("#DataYear").val() != '' && $("#DataMonth").val() != '') {
+                bootbox.dialog({
+                    size: 'large',
+                    message: "Are you sure delete Import Or Process Data?",
+                    buttons: {
+                        success: {
+                            label: "Import Data Delete",
+                            className: "btn-danger",
+                            callback: function () {
+                                $.ajax({
+                                    type: 'post',
+                                    dataType: 'html',
+                                    cache: false,
+                                    url: '@Url.Action("DeleteImportData","ImportData")',
+                                    data: { pDataYear: $("#DataYear").val(), pDataMonth: $("#DataMonth").val() },
+                                    beforeSend: function () {
+
+                                        $("#ajaxLoader").show();
+                                    },
+                                    success: function (response) {
+                                        $("#ajaxLoader").hide();
+                                        $("#ImportDataList").html('');
+                                        $("#ImportDataList").html(response);
+                                        toastr["success"]('Import Data success fully deleted.');
+                                    },
+                                    error: function (jhx, stcode, status) {
+
+                                        $("#ajaxLoader").hide();
+                                        toastr["error"](status);
+                                    }
+                                })
+                            }
+                        },
+                        danger: {
+                            label: "Process Data Delete",
+                            className: "btn-danger",
+                            callback: function () {
+                                $.ajax({
+                                    type: 'post',
+                                    dataType: 'json',
+                                    cache: false,
+                                    url: '@Url.Action("DeleteProcessData", "ImportData")',
+                                    data: { pDataYear: $("#DataYear").val(), pDataMonth: $("#DataMonth").val() },
+                                    beforeSend: function () {
+                                        $("#ajaxLoader").show();
+                                    },
+                                    success: function (response) {
+                                        $("#ajaxLoader").hide();
+                                        if (response.Rslt)
+                                            toastr["success"](response.Msg);
+                                    },
+                                    error: function (jhx, stcode, status) {
+
+                                        $("#ajaxLoader").hide();
+                                        toastr["error"](status);
+                                    }
+                                })
+                            }
+                        },
+                        main: {
+                            label: "Cancle",
+                            className: "btn-primary",
+                            callback: function () {
+
+                            }
+                        }
+                    },
+                    //callback: function (result) {
+                    //    if (result) {
+
+                    //    }
+                    //}
+                })
+            }
+            else {
+                toastr["warning"]('DataYear And DataMonth Can not left blank!')
+            }
+        });
+        //fillGrid();
+    });
+
+    function GetImportList() {
+        $.ajax({
+            type: 'get',
+            dataType: 'html',
+            cache: false,
+            url: '@Url.Action("GetImportList", "ImportData")',
+            data: { DataYear: $("#DataYear").val(), DataMonth: $("#DataMonth").val() },
+            beforeSend: function () {
+
+                //$("#ajaxLoader").show();
+            },
+            success: function (response) {
+
+                //window.print();
+                //$("#divConsumerDetail").html('');
+                //$("#ajaxLoader").hide();
+                $("#ImportDataList").html('');
+                $("#ImportDataList").html(response);
+                $("#FilePath").val('');
+
+            },
+            error: function (ex, st, th) {
+
+                //$("#ajaxLoader").hide();
+                toastr["error"](th);
+            }
+        })
+    }
+
+    function SaveProcessData(_Exist) {
+        $.ajax({
+            type: 'post',
+            dataType: 'html',
+            cache: false,
+            url: '@Url.Action("SaveProcessData","ImportData")',
+            data: { DataYear: $("#DataYear").val(), DataMonth: $("#DataMonth").val(), pDataExist: _Exist },
+            beforeSend: function () {
+
+                $("#ajaxLoader").show();
+            },
+            success: function (response) {
+
+                $("#ajaxLoader").hide();
+                $("#ImportDataList").html('');
+                $("#ImportDataList").html(response);
+                toastr["success"]('Process success fully completed.');
+            },
+            error: function (jhx, stcode, status) {
+
+                $("#ajaxLoader").hide();
+                toastr["error"](status);
+            }
+        });
+    }
+
+    function SaveImportData($form) {
+        $.ajax({
+
+            type: $form.prop('method'),
+            url: $form.prop('action'),
+            data: $form.serialize(),
+            dataType: 'html',
+            traditional: true,
+            beforeSend: function () {
+
+                $("#ajaxLoader").show();
+            },
+            success: function (response) {
+
+                //window.print();
+                //$("#divConsumerDetail").html('');
+                $("#ajaxLoader").hide();
+                $("#ImportDataList").html('');
+                $("#ImportDataList").html(response);
+                $("#FilePath").val('');
+            },
+            error: function (ex, st, th) {
+
+                $("#ajaxLoader").hide();
+                toastr["error"](th);
+            }
+        });
+    }
+
+    function Validation() {
+
+        //data year filed validate
+        var _DataYear = $("#DataYear");
+        if (_DataYear.val() == "" || _DataYear == undefined) {
+            toastr["warning"]('Data Year Can not left blank!');
+            $("#DataYear").focus();
+            return false;
+        }
+
+        //data month filed validate
+        var _DataMonth = $("#DataMonth");
+        if (_DataMonth.val() == "" || _DataMonth == undefined) {
+            toastr["warning"]('Data Month Can not left blank!');
+            $("#DataMonth").focus();
+            return false;
+        }
+
+        //file validate
+        var _File = $("#FilePath");
+        if (_File.val() == "" || _File == undefined) {
+            toastr["warning"]('Select any excel file for upload.!');
+            $("#FilePath").focus();
+            return false;
+        }
+
+        return true;
+    }
+
+</script>

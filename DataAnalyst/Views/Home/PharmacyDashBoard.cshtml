@@ -1,0 +1,657 @@
+﻿@using System.Globalization;
+@{
+    ViewBag.Title = "PharmacyDashBoard";
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Pharmacy Data Analysis
+            @*<small>Home Page</small>*@
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Pharmacy Dashboard</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        @*<div class="row">
+                <div class="col-md-12">
+                    <!-- Custom Tabs -->
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab_1" data-toggle="tab">All Members</a></li>
+                            <li><a href="#tab_2" data-toggle="tab">DC Members</a></li>
+                            <li><a href="#tab_3" data-toggle="tab">Non-DC Members</a></li>
+
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab_1">
+                            </div><!-- /.tab-pane -->
+                            <div class="tab-pane" id="tab_2">
+                            </div><!-- /.tab-pane -->
+                            <div class="tab-pane" id="tab_3">
+                            </div><!-- /.tab-pane -->
+                        </div><!-- /.tab-content -->
+                    </div><!-- nav-tabs-custom -->
+                </div>
+            </div>*@
+
+        <div class="box box-default">
+            @*<div class="box-header with-border">
+                    <h3 class="box-title">Blank Box</h3>
+                </div>*@
+            <div class="box-body">
+
+
+                <div class="col-md-12">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Member Type</label>
+                            <div class="radio">
+                                <div class="form-group">
+                                    <div class="col-md-3">
+                                        @Html.RadioButton("Member", -1, true)
+                                        &nbsp;
+                                        All Members
+                                    </div>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <div class="col-md-3">
+                                        @Html.RadioButton("Member", 1, false)
+                                        &nbsp;
+                                        DC Members
+                                    </div>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <div class="col-md-4">
+                                        @Html.RadioButton("Member", 0, false)
+                                        &nbsp;&nbsp;
+                                        Non-DC Members
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Date Filter</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                @Html.TextBox("DateFilter", null, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="col-md-12">
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <label>Month Filter</label>
+                            <div class="radio">
+                                <div class="form-group">
+                                    <div class="col-md-3">
+                                        @Html.RadioButton("MonthType", "M", true)
+                                        Monthly
+                                    </div>
+                                    &nbsp;&nbsp;
+                                    <div class="col-md-3">
+                                        @Html.RadioButton("MonthType", "Q", false)
+                                        Quarterly
+                                    </div>
+                                    &nbsp;&nbsp;
+                                    <div class="col-md-3">
+                                        @Html.RadioButton("MonthType", "H", false)
+                                        Half Yearly
+                                    </div>
+                                    &nbsp;&nbsp;
+                                    <div class="col-md-2">
+                                        @Html.RadioButton("MonthType", "Y", false)
+                                        Yearly
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Search by Pharmacy Name </label>
+                                @*@Html.DropDownList("PharmacyList", new SelectList((IEnumerable<SelectListItem>) ViewData["PharmacyList"],"Value","Text"), "---Select Pharmacy Name---" , new { @class = "form-control" })*@
+                                <div id="divPharmacyList">
+                                    @Html.Partial("PharmacyListPartial")
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label></label>
+                            <div class="input-group">
+                                <input type="button" name="btnSearch" id="btnSearch" value="Search" class="btn btn-primary" onclick="return LoadAllChart();" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /.box-body -->
+        </div>
+
+
+        @Html.Partial("_PharmacyGraphPartial")
+    </section><!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+
+
+        if ('@TempData["Warning"]' != '') {
+            toastr["warning"]('@TempData["Warning"]');
+        }
+
+
+        $("#DateFilter").daterangepicker({
+            format: 'DD/MMM/YYYY',
+            "startDate": moment(moment().subtract(12, 'months').calendar('DD/MMM/YYYY')).format('DD/MMM/YYYY'),
+            "endDate": moment().format('DD/MMM/YYYY'),
+        });
+
+        var _DateRange = moment(moment().subtract(12, 'months').calendar('DD/MMM/YYYY')).format('DD/MMM/YYYY') + ' - ' + moment().format('DD/MMM/YYYY');
+        $("#DateFilter").val(_DateRange);
+
+
+        $("input[name='Member']").on('change', function () {
+
+            LoadPharmaList($(this).val());
+
+        });
+
+        LoadAllChart();
+    });
+
+    function LoadPharmaList(_Member) {
+
+        $.ajax({
+            type: 'get',
+            dataType: 'html',
+            cache: false,
+            url: '@Url.Action("ReloadPharmacyList","Home")',
+            data: { pMember: _Member },
+            beforeSend: function () {
+                $("#ajaxLoader").show();
+            },
+            success: function (response) {
+                $("#ajaxLoader").hide();
+                $("#divPharmacyList").html('');
+                $("#divPharmacyList").html(response);
+            },
+            error: function (ex, st, text) {
+                $("#ajaxLoader").hide();
+                toastr["error"](text);
+            }
+        });
+    }
+
+    function LoadPharmacyPurchaseComparision() {
+
+        $.ajax({
+            type: 'get',
+            dataType: 'html',
+            cache: false,
+            url: '@Url.Action("GetPharmacyPurchaseComparition", "Home")',
+            data: { DateRang: $("#DateFilter").val(), pDurationType: $("input[name=MonthType]:checked").val(), pPharmacyId: $("#PharmacyList").val() },
+            beforeSend: function () {
+                //$("#ajaxLoader").show();
+
+            },
+            success: function (response) {
+                //$("#ajaxLoader").hide();
+                $("#divComparition").html('');
+                $("#divComparition").html(response);
+
+                jQuery('#tblCompare').dataTable().fnDestroy();
+                var CTable = jQuery('#tblCompare').DataTable({
+                    "bServerSide": false,
+                    "bProcessing": true,
+                    scrollX: true,
+                    scrollCollapse: true,
+                    //"responsive": true,
+                    //"searching": true,
+                    "ordering": false,
+                    "paging": true,
+                    "autoWidth": true,
+                    //"dom": 'C<"clear">lfrtip',
+                    //"colVis": {
+                    //    "buttonText": "Change columns"
+                    //},
+                    dom: 'Bfrtip',
+                    lengthMenu: [
+                                [10, 25, 50, -1],
+                                ['10 rows', '25 rows', '50 rows', 'Show all']
+                    ],
+                    buttons: ['pageLength',
+                         {
+                             extend: 'excelFlash',
+                             title: 'Pharmacy Purchase Comparition'
+                         },
+                {
+                    extend: 'pdfFlash',
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    title: 'Pharmacy Purchase Comparition.pdf'
+                },
+                {
+                    extend: 'csvFlash',
+                    title: 'Pharmacy Purchase Comparition'
+                },
+                'copy',
+                'print'
+                    ],
+                    fixedColumns: {
+                        leftColumns: 1,
+                        leftColumns: 2,
+                    }
+                });
+                Counter++;
+                LoaderHide();
+            },
+            error: function (ex, st, text) {
+                $("#ajaxLoader").hide();
+                toastr["error"](text);
+            }
+        });
+    }
+
+    function LoadPharmacyProcessData() {
+
+        $.ajax({
+            type: 'get',
+            dataType: 'html',
+            cache: false,
+            url: '@Url.Action("GetPharmacyProcessData", "Home")',
+            data: { DateRang: $("#DateFilter").val(), pPharmacyId: $("#PharmacyList").val() },
+            beforeSend: function () {
+                //$("#ajaxLoader").show();
+            },
+            success: function (response) {
+                //$("#ajaxLoader").hide();
+                $("#divPPD").html('');
+                $("#divPPD").html(response);
+                Counter++;
+                LoaderHide();
+            },
+            error: function (ex, st, text) {
+                $("#ajaxLoader").hide();
+                toastr["error"](text);
+            }
+        });
+    }
+
+    function LoadAllChart() {
+
+        //$("#ajaxLoader").show();
+        //valid PharmacyName
+        var _PharmacyName = $("#PharmacyList")
+        if (_PharmacyName.val() == "" || _PharmacyName == undefined) {
+            toastr["warning"]('Pharmacy Name Can not left blank!')
+            $("#PharmacyList").focus();
+            $("#ajaxLoader").hide();
+            return false;
+        }
+
+        var _MonthType;
+        if ($("input[name=MonthType]:checked").val() == 'M')
+            _MonthType = "Monthly";
+        else if ($("input[name=MonthType]:checked").val() == 'Q')
+            _MonthType = "Quaterly";
+        else if ($("input[name=MonthType]:checked").val() == 'H')
+            _MonthType = "Half Yearly";
+        else if ($("input[name=MonthType]:checked").val() == 'Y')
+            _MonthType = "Yearly";
+
+        $("#ajaxLoader").show();
+        PharmacyMonthlyPurchase(_MonthType);
+        LoadPharmacyProcessData();
+        LoadPharmacyPurchaseComparision();
+        SupplierSalesBaseOnPharmacy(_MonthType);
+        //$("#ajaxLoader").hide();
+        return true;
+    }
+
+    var Counter = 0;
+    function LoaderHide() {
+        if (Counter == 4) {
+            $("#ajaxLoader").hide();
+            Counter = 0;
+        }
+
+    }
+
+    function PharmacyMonthlyPurchase(_MonthType) {
+        var _PharmacyName;
+        var _Duration;
+        var _Spends;
+        var _Rebates;
+        $.ajax({
+            type: 'get',
+            dataType: 'json',
+            cache: false,
+            url: '@Url.Action("GetPharmacyPurchaseDetail", "Home")',
+            data: { DateRang: $("#DateFilter").val(), pDuration: $("input[name=MonthType]:checked").val(), pPharmacyId: $("#PharmacyList").val() },
+            beforeSend: function () {
+                //$("#ajaxLoader").show();
+            },
+            success: function (response) {
+                //$("#ajaxLoader").hide();
+                _PharmacyName = $("#PharmacyList").text();
+                _Duration = response.Duration;
+                _Spends = response.Spend;
+                _Rebates = response.Rebate;
+                _RebatePer = response.RebatePer;
+                //var _DurationTitle;
+                //if ($("input[name=MonthType]:checked").val() == 'M')
+                //    _DurationTitle = "Monthly";
+                //else if ($("input[name=MonthType]:checked").val() == 'Q')
+                //    _DurationTitle = "Quarterly";
+                //else if ($("input[name=MonthType]:checked").val() == 'H')
+                //    _DurationTitle = "Half Yearly";
+                //else if ($("input[name=MonthType]:checked").val() == 'Y')
+                //    _DurationTitle = "Yearly";
+                var _MemberType;
+                if ($("input[name=Member]:checked").val() == -1)
+                    _MemberType = "All Members";
+                else if ($("input[name=Member]:checked").val() == 1)
+                    _MemberType = "DC Members";
+                else if ($("input[name=Member]:checked").val() == 0)
+                    _MemberType = "Non DC Members";
+                var _Data = [];
+                for (var i = 0; i < _RebatePer.length ; i++) {
+                    _Data[i] = [_Duration[i] + '<br/>(£' + _Rebates[i].toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + ') ', _RebatePer[i]]
+
+                };
+
+                //Line Chart
+                $('#PMPLineChart').highcharts({
+                    chart: {
+                        zoomType: 'xy'
+                    },
+                    title: {
+                        text: $("#PharmacyList option:selected").text() + '<br/>' + _MonthType + ' Spend and Rebate <br/>' + moment($("#DateFilter").val().split("-")[0].trim()).format('MMM/YYYY') + ' - ' + moment($("#DateFilter").val().split("-")[1].trim()).format('MMM/YYYY')
+                    },
+                    subtitle: {
+                        text: ''
+                    },
+                    xAxis: [{
+                        categories: _Duration,
+                        crosshair: true
+                    }],
+                    yAxis: [{ // Primary yAxis
+                        labels: {
+                            format: '£{value}',
+                            style: {
+                                color: Highcharts.getOptions().colors[0]
+                            }
+                        },
+                        title: {
+                            text: 'Spend',
+                            style: {
+                                color: Highcharts.getOptions().colors[0]
+                            }
+                        }
+                    }, { // Secondary yAxis
+                        title: {
+                            text: 'Rebate',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                        },
+                        labels: {
+                            format: '£{value}',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                        },
+                        opposite: true
+                    }
+
+                    ],
+                    tooltip: {
+                        shared: true
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'left',
+                        x: 0,
+                        verticalAlign: 'top',
+                        y: -10,
+                        floating: true,
+                        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+                    },
+                    series: [{
+                        name: 'Spend',
+                        type: 'column',
+
+                        data: _Spends,
+                        tooltip: {
+                            valuePrefix: '£'
+                        }
+
+                    }, {
+                        name: 'Rebate',
+                        type: 'spline',
+                        yAxis: 1,
+                        data: _Rebates,
+                        tooltip: {
+                            valueDecimals: 0,
+                            valuePrefix: '£'
+                        }
+                    }]
+                });
+
+                //Pie chart
+                $('#PMPPieChart').highcharts({
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
+                        type: 'pie'
+                    },
+                    title: {
+                        text: $("#PharmacyList option:selected").text() + '<br/>' + _MonthType + ' Spend and Rebate <br/>' + moment($("#DateFilter").val().split("-")[0].trim()).format('MMM/YYYY') + ' - ' + moment($("#DateFilter").val().split("-")[1].trim()).format('MMM/YYYY')
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                style: {
+                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                }
+                            }
+                        }
+                    },
+                    series: [{
+                        name: 'Rebate',
+                        colorByPoint: true,
+                        data: _Data
+                    }]
+                });
+                Counter++;
+                LoaderHide();
+            },
+            error: function (ex, st, text) {
+                $("#ajaxLoader").hide();
+                toastr["error"](text);
+            }
+        });
+    }
+
+    function SupplierSalesBaseOnPharmacy(_MonthType) {
+        var _PharmacyName;
+        var _Supplier;
+        var _Spends;
+        var _Rebates;
+        $.ajax({
+            type: 'get',
+            dataType: 'json',
+            cache: false,
+            url: '@Url.Action("GetSupplierSalesBaseOnPharmacy", "Home")',
+            data: { DateRang: $("#DateFilter").val(), pPharmacyId: $("#PharmacyList").val() },
+            beforeSend: function () {
+                //$("#ajaxLoader").show();
+            },
+            success: function (response) {
+                //$("#ajaxLoader").hide();
+                _Supplier = response.Supplier;
+                _Spends = response.Spend;
+                _Rebates = response.Rebate;
+                _RebatePer = response.RebatePer;
+                var _MemberType;
+                if ($("input[name=Member]:checked").val() == -1)
+                    _MemberType = "All Members";
+                else if ($("input[name=Member]:checked").val() == 1)
+                    _MemberType = "DC Members";
+                else if ($("input[name=Member]:checked").val() == 0)
+                    _MemberType = "Non DC Members";
+                var _Data = [];
+                for (var i = 0; i < _RebatePer.length ; i++) {
+                    _Data[i] = [_Supplier[i] + '<br/>(£' + _Rebates[i].toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + ') ', _RebatePer[i]]
+
+                };
+
+                //Line Chart
+                $('#SBPLineChart').highcharts({
+                    chart: {
+                        zoomType: 'xy'
+                    },
+                    title: {
+                        text: $("#PharmacyList option:selected").text() + '<br/>' + _MonthType + ' Spend and Rebate <br/>' + moment($("#DateFilter").val().split("-")[0].trim()).format('MMM/YYYY') + ' - ' + moment($("#DateFilter").val().split("-")[1].trim()).format('MMM/YYYY')
+                    },
+                    subtitle: {
+                        text: ''
+                    },
+                    xAxis: [{
+                        categories: _Supplier,
+                        crosshair: true
+                    }],
+                    yAxis: [{ // Primary yAxis
+                        labels: {
+                            format: '£{value}',
+                            style: {
+                                color: Highcharts.getOptions().colors[0]
+                            }
+                        },
+                        title: {
+                            text: 'Spend',
+                            style: {
+                                color: Highcharts.getOptions().colors[0]
+                            }
+                        }
+                    }, { // Secondary yAxis
+                        title: {
+                            text: 'Rebate',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                        },
+                        labels: {
+                            format: '£{value}',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                        },
+                        opposite: true
+                    }
+
+                    ],
+                    tooltip: {
+                        shared: true
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'left',
+                        x: 0,
+                        verticalAlign: 'top',
+                        y: -10,
+                        floating: true,
+                        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+                    },
+                    series: [{
+                        name: 'Spend',
+                        type: 'column',
+
+                        data: _Spends,
+                        tooltip: {
+
+                            valuePrefix: '£'
+                        }
+
+                    }, {
+                        name: 'Rebate',
+                        type: 'spline',
+                        yAxis: 1,
+                        data: _Rebates,
+                        tooltip: {
+                            valueDecimals: 0,
+                            valuePrefix: '£'
+                        }
+                    }]
+                });
+
+                //Pie chart
+                $('#SBPPieChart').highcharts({
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
+                        type: 'pie'
+                    },
+                    title: {
+                        text: $("#PharmacyList option:selected").text() + '<br/>' + _MonthType + ' Spend and Rebate <br/>' + moment($("#DateFilter").val().split("-")[0].trim()).format('MMM/YYYY') + ' - ' + moment($("#DateFilter").val().split("-")[1].trim()).format('MMM/YYYY')
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                style: {
+                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                }
+                            }
+                        }
+                    },
+                    series: [{
+                        name: 'Rebate',
+                        colorByPoint: true,
+                        data: _Data
+                    }]
+                });
+                Counter++;
+                LoaderHide();
+            },
+            error: function (ex, st, text) {
+                $("#ajaxLoader").hide();
+                toastr["error"](text);
+            }
+        });
+    }
+
+
+</script>
+
+

@@ -1,0 +1,415 @@
+﻿@*@model DataAnalyst.Models.PharmacyMasterModel*@
+@using System.Data;
+@model DataTable
+
+@{
+    ViewBag.Title = "Pharmacy";
+}
+@*<link href="~/Content/plugins/datatables/extensions/ColVis/css/dataTables.colVis.min.css" rel="stylesheet" />
+    <script src="~/Content/plugins/datatables/extensions/ColVis/js/dataTables.colVis.min.js"></script>*@
+@*<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>*@
+
+@*<script src="~/Scripts/jquery-1.12.0.min.js"></script>
+    <script src="~/Content/plugins/datatables/jquery.dataTables.js"></script>*@
+
+@*<script src="~/Content/plugins/datatables/extensions/Responsive/js/dataTables.responsive.js"></script>
+    <link href="~/Content/plugins/datatables/extensions/Responsive/css/dataTables.responsive.css" rel="stylesheet" />*@
+
+@*<link href="~/Content/plugins/datatables/dataTables.jqueryui.css" rel="stylesheet" />
+
+    <link href="~/Content/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
+    <script src="~/Content/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/Content/plugins/datatables/extensions/Buttons/js/buttons.flash.min.js"></script>
+    <script src="~/Content/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
+    <script src="~/Content/plugins/datatables/extensions/Buttons/js/buttons.print.min.js"></script>
+    <script src="~/Content/plugins/datatables/extensions/Buttons/js/buttons.colVis.min.js"></script>
+    <link href="~/Content/plugins/datatables/extensions/ColVis/css/dataTables.colVis.css" rel="stylesheet" />*@
+
+@*<script src="~/Content/plugins/datatables/extensions/Responsive/js/dataTables.responsive.js"></script>
+    <link href="~/Content/plugins/datatables/extensions/Responsive/css/dataTables.responsive.css" rel="stylesheet" />*@
+
+<div class="content-wrapper" style="min-height: 946px;">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Pharmacy
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/Home/Index"><i class="fa fa-dashboard"></i>Home</a></li>
+            <li><a href="/Pharmacy/Index">Pharmacy</a></li>
+            @*<li class="active">Index</li>*@
+        </ol>
+    </section>
+
+    <section class="content manageGrid">
+        <div class="btn-group">
+            @*<input type="button" id="btnCreate" value="Create New" class="btn btn-block btn-primary btn-sm btnCreate" onclick="editSession(@pr)" />*@
+            @Html.ActionLink("Create New", "Manage", null, new { @class = "btn btn-block btn-primary btn-sm btnCreate" })
+        </div>
+        <div class="row"> <div class="col-md-12"></div></div>
+        <div class="box">
+            <div class="box-header">
+
+            </div>
+            <div class="box-body">
+
+                <div class="" id="PharmacyDetail"></div>
+
+            </div>
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+
+        $("#divRegister").modal('hide');
+
+        if ('@TempData["Success"]' != '')
+            toastr["success"]('@TempData["Success"]');
+        else if ('@TempData["Warning"]' != '')
+            toastr["warning"]('@TempData["Warning"]');
+
+
+        fillGrid();
+    });
+
+
+
+    function editSession(_ID) {
+
+        if (_ID != undefined && _ID != '') {
+            debugger;
+            $.ajax({
+
+                type: 'post',
+                dataType: 'json',
+                cache: false,
+                url: '@Url.Action("EditSession", "Pharmacy")',
+                data: { pId: _ID },
+                beforeSend: function () {
+                    debugger;
+                    $("#ajaxLoader").show();
+                },
+                success: function (response, textStatus, jqXHR) {
+                    debugger;
+                    if (response.Allow == "Yes") {
+                        window.location.href = '@Url.Action("manage", "Pharmacy")';
+                    }
+                    else {
+                        toastr["warning"](response._Message)
+                    }
+                    $("#ajaxLoader").hide();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    debugger;
+                    toastr["warning"](errorThrown);
+                    $("#ajaxLoader").hide();
+                }
+            });
+        }
+        else
+            toastr["error"]('No such record found!');
+    }
+
+    function Delete(_ID) {
+
+        debugger;
+
+        if (_ID != undefined && _ID != '') {
+            @*$.ajax({
+                type: 'get',
+                dataType: 'json',
+                cache: false,
+                url: '@Url.Action("CheckAllowToDelete", "Pharmacy")',
+                data: { PharmacyId: _ID },
+                beforeSend: function () {
+
+                },
+                success: function (response) {*@
+
+                    bootbox.confirm({
+                        size: 'small',
+                        message: "Are you sure to delete pharmacy profile along with its data?",
+                        buttons: {
+
+                            'cancel': {
+                                label: 'Cancel',
+                                className: 'btn-default'
+                            },
+                            'confirm': {
+                                label: 'Delete',
+                                className: 'btn-danger'
+                            }
+
+                        },
+                        callback: function (result) {
+                            if (result) {
+                                $.ajax({
+                                    type: 'post',
+                                    dataType: 'json',
+                                    cache: false,
+                                    url: '@Url.Action("delete", "Pharmacy")',
+                                    data: { inID: _ID },
+                                    beforeSend: function () {
+                                        $("#ajaxLoader").show();
+                                    },
+                                    success: function (response, textStatus, jqXHR) {
+                                        $("#ajaxLoader").hide();
+                                        if (response._result == true) {
+                                            toastr["success"](response._Message);
+                                            fillGrid();
+                                        }
+                                        else {
+                                            toastr["warning"](response._Message);
+                                        }
+
+                                    },
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                        //displayError(errorThrown);
+                                        $("#ajaxLoader").hide();
+                                        toastr["warning"](response._Message);
+
+                                    }
+                                });
+                            }
+                        }
+                    });
+            //    },
+            //    error: function () {
+
+            //    }
+            //})
+        }
+        else
+            toastr["warning"]('No Edit Pharmacy Master.');
+    }
+
+    function updateActiveStatus(_ID, _currentStatus) {
+        debugger;
+        if (_ID != undefined && _ID != '') {
+            bootbox.confirm({
+                size: 'small',
+                message: "Are you sure to change Pharmacy Status?",
+                buttons: {
+
+                    'cancel': {
+                        label: 'Cancel',
+                        className: 'btn-default'
+                    },
+                    'confirm': {
+                        label: 'Ok',
+                        className: 'btn-danger'
+                    }
+
+                },
+                callback: function (result) {
+                    if (result) {
+                        $.ajax({
+                            type: 'post',
+                            dataType: 'json',
+                            cache: false,
+                            url: '@Url.Action("SetPharmacyStatus", "Pharmacy")',
+                            data: { pId: _ID, pIsActive: _currentStatus },
+                            beforeSend: function () {
+                                //if (_currentStatus == 'True') {
+
+                                //    $("#row" + _ID).removeClass("fa-check").addClass("fa-remove");
+                                //    var clickData = $("#row" + _ID).attr("onclick");
+                                //    $("#row" + _ID).attr("onclick", clickData.replace("True", "False"));
+                                //}
+                                //else {
+                                //    $("#row" + _ID).removeClass("fa-remove").addClass("fa-check");
+                                //    var clickData = $("#row" + _ID).attr("onclick");
+                                //    $("#row" + _ID).attr("onclick", clickData.replace("False", "True"));
+                                //}
+
+                                $("#ajaxLoader").show();
+                            },
+                            success: function (response) {
+                                debugger;
+                                $("#ajaxLoader").hide();
+                                if (response.Result)
+                                    fillGrid();
+                                else
+                                    toastr["warning"]('There are some server error occure.!');
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                toastr["error"](errorThrown);
+                                $("#ajaxLoader").hide();
+                            }
+                        });
+                    }
+                }
+            })
+        }
+        else
+            toastr["warning"]('No Update Status of Pharmacy.');
+    }
+
+    function fillGrid() {
+
+        $.ajax({
+            type: 'get',
+            dataType: 'html',
+            cache: false,
+            url: '@Url.Action("AjaxHandler", "Pharmacy")',
+            data: {},
+            beforeSend: function () {
+                $("#ajaxLoader").show();
+            },
+            success: function (response) {
+                $("#PharmacyDetail").html("");
+                $("#PharmacyDetail").html(response);
+                $("#ajaxLoader").hide();
+            },
+            error: function (ex, th, st) {
+                $("#ajaxLoader").hide();
+                toastr["error"](th);
+            }
+        })
+
+        //
+
+
+    }
+
+
+    @*function fillGrid() {
+
+        //
+        jQuery('#tblMaster').dataTable().fnDestroy();
+        var oTable = jQuery('#tblMaster').dataTable({
+            "bServerSide": false,
+            "sAjaxSource": '@Url.Action("AjaxHandler", "Pharmacy")',
+            "bProcessing": true,
+            "scrollX": true,
+            "searching": true,
+            "ordering": true,
+            //"bSortable": true,
+            "lengthChange": true,
+            "paging": true,
+            //dom: 'C<"clear">lfrtip',
+            // "columnDefs": [
+            //{
+            //    "targets": [ 0 ],
+            //    "visible": false,
+            //    "searchable": false
+            //}],
+            dom: 'Bfrtip',
+            lengthMenu: [
+                                [10, 25, 50, -1],
+                                ['10 rows', '25 rows', '50 rows', 'Show all']
+            ],
+            buttons: ['colvis',
+                'pageLength',
+                 {
+                     extend: 'excelFlash',
+                     title: 'Pharmacy List'
+                 },
+                        {
+                            extend: 'pdfFlash',
+                            orientation: 'landscape',
+                            pageSize: 'LEGAL',
+                            title: 'Pharmacy List.pdf'
+                        },
+                        {
+                            extend: 'csvFlash',
+                            title: 'Pharmacy List'
+                        },
+                        'copy',
+                        'print'
+            ],
+            "info": true,
+            "autoWidth": true,
+            "aaSorting": [[0, 'asc']],
+            "columnDefs": [
+            {
+                "targets": [5],
+                "visible": false,
+                "searchable": false
+            },
+            {
+                "targets": [6],
+                "visible": false
+            },
+            {
+                "targets": [7],
+                "visible": false,
+                "searchable": false
+            },
+            ],
+            "responsive": true,
+            "aoColumns": [
+
+                          { "sName": "PharmacyName" },
+                          {
+                              "sName": "Address1",
+                              //"bVisible": false
+                          },
+                          { "sName": "RespPerson" },
+                          { "sName": "Telephone" },
+                          { "sName": "EmailID" },
+                          {
+                              "sName": "DCRegNo"
+                              //"bVisible": false
+                          },
+                          {
+                              "sName": "PharmacoRegNo"
+
+                          },
+                          {
+                              "sName": "Fax"
+
+                          },
+
+                          {
+                              "sName": "IsActive",
+                              "sClass": "text-center",
+                              "sWidth": "10px",
+                              "bSearchable": false,
+                              "bSortable": false,
+                              "mRender": function (data, type, oObj) {
+                                  if (oObj[8] == 'True')
+                                      return "<i id='row" + oObj[9] + "' class='ui-tooltip fa fa-check' style='font-size: 18px; cursor:pointer;' onclick=\"updateActiveStatus(" + oObj[9] + ",'" + oObj[8] + "')\"></i>";
+                                  else
+                                      return "<i id='row" + oObj[9] + "' class='ui-tooltip fa fa-remove' style='font-size: 18px; cursor:pointer;' onclick=\"updateActiveStatus(" + oObj[9] + ",'" + oObj[8] + "')\"></i>";
+                              }
+                          },
+                          {
+                              "sName": "ID",
+                              "sClass": "text-center",
+                              "sWidth": "10px",
+                              "bSearchable": false,
+                              "bSortable": false,
+                              "mRender": function (data, type, oObj) {
+
+                                  return "<i class='ui-tooltip fa fa-pencil' style='font-size: 18px; cursor:pointer;' onclick=\"editSession('" + oObj[9] + "')\"></i>";
+                              }
+                          },
+                          {
+                              "sName": "ID",
+                              "sClass": "text-center",
+                              "sWidth": "10px",
+                              "bSearchable": false,
+                              "bSortable": false,
+                              "mRender": function (data, type, oObj) {
+                                  return "<i class='ui-tooltip fa fa-trash-o' style='font-size: 18px; cursor:pointer;' data-original-title='Delete' onclick=\"Delete('" + oObj[9] + "')\"></i>";
+                              }
+                          }
+            ]
+        })
+
+        //oTable.column(1).visible(false);
+        //oTable.fnSetColumnVis(1,false);
+        //oTable.columns.adjust().draw(false);
+
+        //$('#tblMaster_wrapper .dataTables_filter input').addClass("form-control input-sm").attr("placeholder", "Search");
+        //// modify table search input
+        //$('#tblMaster_wrapper .dataTables_length select').addClass("m-wrap small");
+        // modify table per page dropdown
+        //$('#tblMaster_wrapper .dataTables_length select').select2();
+    }*@
+
+</script>

@@ -1,0 +1,328 @@
+﻿@model DataAnalyst.Models.UserMasterModel
+
+@{
+    ViewBag.Title = "Users";
+}
+
+
+<div class="content-wrapper" style="min-height: 946px;">
+    <section class="content-header">
+        <h1>
+            User
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/Home/Index"><i class="fa fa-dashboard"></i>Home</a></li>
+            <li><a href="/User/Index">User</a></li>
+            @*<li class="active">Manage</li>*@
+        </ol>
+    </section>
+
+
+    <section class="content">
+
+
+
+        @using (Html.BeginForm("Save", "user", FormMethod.Post, new { id = "Myform", enctype = "multipart/form-data" }))
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+
+                        <div class="box-body">
+
+                            @Html.HiddenFor(Model => Model.ID)
+                            @Html.HiddenFor(Model => Model.UserName)
+                            @Html.HiddenFor(Model => Model.refRoleID)
+                            @*@Html.HiddenFor(Model => Model.IsActive)*@
+                            @Html.HiddenFor(Model => Model.InsUser)
+                            @Html.HiddenFor(Model => Model.InsDate)
+                            @Html.HiddenFor(Model => Model.InsTerminal)
+                            @Html.HiddenFor(Model => Model.UpdUser)
+                            @Html.HiddenFor(Model => Model.UpdDate)
+                            @Html.HiddenFor(Model => Model.UpdTerminal)
+
+                            <div class="col-md-6">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title text-blue text-bold">Basic Information</h3>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>First Name</label>
+                                            @Html.TextBoxFor(Model => Model.FirstName, new { @class = "form-control", @maxlength = 50 })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Last Name</label>
+                                            @Html.TextBoxFor(Model => Model.LastName, new { @class = "form-control", @maxlength = 50 })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Date Of Birth</label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                @Html.TextBoxFor(Model => Model.DOB, "{0:dd/MM/yyyy}", new { @class = "form-control", @maxlength = 50, placeholder = "dd/MMM/yyyy" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-6">
+                                        <div class="col-xs-3">
+                                            <div class="radio">
+                                                <div class="form-group">
+                                                    @Html.RadioButtonFor(Model => Model.Gender, "Male", new { @class = "minimal", @checked = "true" })
+                                                    Male
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <div class="radio">
+                                                <div class="form-group">
+                                                    @Html.RadioButtonFor(Model => Model.Gender, "Female", new { @class = "minimal" })
+                                                    Female
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                @*Contact Information*@
+                                <div class="box-header with-border">
+                                    <h3 class="box-title text-blue text-bold">Contact Information</h3>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Mobile Number</label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-mobile-phone"></i>
+                                                </div>
+                                                @Html.TextBoxFor(Model => Model.MobileNo, new { @class = "form-control", @maxlength = 15 })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Contact </label><small> (Optional)</small>
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-phone"></i>
+                                                </div>
+                                                @Html.TextBoxFor(Model => Model.ContactNo1, new { @class = "form-control", @maxlength = 15 })
+                                            </div>
+                                        </div>
+
+                                        @*<div class="form-group">
+                                                <label>Contact 2 </label><small> (Optional)</small>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-phone"></i>
+                                                    </div>
+                                                    @Html.TextBoxFor(Model => Model.ContactNo2, new { @class = "form-control", @maxlength = 15 })
+                                                </div>
+                                            </div>*@
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <div class="form-group">
+                                            <label>Email ID</label>
+                                            @*<div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-envelope"></i>
+                                                </div>*@
+                                                @Html.TextBoxFor(Model => Model.EmailID, new { @class = "form-control", @maxlength = 100 })
+                                            @*</div>*@
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            @Html.CheckBoxFor(Model => Model.IsActive, new { @class = "minimal" })
+                                            <label style="margin-top: 18px; padding: 10px;">Is Active</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="box-footer">
+                            <input id="btnSubmit" type="submit" value="Submit" class="btn btn-primary btnSubmit" /> &nbsp; &nbsp;
+                            @Html.ActionLink("cancel", "index", new { @class = "btn btn-primary" })
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </section>
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+
+
+        $(".select2").select2();
+
+        //this.$("#RefCollectionCenterId").select2("data", { id: 1, text: "Collection Center 01" });
+
+        $("#RefCollectionCenterId").val([@ViewBag._RefCollCentId]).trigger("change");
+        debugger;
+
+        SetDatePicker("DOB");
+
+        //$("#DOB").attr("data-inputmask='alias': 'dd/mm/yyyy' data-mask=''");
+        //$("[data-mask]").inputmask();
+        //$("#datemask2").inputmask("mm/dd/yyyy", { "placeholder": "mm/dd/yyyy" });
+
+    });
+
+    //function for DateRange Picker
+    function SetDatePicker(_ControlName, _ClearBtn) {
+
+
+        $('input[name="' + _ControlName + '"]').datepicker({
+            showOnFocus: true,
+            format: 'dd/M/yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            todayBtn: true,
+            clearBtn: _ClearBtn,
+            position: "relative",
+
+
+            //defaultViewDate: { year: 2015, month: 01, day: 01 }
+        });
+        SetDefaultValue(_ControlName);
+    }
+
+    function SetDefaultValue(_ControlName) {
+        debugger;
+        var _val = $("#" + _ControlName).val()
+        if (_val == "01-01-0001") {
+            _val = '';
+        }
+        $('input[name="' + _ControlName + '"]').datepicker("setDate", _val)
+    }
+
+    //function Validation() {
+
+
+
+    //    var _FirstName = $("#FirstName");
+    //    var _LastName = $("#LastName");
+
+    //    var _MobileNo = $("#MobileNo");
+
+    //    // To validate user first name & last name
+    //    if (_FirstName.val() == '' || _FirstName.val() == undefined || _LastName.val() == '' || _LastName.val() == undefined) {
+    //        _FirstName.focus();
+    //        toastr["warning"]('Name can not left blank!');
+    //        return false;
+    //    }
+
+    //    // To validate mobile number
+    //    if (_MobileNo.val() == '' || _MobileNo.val() == undefined) {
+    //        _MobileNo.focus();
+    //        toastr["warning"]('Mobile number can not left blank!');
+    //        return false;
+    //    }
+
+    //}
+
+    $(function () {
+        //$.validator.addMethod(
+        //        "indianDate",
+        //        function (value, element) {
+        //            if (value == '') {
+        //                return true;
+        //            }
+        //            return value.match(/^\d\d?\/\d\d?\/\d\d\d\d$/);
+        //        },
+        //        "Please enter a date in the format dd/mm/yyyy."
+        //        );
+
+        $("#Myform").validate({
+            errorClass: 'has-error',
+            validClass: 'has-success',
+            onfocusout: function (element) { $(element).valid(); },
+            // Rules for form validation
+            rules: {
+                //EntityCode: {
+                //    remote: { url: "<?= base_url('masters/check/' . $menuaction) ?>", type: "get" }
+                //},
+                FirstName: {
+                    required: true
+                },
+                LastName: {
+                    required: true
+                },
+                Gender: {
+                    required: true
+                },
+                EmailID: {
+                    required: true,
+                    email: true
+                },
+            },
+
+            // Messages for form validation
+            messages: {
+                //EntityCode: {
+                //    remote: jQuery.validator.format("{0} is already in use")
+                //},
+                FirstName: {
+                    required: 'Enter First Name'
+                },
+                FirstName: {
+                    required: 'Enter Last Name'
+                },
+                Gender: {
+                    required: 'Select Gender'
+                },
+                EmailID: {
+                    required: 'Enter Email Id.',
+                    number: 'Enetr valid Email Id.'
+                },
+            },
+
+            submitHandler: function (form) {
+                //return false;
+                form.submit();
+            },
+
+            //        // Do not change code below
+            errorPlacement: function (error, element) {
+                $(element).parent('div').addClass('has-error');
+                error.insertAfter(element);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).parent('div').addClass(errorClass).removeClass(validClass);
+                //$(element).parent('div .form-group').addClass(errorClass).removeClass(validClass);
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).parent('div').removeClass(errorClass).addClass(validClass);
+                //$(element).parent('div .form-group').removeClass(errorClass).addClass(validClass);
+            }
+
+        });
+    });
+
+
+</script>

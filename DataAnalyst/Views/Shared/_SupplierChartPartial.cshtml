@@ -1,0 +1,215 @@
+﻿@*@model DataAnalyst.Models.ImportDataModel*@
+
+<!-- Main row -->
+<div class="row">
+    <!-- Left col -->
+    <section class="col-lg-7 connectedSortable">
+
+        <!-- quick email widget -->
+        <div class="box box-info">
+            <div class="box-header">
+                <i class="fa  fa-bar-chart"></i>
+                <h3 class="box-title">Supplier Sales Spend And Rebate </h3>
+                <!-- tools box -->
+                <div class="pull-right box-tools">
+                    @*<button class="btn btn-info btn-sm pull-right" data-widget="collapse" data-toggle="tooltip" title="Collapse" style="margin-right: 5px;"><i class="fa fa-minus"></i></button>*@
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <div id="container" style="max-width: 800px; height: 300px; margin: 0 auto"></div>
+            </div>
+
+        </div>
+
+    </section><!-- /.Left col -->
+    <!-- right col (We are only adding the ID to make the widgets sortable)-->
+    <section class="col-lg-5 connectedSortable">
+        <div class="box box-info">
+            <div class="box-header">
+                <i class="fa  fa-pie-chart"></i>
+                <h3 class="box-title">Supplier Rebate %</h3>
+                <!-- tools box -->
+                <div class="pull-right box-tools">
+                    @*<button class="btn btn-info btn-sm pull-right" data-widget="collapse" data-toggle="tooltip" title="Collapse" style="margin-right: 5px;"><i class="fa fa-minus"></i></button>*@
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <div id="supppaichart" style="max-width: 800px; height: 300px; margin: 0 auto"></div>
+            </div>
+
+        </div>
+    </section><!-- right col -->
+
+    <section class="col-lg-12 connectedSortable">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Custom Tabs -->
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#Sales" data-toggle="tab">Sales</a></li>
+                        <li><a href="#Rebate" data-toggle="tab">Rebate %</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="Sales">
+                            <div class="box-body">
+                                <div id="MonthlySales" style="min-width: 800px; height: 300px; margin: 0 auto"></div>
+                            </div>
+                        </div><!-- /.tab-pane -->
+                        <div class="tab-pane" id="Rebate">
+                            <div class="box-body">
+                                <div id="MonthlyRebate" style="min-width: 800px; height: 300px; margin: 0 auto"></div>
+                            </div>
+                        </div><!-- /.tab-pane -->
+
+                    </div><!-- /.tab-content -->
+                </div><!-- nav-tabs-custom -->
+            </div>
+        </div>
+    </section><!-- right col -->
+
+    <section class="col-lg-12 connectedSortable">
+
+        <!--Pharmacy Bar-->
+        <div class="box box-info">
+            <div class="box-header">
+                <i class="fa  fa-bar-chart"></i>
+                <h3 class="box-title">Pharmacy Purchase Spend And Rebate [Top 20]</h3>
+                <!-- tools box -->
+                <div class="pull-right box-tools">
+                    @*<button class="btn btn-info btn-sm pull-right" data-widget="collapse" data-toggle="tooltip" title="Collapse" style="margin-right: 5px;"><i class="fa fa-minus"></i></button>*@
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <div id="PharmacyBarChart" style="min-width: 800px; height: 300px; margin: 0 auto"></div>
+            </div>
+
+        </div>
+
+    </section><!-- /.Left col -->
+    <!-- right col (We are only adding the ID to make the widgets sortable)-->
+    @*<section class="col-lg-5 connectedSortable">
+
+        <!--Pharmacy Pai-->
+        <div class="box box-info">
+            <div class="box-header">
+                <i class="fa  fa-pie-chart"></i>
+                <h3 class="box-title">Pharmacy Rebate % [Top 10]</h3>
+                <!-- tools box -->
+                <div class="pull-right box-tools">
+                    @*<button class="btn btn-info btn-sm pull-right" data-widget="collapse" data-toggle="tooltip" title="Collapse" style="margin-right: 5px;"><i class="fa fa-minus"></i></button>*@
+    @*</div><!-- /. tools -->
+        </div>
+        <div class="box-body">
+            <div id="PharmacyPieChart" style="max-width: 800px; height: 300px; margin: 0 auto"></div>
+        </div>*@
+
+    @*</div>
+        </section>*@<!-- right col -->
+
+</div><!-- /.row (main row) -->
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        //debugger;
+
+        //ColumnDrilldownChart();
+        @*var _SupplierNames;
+        $.ajax({
+            type: 'get',
+            dataType: 'json',
+            cache: false,
+            url: '@Url.Action("GetSupplierName", "Process")',
+            data: {_StartDate : '2010/03/23', _EndDate: '2011/02/23'},
+            beforeSend: function () {
+                debugger;
+                //alert('before');
+            },
+            success: function (response) {
+                debugger;
+                _SupplierNames = response;
+                //console.log(_SupplierNames);
+                //alert();
+                $('#container').highcharts({
+                    chart: {
+                        zoomType: 'xy'
+                    },
+                    title: {
+                        text: 'Supplier Wise Spend and Rebate'
+                    },
+                    subtitle: {
+                        text: 'Source: WorldClimate.com'
+                    },
+                    xAxis: [{
+                        categories: _SupplierNames,
+                        crosshair: true
+                    }],
+                    yAxis: [{ // Primary yAxis
+                        labels: {
+                            format: '{value}',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                        },
+                        title: {
+                            text: 'Rebate',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                        }
+                    }, { // Secondary yAxis
+                        title: {
+                            text: 'Spend',
+                            style: {
+                                color: Highcharts.getOptions().colors[0]
+                            }
+                        },
+                        labels: {
+                            format: '{value}',
+                            style: {
+                                color: Highcharts.getOptions().colors[0]
+                            }
+                        },
+                        opposite: true
+                    }],
+                    tooltip: {
+                        shared: true
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'left',
+                        x: 120,
+                        verticalAlign: 'top',
+                        y: 100,
+                        floating: true,
+                        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+                    },
+                    series: [{
+                        name: 'Spend',
+                        type: 'column',
+                        yAxis: 1,
+                        data: [49.9, 71.5, 106.4, 129.2, 144.0],
+                        tooltip: {
+                            valueSuffix: ''
+                        }
+
+                    }, {
+                        name: 'Rebate',
+                        type: 'spline',
+                        data: [7.0, 6.9, 9.5, 14.5, 18.2],
+                        tooltip: {
+                            valueSuffix: ''
+                        }
+                    }]
+                });
+            },
+            error: function (ex, st, text) {
+                debugger;
+                toastr["error"](text);
+            }
+        });*@
+
+
+
+    });
+
+</script>

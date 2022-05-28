@@ -1,0 +1,366 @@
+﻿@{
+    //Layout = "~/Views/Shared/_LayoutForRpt.cshtml";
+    ViewBag.Title = "Supplier Summary";
+}
+
+
+<div class="content-wrapper" style="min-height: 946px;">
+    <section class="content">
+        <div class="box box-primary">
+            <div class="box-body">
+
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Member Type</label>
+                            <div class="radio">
+                                <div class="form-group">
+                                    <div class="col-md-3">
+                                        @Html.RadioButton("Member", -1, true)
+                                        &nbsp;
+                                        All Members
+                                    </div>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <div class="col-md-3">
+                                        @Html.RadioButton("Member", 1, false)
+                                        &nbsp;
+                                        DC Members
+                                    </div>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <div class="col-md-4">
+                                        @Html.RadioButton("Member", 0, false)
+                                        &nbsp;&nbsp;
+                                        Non-DC Members
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Report Type</label>
+                            <div class="radio">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        @Html.RadioButton("RptType", "N", true, new { @class = "rptn" })
+                                        Normal
+                                    </div>
+                                    &nbsp;&nbsp;
+                                    <div class="col-md-4">
+                                        @Html.RadioButton("RptType", "C", false, new { @class = "rptc" })
+                                        Comparision
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+
+                <div class="col-md-12">
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Supplier List</label>
+                                @*@Html.DropDownList("PharmacyList", new SelectList((IEnumerable<SelectListItem>) ViewData["PharmacyList"],"Value","Text"), "---Select Pharmacy Name---" , new { @class = "form-control" })*@
+                                <div id="divSupplierList">
+                                    @Html.Partial("MultipleSupplierPartial")
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Date Filter</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                @Html.TextBox("DateFilter", null, new { @class = "form-control" })
+                                @Html.DropDownList("FinYearRange", new SelectList((IEnumerable<SelectListItem>)ViewData["FinYearList"], "Value", "Text"), new { @class = "form-control" })
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Pharmacy List</label>
+                                @*@Html.DropDownList("PharmacyList", new SelectList((IEnumerable<SelectListItem>) ViewData["PharmacyList"],"Value","Text"), "---Select Pharmacy Name---" , new { @class = "form-control" })*@
+                                <div id="divPharmacyList">
+                                    @Html.Partial("MultiplePharmacyPartial")
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Month Filter</label>
+                            <div class="radio">
+                                <div class="form-group">
+                                    <div class="col-md-3">
+                                        @Html.RadioButton("MonthType", "M", true, new { @class = "DurM" })
+                                        Monthly
+                                    </div>
+                                    &nbsp;&nbsp;
+                                    <div class="col-md-3">
+                                        @Html.RadioButton("MonthType", "Q", false, new { @class = "DurQ" })
+                                        Quaterly
+                                    </div>
+                                    &nbsp;&nbsp;
+                                    <div class="col-md-3">
+                                        @Html.RadioButton("MonthType", "H", false, new { @class = "DurH" })
+                                        Half Yearly
+                                    </div>
+                                    &nbsp;&nbsp;
+                                    <div class="col-md-2">
+                                        @Html.RadioButton("MonthType", "Y", false, new { @class = "DurY" })
+                                        Yearly
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label></label>
+                            <div class="input-group">
+                                <input type="button" name="btnSearch" id="btnSearch" value="Search" class="btn btn-primary" onclick="return LoadDataonCondition();" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div id="divSuppSummary">
+                @Html.Partial("_SupplierSummaryPartial", new System.Data.DataTable())
+            </div>
+    </section>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        debugger;
+        $(".select2").select2();
+        $("#FinYearRange").hide();
+        var _DateRange = "01/Apr/" + (moment().format('YYYY') - 1) + ' - ' + "31/Mar/" + moment().format('YYYY');
+        $("#DateFilter").val(_DateRange);
+
+        $("#DateFilter").daterangepicker({
+            format: 'DD/MMM/YYYY',
+            "startDate": '01/Apr/' + (moment().format('YYYY') - 1),
+            "endDate": '31/Mar/' + moment().format('YYYY'),
+        });
+
+        //$("#PharmacyListPartial").val([@ViewBag._RefCollCentId]).trigger("change");
+
+        $("input[name='Member']").on('change', function () {
+            debugger;
+            LoadPharmaList($(this).val());
+            LoadSupplierList($(this).val())
+        });
+
+        $("input[name='RptType']").on('change', function () {
+            if ($(this).val() == 'C') {
+                debugger;
+                $(".DurM").attr('disabled', true);
+                $(".DurY").attr('disabled', true);
+                $(".DurQ").prop('checked', 'checked');
+                $("#FinYearRange").show();
+                $("#DateFilter").hide();
+            }
+            else {
+                $(".DurM").attr('disabled', false);
+                $(".DurY").attr('disabled', false);
+                $("#FinYearRange").hide();
+                $("#DateFilter").show();
+            }
+        })
+
+    });
+
+    function LoadDataonCondition() {
+        debugger;
+        //validate supplier
+        var _Supplier = $("#SupplierList")
+        if (_Supplier.val() == "" || _Supplier == undefined) {
+            toastr["warning"]('Supplier Can not left blank!')
+            _Supplier.focus();
+            return false;
+        }
+
+        var _PharmaList = $("#PharmacyList").val()
+        var _PList = '';
+        if (_PharmaList != null) {
+            for (var i = 0; i < _PharmaList.length ; i++) {
+                if (i != 0)
+                    _PList = _PList + ',';
+                _PList = _PList + _PharmaList[i];
+            }
+        }
+        else
+            _PList = _PharmaList;
+
+        var _SuppList = $("#SupplierList").val()
+        var _SList = '';
+        if (_SuppList != null) {
+            for (var i = 0; i < _SuppList.length ; i++) {
+                if (i != 0)
+                    _SList = _SList + ',';
+                _SList = _SList + _SuppList[i];
+            }
+        }
+        else
+            _SList = _SuppList;
+
+        debugger;
+        var _DateRange;
+        if ($("input[name='RptType']:checked").val() == 'C') {
+            _DateRange = $("#FinYearRange").val();
+        }
+        else {
+            _DateRange = $("#DateFilter").val();
+        }
+
+        $.ajax({
+            type: 'get',
+            dataType: 'html',
+            cache: false,
+            url: '@Url.Action("GetSupplierSummaryData", "Process")',
+            data: { DateRange: _DateRange, pMemberType: $("input[name=Member]:checked").val(), SupplierList: _SList, PharmacyList: _PList, pDuration: $("input[name=MonthType]:checked").val(), pRptType: $("input[name=RptType]:checked").val() },
+            beforeSend: function () {
+                debugger;
+                $("#ajaxLoader").show();
+            },
+            success: function (response) {
+
+
+                $("#divSuppSummary").html('');
+                $("#divSuppSummary").html(response);
+
+                jQuery('#tblMaster').dataTable().fnDestroy();
+                var oTable = jQuery('#tblMaster').DataTable({
+                    "bServerSide": false,
+                    "bProcessing": true,
+                    scrollX: true,
+                    scrollCollapse: true,
+                    //"responsive": true,
+                    "searching": true,
+                    "ordering": true,
+                    //"paging": true,
+                    "autoWidth": true,
+                    //pageLength : 50,
+                    dom: 'Bfrtip',
+                    lengthMenu: [
+                                [10, 25, 50, -1],
+                                ['10 rows', '25 rows', '50 rows', 'Show all']
+                    ],
+                    buttons: ['pageLength',
+                         {
+                             extend: 'excelFlash',
+                             title: 'Supplier Summary'
+                         },
+                        {
+                            extend: 'pdfFlash',
+                            orientation: 'landscape',
+                            pageSize: 'LEGAL',
+                            title: 'Supplier Summary.pdf'
+                        },
+                        {
+                            extend: 'csvFlash',
+                            title: 'Supplier Summary'
+                        },
+                        'copy',
+                        'print'
+                    ],
+                    //"dom": 'C<"clear">lfrtip',
+                    //"colVis": {
+                    //    "buttonText": "Change columns"
+                    //},
+                    //"columnsDefs":[
+                    //    {"width": "100%","targets" : 0}
+                    //    ],
+                    //"columnsDefs":[{
+                    //    "targets":[1],
+                    //    "visible":false,
+                    //    "searchable":false
+                    //}],
+                    fixedColumns: {
+                        //leftColumns: 1,
+                        leftColumns: 1,
+                        //leftColumns: 3,
+                    },
+                });
+                $("#ajaxLoader").hide();
+
+            },
+            error: function (ex, st, text) {
+                $("#ajaxLoader").hide();
+                toastr["error"](text);
+            }
+        });
+
+        return true;
+    }
+
+    function LoadPharmaList(_Member) {
+        debugger;
+        $.ajax({
+            type: 'get',
+            dataType: 'html',
+            cache: false,
+            url: '@Url.Action("ReloadPharmacyList", "Process")',
+            data: { pMember: _Member },
+            beforeSend: function () {
+                debugger;
+            },
+            success: function (response) {
+                debugger;
+                $("#divPharmacyList").html('');
+                $("#divPharmacyList").html(response);
+                $(".select2").select2();
+            },
+            error: function (ex, st, text) {
+                debugger;
+                toastr["error"](text);
+            }
+        });
+    }
+
+    function LoadSupplierList(_Member) {
+        debugger;
+        $.ajax({
+            type: 'get',
+            dataType: 'html',
+            cache: false,
+            url: '@Url.Action("ReloadSupplierList", "Process")',
+            data: { pMember: _Member },
+            beforeSend: function () {
+                debugger;
+            },
+            success: function (response) {
+                debugger;
+                $("#divSupplierList").html('');
+                $("#divSupplierList").html(response);
+                $(".select2").select2();
+            },
+            error: function (ex, st, text) {
+                debugger;
+                toastr["error"](text);
+            }
+        });
+    }
+
+</script>
+

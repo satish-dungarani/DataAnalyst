@@ -1,0 +1,529 @@
+﻿@using DataAnalyst.Models
+@model  PharmacyMasterModel
+
+@{
+    ViewBag.Title = "Pharmacy";
+}
+
+
+<div class="content-wrapper" style="min-height: 946px;">
+    <section class="content-header">
+        <h1>
+            Pharmacy
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/Home/Index"><i class="fa fa-dashboard"></i>Home</a></li>
+            <li><a href="/Pharmacy/Index">Pharmacy</a></li>
+            @*<li class="active">Manage</li>*@
+        </ol>
+    </section>
+
+
+    <section class="content">
+
+        @using (Html.BeginForm("Save", "Pharmacy", FormMethod.Post, new { Id = "MyForm", enctype = "multipart/form-data" }))
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+
+                        <div class="box-body">
+
+                            @Html.HiddenFor(model => model.PharmacyId)
+                            @Html.HiddenFor(model => model.InsUser)
+                            @Html.HiddenFor(model => model.InsDate)
+                            @Html.HiddenFor(model => model.InsTerminal)
+                            @Html.HiddenFor(model => model.UpdUser)
+                            @Html.HiddenFor(model => model.UpdDate)
+                            @Html.HiddenFor(model => model.UpdTerminal)
+
+                            <div class="col-md-12">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title text-blue text-bold">Basic Information</h3>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Pharmacy Name<span class="text-red">*</span></label>
+                                            @Html.TextBoxFor(model => model.PharmacyName, new { @class = "form-control", @maxlength = 150 })
+                                            @*@Html.ValidateFor(model => model.PharmacyName)*@
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Company Name</label>
+                                            @Html.TextBoxFor(model => model.CompanyName, new { @class = "form-control", @maxlength = 150 })
+                                            @*@Html.ValidateFor(model => model.PharmacyName)*@
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>DC Reg No</label>
+                                            @Html.TextBoxFor(model => model.DCRegNo, new { @class = "form-control", @maxlength = 100 })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Pharmaco Reg No</label>
+                                            @Html.TextBoxFor(model => model.PharmacoRegNo, new { @class = "form-control", @maxlength = 500 })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Address 1<span class="text-red">*</span></label>
+                                            @Html.TextBoxFor(model => model.Address1, new { @class = "form-control", @maxlength = 70 })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Address 2</label>
+                                            @Html.TextBoxFor(model => model.Address2, new { @class = "form-control", @maxlength = 70 })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>City<span class="text-red">*</span></label>
+                                            @Html.TextBoxFor(model => model.City, new { @class = "form-control", @maxlength = 30 })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Post Code<span class="text-red">*</span></label>
+                                            @Html.TextBoxFor(model => model.PostCode, new { @class = "form-control", @maxlength = 15 })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Responsible Person</label>
+                                            @Html.TextBoxFor(model => model.RespPerson, new { @class = "form-control", @maxlength = 30 })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Telephone<span class="text-red">*</span></label>
+                                            @Html.TextBoxFor(model => model.Telephone, new { @class = "form-control", @maxlength = 15 })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Fax No</label>
+                                            @Html.TextBoxFor(model => model.FaxNo, new { @class = "form-control", @maxlength = 15 })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Email Id</label>
+                                            @Html.TextBoxFor(model => model.EmailID, new { @class = "form-control", @maxlength = 100 })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <br />
+                                            <label>
+                                                Is Active
+                                                @Html.CheckBoxFor(model => model.IsActive, new { @class = "minimal" , @checked = "checked"})
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div id="CSAssociationList">
+                                    @Html.Partial("_CustSuppAssociationPartial", @Model)
+                                </div>
+                            </div>
+
+                            <div class="box-footer">
+                                <input id="btnSubmit" type="submit" value="Submit" class="btn btn-primary btnSubmit " onclick="return Validation();" /> &nbsp; &nbsp;
+                                @*onclick="return Validation();"*@
+                                @Html.ActionLink("Cancel", "index", new { @class = "btn btn-default" })
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </section>
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+
+        SetDatePicker("DOB");
+
+        $("#SupplierName").focus();
+
+        $("#PharmacyName").focusout(function () {
+            //ValidateField($(this));
+            if ($("#PharmacyId").val() == 0 || $("#PharmacyId").val() == "") {
+                $.ajax({
+                    type: 'get',
+                    dataType: 'json',
+                    cache: false,
+                    url: '@Url.Action("ValidateDuplicatevalue", "Pharmacy")',
+                    data: { pName: $("#PharmacyName").val() },
+                    beforeSend: function () {
+                        //$("#ajaxLoader").show();
+                    },
+                    success: function (Response) {
+                        //$("#ajaxLoader").hide();
+
+                        if (Response.Result) {
+                            debugger;
+                            $("#PharmacyName").focus();
+                            toastr["warning"]('Pharmacy already exiest.');
+                        }
+                    },
+                    error: function (ex, stext, status) {
+                        //$("#ajaxLoader").hide();
+                        toastr["error"](Status + " " + stext);
+                    },
+
+                })
+            }
+        });
+
+        @*$("#MyForm").submit(function (evnt) {
+            //debugger;
+            //alert(Validation())
+            if (saValidation() == true) {
+                //debugger;
+
+                var $form = $(this);
+                //var formdata = new FormData();
+                ////var formdata = $(this);
+                //formdata.append("ExcelfileData", document.getElementById("FilePath").files[0]);
+                //if (!$form.valid()) return;
+
+                $.ajax({
+                    type: $form.prop('method'),
+                    dataType: 'json',
+                    cache: false,
+                    url: '@Url.Action("Save", "Pharmacy")',
+                    data: $form,
+                    beforeSend: function () {
+                        //$("#ajaxLoader").show();
+                    },
+                    success: function (response) {
+                        //$("#ajaxLoader").hide();
+                        debugger;
+
+                    },
+                    error: function (jhx, stcode, status) {
+                        //$("#ajaxLoader").hide();
+                        toastr["error"](status);
+                    }
+                });
+
+
+            }
+            //else {
+            //    return false;
+            //}
+            evnt.preventDefault();
+            //debugger;
+        });*@
+
+
+    });
+    @*function saValidation() {
+        alert('validate');
+        return false;
+    }
+
+    $("#MyForm").submit(function (evnt) {
+        //debugger;
+        //alert(Validation())
+        if (saValidation() == true) {
+            //debugger;
+
+            var $form = $(this);
+            //var formdata = new FormData();
+            ////var formdata = $(this);
+            //formdata.append("ExcelfileData", document.getElementById("FilePath").files[0]);
+            //if (!$form.valid()) return;
+
+            $.ajax({
+                type: $form.prop('method'),
+                dataType: 'json',
+                cache: false,
+                url: '@Url.Action("Save", "Pharmacy")',
+                data: $form,
+                beforeSend: function () {
+                    //$("#ajaxLoader").show();
+                },
+                success: function (response) {
+                    //$("#ajaxLoader").hide();
+                    debugger;
+
+                },
+                error: function (jhx, stcode, status) {
+                    //$("#ajaxLoader").hide();
+                    toastr["error"](status);
+                }
+            });
+
+
+        }
+        //else {
+        //    return false;
+        //}
+        evnt.preventDefault();
+        //debugger;
+    });*@
+    //function FunBegin() {
+    //    debugger;
+    //    for (var i = 0; i < $("#SupplierCounter").val() ; i++) {
+    //        if($("#CSAssociation_" + i + "__AccountNo").val() != '')
+    //        {
+    //            for (var j = 0; j < $("#SupplierCounter").val() ; j++) {
+    //                if (i != j) {
+    //                    if($("#CSAssociation_" + i + "__AccountNo").val() == $("#CSAssociation_" + j + "__AccountNo").val() )
+    //                    {
+    //                        debugger;
+    //                        toastr["warning"]('Account Numer is duplicate!')
+    //                        $("#CSAssociation_" + i + "__AccountNo").focus();
+    //                        return false;
+    //                    }
+    //            }
+    //            }
+    //        }
+    //        else{
+    //            continue;
+    //        }
+    //    }
+    //}
+
+    //function FunSuccess() {
+
+    //}
+
+    //validation function
+    //function ValidateField(_Filed) {
+    //    if (_Filed.length() = 0)
+    //        _Filed.parent().addClass('has-error');
+    //    else
+    //        _Filed.parent().removeClass('has-error');
+    //}
+
+    //function for DateRange Picker
+    function SetDatePicker(_ControlName, _ClearBtn) {
+
+
+        $('input[name="' + _ControlName + '"]').datepicker({
+            showOnFocus: true,
+            format: 'dd/M/yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            todayBtn: true,
+            clearBtn: _ClearBtn,
+            position: "relative",
+
+
+            //defaultViewDate: { year: 2015, month: 01, day: 01 }
+        });
+        SetDefaultValue(_ControlName);
+    }
+
+    function SetDefaultValue(_ControlName) {
+        debugger;
+        var _val = $("#" + _ControlName).val()
+        if (_val == "01-01-0001") {
+            _val = '';
+        }
+        $('input[name="' + _ControlName + '"]').datepicker("setDate", _val)
+    }
+    var _ValidateNo = -1;
+
+    function Validation() {
+        //$("#ajaxLoader").show();
+        //debugger;
+        for (var i = 0; i < $("#SupplierCounter").val() ; i++) {
+            if ($("#CSAssociation_" + i + "__AccountNo").val() != '') {
+                for (var j = 0; j < $("#SupplierCounter").val() ; j++) {
+                    if (i != j) {
+                        if ($("#CSAssociation_" + i + "__AccountNo").val() == $("#CSAssociation_" + j + "__AccountNo").val()) {
+                            //debugger;
+                            toastr["warning"]('Account Numer is duplicate!')
+                            $("#CSAssociation_" + i + "__AccountNo").focus();
+                            return false;
+                        }
+                    }
+                }
+            }
+            else {
+                continue;
+            }
+        }
+
+
+
+        var _flag = true;
+        for (var k = 0; k < $("#SupplierCounter").val() ; k++) {
+            if (k == 0)
+                $("#ajaxLoader").show();
+            //debugger;
+            if ($("#CSAssociation_" + k + "__AccountNo").val() != '') {
+                //_flag = false;
+                $.ajax({
+                    type: 'get',
+                    dataType: 'json',
+                    cache: false,
+                    async: false,
+                    url: '@Url.Action("CheckDuplicateAccountNo", "Pharmacy")',
+                    data: { pAccountNo: $("#CSAssociation_" + k + "__AccountNo").val(), pCustAssId: $("#CSAssociation_" + k + "__Id").val() },
+                    beforeSend: function () {
+                        //debugger;
+                    },
+                    success: function (response) {
+                        //debugger;
+                        if (response) {
+                            //debugger;
+                            toastr["warning"]('Account No is Duplicate!');
+                            $("#CSAssociation_" + k + "__AccountNo").focus();
+                            _flag = false;
+                        }
+                    },
+                    error: function (ex, st, err) {
+                        //debugger;
+                        toastr["error"](err);
+                        return false;
+                    }
+                });
+
+
+            }
+            if (k == $("#SupplierCounter").val() - 1)
+                $("#ajaxLoader").hide();
+        }
+
+        if (_flag == false) {
+            return false;
+
+        }
+        else
+            return true;
+        //alert('sd');
+
+        //$("#ajaxLoader").hide();
+        //return true;
+    }
+
+    function ServerSideValidation() {
+        if (_ValidateNo > -1) {
+            debugger;
+            toastr["warning"]('Account No is Duplicate!');
+            $("#CSAssociation_" + _ValidateNo + "__AccountNo").focus();
+            return false;
+        }
+    }
+
+    $(function () {
+        //$.validator.addMethod(
+        //        "indianDate",
+        //        function (value, element) {
+        //            if (value == '') {
+        //                return true;
+        //            }
+        //            return value.match(/^\d\d?\/\d\d?\/\d\d\d\d$/);
+        //        },
+        //        "Please enter a date in the format dd/mm/yyyy."
+        //        );
+
+        $("#MyForm").validate({
+            errorClass: 'has-error',
+            validClass: 'has-success',
+            onfocusout: function (element) { $(element).valid(); },
+            // Rules for form validation
+            rules: {
+                //EntityCode: {
+                //    remote: { url: "<?= base_url('masters/check/' . $menuaction) ?>", type: "get" }
+                //},
+                PharmacyName: {
+                    required: true
+                },
+                Address1: {
+                    required: true
+                },
+                City: {
+                    required: true
+                },
+                PostCode: {
+                    required: true,
+                },
+                Telephone: {
+                    required: true,
+                },
+            },
+
+            // Messages for form validation
+            messages: {
+                //EntityCode: {
+                //    remote: jQuery.validator.format("{0} is already in use")
+                //},
+                PharmacyName: {
+                    required: 'Enter Pharmacy Name'
+                },
+                Address1: {
+                    required: 'Enter Pharmacy Address'
+                },
+                City: {
+                    required: 'Enter City Name'
+                },
+                PostCode: {
+                    required: 'Enter Pincode ',
+                },
+                Telephone: {
+                    required: 'Enter Pharmacy Phone Number'
+                },
+            },
+
+            submitHandler: function (form) {
+                //return false;
+                form.submit();
+            },
+
+            //        // Do not change code below
+            errorPlacement: function (error, element) {
+                $(element).parent('div').addClass('has-error');
+                error.insertAfter(element);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).parent('div').addClass(errorClass).removeClass(validClass);
+                //$(element).parent('div .form-group').addClass(errorClass).removeClass(validClass);
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).parent('div').removeClass(errorClass).addClass(validClass);
+                //$(element).parent('div .form-group').removeClass(errorClass).addClass(validClass);
+            }
+
+        });
+
+
+
+    });
+
+
+</script>

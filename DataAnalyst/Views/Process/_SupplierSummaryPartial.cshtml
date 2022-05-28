@@ -1,0 +1,135 @@
+﻿@using System.Globalization;
+@using System.Data;
+@model DataTable
+
+<div class="box box-primary">
+    <div class="box-header box-info">
+        <h3 class="box-title">Summary For Supplier</h3>
+
+        <div class="box-tools pull-right">
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table class="table table-bordered table-striped" id="tblMaster">
+            <thead>
+                <tr>
+                    @for (int i = 1; i < @Model.Columns.Count; i++)
+                    {
+                        if ((@Model.Columns[i].ColumnName.Split(' ')[0].ToUpper() == "SPEND" || @Model.Columns[i].ColumnName.Split(' ')[0].ToUpper() == "REBATE" || @Model.Columns[i].ColumnName.Split(' ')[0].ToUpper() == "TOTAL") && @ViewBag.RptType == "C")
+                        {
+                            <th style="background-color:lightgray; text-align:right">@Model.Columns[i].ColumnName</th>
+                        }
+                        else if (@ViewBag.RptType == "N" && @Model.Columns[i].ColumnName.ToUpper() != "PHARMACY NAME")
+                        {
+                            <th style="text-align:center">@Model.Columns[i].ColumnName.Split('#')[0] <br />@Model.Columns[i].ColumnName.Split('#')[1]<br /><span style="color: #2B60DE">@Model.Columns[i + 1].ColumnName.Split('#')[0]</span></th>
+                            i = i + 1;
+                        }
+                        else
+                        {
+                            <th style="text-align:center">@Model.Columns[i].ColumnName</th>
+                        }
+
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @for (int j = 0; j < @Model.Rows.Count; j++)
+                {
+                    <tr>
+                        @for (int k = 1; k < @Model.Columns.Count; k++)
+                        {
+                            if ((@Model.Columns[k].ColumnName.Split(' ')[0].ToUpper() == "SPEND" || @Model.Columns[k].ColumnName.Split(' ')[0].ToUpper() == "REBATE" || @Model.Columns[k].ColumnName.Split(' ')[0].ToUpper() == "TOTAL") && @ViewBag.RptType == "C")
+                            {
+                                <th style="background-color: lightgray; text-align: right; ">
+                                    @if (@Model.Columns[k].ColumnName.ToUpper() == "PHARMACY NAME")
+                                    {
+                                        @Model.Rows[j][k].ToString()
+                                    }
+                                    else
+                                    {
+                                        @(((decimal)Model.Rows[j][k]).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                                    }
+                                </th>
+                            }
+                            else if (@ViewBag.RptType == "N" && @Model.Columns[k].ColumnName.ToUpper() != "PHARMACY NAME")
+                            {
+                                <td style="text-align:right">@(((decimal)Model.Rows[j][k]).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))<br /><span style="color: #2B60DE">@(((decimal)Model.Rows[j][k + 1]).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))</span></td>
+                                k = k + 1;
+                            }
+                            else
+                            {
+
+                                if (@Model.Columns[k].ColumnName.ToUpper() == "PHARMACY NAME")
+                                {
+                                    <td style="text-align:left">
+                                        @Model.Rows[j][k].ToString()
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td style="text-align:right">
+                                        @(((decimal)Model.Rows[j][k]).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                                    </td>
+                                }
+
+                            }
+
+                        }
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer text-center">
+
+    </div>
+    <!-- /.box-footer -->
+</div>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+        $('#tblMaster tbody').on('click', 'tr', function () {
+            debugger;
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            }
+            else {
+                $('#tblMaster').DataTable().$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+        });
+
+        //debugger;
+        //jQuery('#tblMaster').dataTable().fnDestroy();
+        //var oTable = jQuery('#tblMaster').DataTable({
+        //    "bServerSide": false,
+        //    "bProcessing": true,
+        //    scrollX: true,
+        //    scrollCollapse: true,
+        //    //"responsive": true,
+        //    "searching": true,
+        //    "ordering": true,
+        //    "paging": true,
+        //    "autoWidth": true,
+        //    //"dom": 'C<"clear">lfrtip',
+        //    //"colVis": {
+        //    //    "buttonText": "Change columns"
+        //    //},
+        //    //fixedColumns: {
+        //    //    leftColumns: 1,
+        //    //    leftColumns: 2,
+        //    //    leftColumns: 3,
+        //    //},
+        //});
+    })
+
+
+</script>

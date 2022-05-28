@@ -1,0 +1,1116 @@
+﻿@{
+    ViewBag.Title = "SupplierDashBoard";
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Supplier Data Analysis
+            @*<small>Home Page</small>*@
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Supplier Dashboard</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        @*<div class="row">
+                <div class="col-md-12">
+                    <!-- Custom Tabs -->
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab_1" data-toggle="tab">All Members</a></li>
+                            <li><a href="#tab_2" data-toggle="tab">DC Members</a></li>
+                            <li><a href="#tab_3" data-toggle="tab">Non-DC Members</a></li>
+
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab_1">
+                            </div><!-- /.tab-pane -->
+                            <div class="tab-pane" id="tab_2">
+                            </div><!-- /.tab-pane -->
+                            <div class="tab-pane" id="tab_3">
+                            </div><!-- /.tab-pane -->
+                        </div><!-- /.tab-content -->
+                    </div><!-- nav-tabs-custom -->
+                </div>
+            </div>*@
+        <div class="box box-default">
+            @*<div class="box-header with-border">
+                    <h3 class="box-title">Blank Box</h3>
+                </div>*@
+            <div class="box-body">
+                <div class="col-md-12">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Member Type</label>
+                            <div class="radio">
+                                <div class="form-group">
+                                    <div class="col-md-3">
+                                        @Html.RadioButton("Member", -1, true)
+                                        All Members
+                                    </div>
+                                    &nbsp;&nbsp;
+                                    <div class="col-md-3">
+                                        @Html.RadioButton("Member", 1, false)
+                                        DC Members
+                                    </div>
+                                    &nbsp;&nbsp;
+                                    <div class="col-md-4">
+                                        @Html.RadioButton("Member", 0, false)
+                                        Non-DC Members
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Date Filter</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                @Html.TextBox("DateFilter", null, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Month Filter</label>
+                            <div class="radio">
+                                <div class="form-group">
+                                    <div class="col-md-3">
+                                        @Html.RadioButton("MonthType", "M", true)
+                                        Monthly
+                                    </div>
+                                    &nbsp;&nbsp;
+                                    <div class="col-md-3">
+                                        @Html.RadioButton("MonthType", "Q", false)
+                                        Quarterly
+                                    </div>
+                                    &nbsp;&nbsp;
+                                    <div class="col-md-3">
+                                        @Html.RadioButton("MonthType", "H", false)
+                                        Half Yearly
+                                    </div>
+                                    &nbsp;&nbsp;
+                                    <div class="col-md-2">
+                                        @Html.RadioButton("MonthType", "Y", false)
+                                        Yearly
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Search by Supplier Name</label>
+                                @*@Html.DropDownList("SupplierList", new SelectList((IEnumerable<SelectListItem>)ViewData["SupplierList"], "Value", "Text"), "---Select Supplier Name---", new { @class = "form-control" })*@
+                                <div id="divSupplierList">
+                                    @Html.Partial("MultipleSupplierPartial")
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label></label>
+                            <div class="input-group">
+                                <input type="button" name="btnSearch" id="btnSearch" value="Search" class="btn btn-primary" onclick="return LoadAllChart();" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.box-body -->
+
+        </div>
+
+        @Html.Partial("_SupplierGraphPartial")
+    </section><!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        //debugger;
+
+        if ('@TempData["Warning"]' != '') {
+            toastr["warning"]('@TempData["Warning"]');
+        }
+
+        $("#DateFilter").daterangepicker({
+            format: 'DD/MMM/YYYY',
+            "startDate": moment(moment().subtract(12, 'months').calendar('DD/MMM/YYYY')).format('DD/MMM/YYYY'),
+            "endDate": moment().format('DD/MMM/YYYY'),
+        });
+
+        var _DateRange = moment(moment().subtract(12, 'months').calendar('DD/MMM/YYYY')).format('DD/MMM/YYYY') + ' - ' + moment().format('DD/MMM/YYYY');
+        $("#DateFilter").val(_DateRange);
+
+
+        $("input[name='Member']").on('change', function () {
+
+            LoadSuppList($(this).val());
+
+        });
+
+        LoadAllChart();
+    });
+
+    function LoadSuppList(_Member) {
+
+        $.ajax({
+            type: 'get',
+            dataType: 'html',
+            cache: false,
+            url: '@Url.Action("ReloadSupplierList", "Process")',
+            data: { pMember: _Member },
+            beforeSend: function () {
+                //$("#ajaxLoader").show();
+            },
+            success: function (response) {
+
+                $("#divSupplierList").html('');
+                $("#divSupplierList").html(response);
+                //$("#ajaxLoader").hide();
+            },
+            error: function (ex, st, text) {
+                $("#ajaxLoader").hide();
+                toastr["error"](text);
+            }
+        });
+    }
+
+    function LoadSupplierSalesComparision(_SList) {
+
+        $.ajax({
+            type: 'get',
+            dataType: 'html',
+            cache: false,
+            url: '@Url.Action("GetSupplierSalesComparition", "Home")',
+            data: { DateRang: $("#DateFilter").val(), pMemberType : $("input[name='Member']:checked").val(), pDurationType: $("input[name=MonthType]:checked").val(), pSupplierIdList: _SList },
+            beforeSend: function () {
+                //$("#ajaxLoader").show();
+            },
+            success: function (response) {
+
+                $("#divComparition").html('');
+                $("#divComparition").html(response);
+
+                jQuery('#tblCompare').dataTable().fnDestroy();
+                var CTable = jQuery('#tblCompare').DataTable({
+                    "bServerSide": false,
+                    "bProcessing": true,
+                    scrollX: true,
+                    scrollCollapse: true,
+                    //"responsive": true,
+                    //"searching": true,
+                    "ordering": false,
+                    "paging": true,
+                    "autoWidth": true,
+                    //"dom": 'C<"clear">lfrtip',
+                    //"colVis": {
+                    //    "buttonText": "Change columns"
+                    //},
+                    dom: 'Bfrtip',
+                    lengthMenu: [
+                                [10, 25, 50, -1],
+                                ['10 rows', '25 rows', '50 rows', 'Show all']
+                    ],
+                    buttons: ['pageLength',
+                         {
+                             extend: 'excelFlash',
+                             title: 'Supplier Sales Comparision'
+                         },
+                        {
+                            extend: 'pdfFlash',
+                            orientation: 'landscape',
+                            pageSize: 'LEGAL',
+                            title: 'Supplier Sales Comparision.pdf'
+                        },
+                        {
+                            extend: 'csvFlash',
+                            title: 'Supplier Sales Comparision'
+                        },
+                        'copy',
+                        'print'
+                    ],
+                    fixedColumns: {
+                        leftColumns: 1,
+                        leftColumns: 2,
+                    }
+                });
+                Counter++;
+                LoaderHide();
+                //$("#ajaxLoader").hide();
+            },
+            error: function (ex, st, text) {
+                $("#ajaxLoader").hide();
+                toastr["error"](text);
+            }
+        });
+    }
+
+    function LoadSupplierProcessData(_SList) {
+
+        $.ajax({
+            type: 'get',
+            dataType: 'html',
+            cache: false,
+            url: '@Url.Action("GetSupplierProcessData", "Home")',
+            data: { DateRang: $("#DateFilter").val(), pMemberType : $("input[name='Member']:checked").val(), pSupplierIdList: _SList },
+            beforeSend: function () {
+                //$("#ajaxLoader").show();
+            },
+            success: function (response) {
+
+                $("#divSPD").html('');
+                $("#divSPD").html(response);
+                Counter++;
+                LoaderHide();
+                //$("#ajaxLoader").hide();
+            },
+            error: function (ex, st, text) {
+                $("#ajaxLoader").hide();
+                toastr["error"](text);
+            }
+        });
+    }
+
+
+
+    function LoadAllChart() {
+
+
+        ////valid SupplierName
+        //var _SupplierName = $("#SupplierList")
+        //if (_SupplierName.val() == "" || _SupplierName == undefined) {
+        //    toastr["warning"]('Supplier Name Can not left blank!')
+        //    $("#SupplierList").focus();
+        //    //$("#ajaxLoader").hide();
+        //    return false;
+        //}
+
+
+        var _MonthType;
+        if ($("input[name=MonthType]:checked").val() == 'M')
+            _MonthType = "Monthly";
+        else if ($("input[name=MonthType]:checked").val() == 'Q')
+            _MonthType = "Quaterly";
+        else if ($("input[name=MonthType]:checked").val() == 'H')
+            _MonthType = "Half Yearly";
+        else if ($("input[name=MonthType]:checked").val() == 'Y')
+            _MonthType = "Yearly";
+
+        var iCtr = 0;
+        var _SuppList = $("#SupplierList").val()
+        var _SList = '';
+        if (_SuppList != null) {
+            for (var i = 0; i < _SuppList.length ; i++) {
+                if (i != 0)
+                    _SList = _SList + ',';
+                _SList = _SList + _SuppList[i];
+
+            }
+            iCtr = i;
+        }
+        else
+            _SList = _SuppList;
+        $("#ajaxLoader").show();
+        SupplierMonthlySales(_MonthType, _SList);
+        LoadSupplierProcessData(_SList);
+        LoadSupplierSalesComparision(_SList);
+        PharmacyPurchaseBaseOnSupplier(_MonthType, _SList);
+        SelectedSupplierMonthlySales(_MonthType, _SList, iCtr);
+
+
+        return true;
+    }
+
+    var Counter = 0;
+    function LoaderHide()
+    {
+        if (Counter == 5)
+        {
+            $("#ajaxLoader").hide();
+            Counter = 0;
+        }
+
+    }
+
+    function SelectedSupplierMonthlySales(_MonthType, _SList, iCtr) {
+        var _CombineData;
+        var _MultiSupplierData;
+        var _MultiSupplierRebateData;
+        var _Duration;
+        var _FinalTotalSpends;
+        var _Rebates;
+        $.ajax({
+            type: 'get',
+            dataType: 'json',
+            cache: false,
+            url: '@Url.Action("GetMultiSupllierMonthlySales", "Home")',
+            data: { DateRang: $("#DateFilter").val(), pMemberType : $("input[name='Member']:checked").val(), pDuration: $("input[name=MonthType]:checked").val(), pSupplierIdList: _SList, pSuppCunt: iCtr },
+            beforeSend: function () {
+                //$("#ajaxLoader").show();
+            },
+            success: function (response) {
+
+                _SupplierName = $("#SupplierList").text();
+                _Duration = response.Duration;
+                _CombineData = response.CombineData;
+                _MultiSupplierData = response.SupplierData;
+                _MultiSupplierRebateData = response.MultiSupplierRebateData;
+
+                debugger;
+                //console.log(_MultiSupplierData);
+                var _DurationTitle;
+
+                var _MemberType;
+                if ($("input[name=Member]:checked").val() == -1)
+                    _MemberType = "All Members";
+                else if ($("input[name=Member]:checked").val() == 1)
+                    _MemberType = "DC Members";
+                else if ($("input[name=Member]:checked").val() == 0)
+                    _MemberType = "Non DC Members";
+                //var _Data = [];
+                //for (var i = 0; i < _RebatePer.length ; i++) {
+                //    _Data[i] = [_Duration[i] + '<br/>(£' + _Rebates[i] + ') ', _RebatePer[i]]
+
+                //};
+
+                //Multi for Spend Line Chart
+                $('#SSMSLineChart').highcharts({
+                    title: {
+                        text: _MemberType + '-' + _MonthType + ' Spend <br/>' + moment($("#DateFilter").val().split("-")[0].trim()).format('MMM/YYYY') + ' - ' + moment($("#DateFilter").val().split("-")[1].trim()).format('MMM/YYYY')
+                    },
+                    xAxis: {
+                        categories: _Duration
+                    },
+                    labels: {
+                        //items: [{
+                        //    html: 'Total Spend',
+                        //    style: {
+                        //        left: '50px',
+                        //        top: '18px',
+                        //        color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+                        //    }
+                        //}]
+                    },
+                    yAxis: [{ // Primary yAxis
+                        labels: {
+                            format: '£{value}',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                        },
+                        title: {
+                            text: 'Total Spend',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                        }
+                    }, { // Secondary yAxis
+                        title: {
+                            text: 'Total Rebate',
+                            style: {
+                                color: Highcharts.getOptions().colors[0]
+                            }
+                        },
+                        labels: {
+                            format: '£{value}',
+                            style: {
+                                color: Highcharts.getOptions().colors[0]
+                            }
+                        },
+                        opposite: true
+                    },
+                        //{ // Tertiary yAxis
+                            //    gridLineWidth: 0,
+                            //    title: {
+                            //        text: 'Spend',
+                            //        style: {
+                            //            color: Highcharts.getOptions().colors[2]
+                            //        }
+                            //    },
+                            //    labels: {
+                            //        format: '£{value}',
+                            //        style: {
+                            //            color: Highcharts.getOptions().colors[2]
+                            //        }
+                            //    },
+                            //    opposite: true
+                            // }
+                            //    , { // Tertiary yAxis
+                            //    gridLineWidth: 0,
+                            //    title: {
+                            //        text: 'Rebate',
+                            //        style: {
+                            //            color: Highcharts.getOptions().colors[3]
+                            //        }
+                            //    },
+                            //    labels: {
+                            //        format: '£{value}',
+                            //        style: {
+                            //            color: Highcharts.getOptions().colors[3]
+                            //        }
+                            //    },
+                            //    opposite: true
+                            //}
+                    ],
+                            series: _CombineData
+                            //[
+                            //    _MultiSupplierData
+                            //    , {
+                            //    type: 'spline',
+                            //    name: 'Total Spend',
+                            //    data: _FinalTotalSpends,
+                            //    marker: {
+                            //        lineWidth: 2,
+                            //        lineColor: Highcharts.getOptions().colors[3],
+                            //        fillColor: 'white'
+                            //    }
+                            //    }
+                            //, {
+                            //    type: 'pie',
+                            //    name: 'Total consumption',
+                            //    data: [{
+                            //        name: 'Jane',
+                            //        y: 13,
+                            //        color: Highcharts.getOptions().colors[0] // Jane's color
+                            //    }, {
+                            //        name: 'John',
+                            //        y: 23,
+                            //        color: Highcharts.getOptions().colors[1] // John's color
+                            //    }, {
+                            //        name: 'Joe',
+                            //        y: 19,
+                            //        color: Highcharts.getOptions().colors[2] // Joe's color
+                            //    }],
+                            //    center: [100, 80],
+                            //    size: 100,
+                            //    showInLegend: false,
+                            //    dataLabels: {
+                            //        enabled: false
+                            //    }
+                            //}
+                            //]
+                        });
+
+                //Multi for Rebate Line Chart
+                //$('#SSMRLineChart').highcharts({
+                //    title: {
+                //        text: _MemberType + '-' + _MonthType + ' Rebate <br/>' + moment($("#DateFilter").val().split("-")[0].trim()).format('MMM/YYYY') + ' - ' + moment($("#DateFilter").val().split("-")[1].trim()).format('MMM/YYYY')
+                //    },
+                //    xAxis: {
+                //        categories: _Duration
+                //    },
+                //    labels: {
+                //        //items: [{
+                //        //    html: 'Total Spend',
+                //        //    style: {
+                //        //        left: '50px',
+                //        //        top: '18px',
+                //        //        color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+                //        //    }
+                //        //}]
+                //    },
+                //    yAxis: [{ // Primary yAxis
+                //        labels: {
+                //            format: '£{value}',
+                //            style: {
+                //                color: Highcharts.getOptions().colors[1]
+                //            }
+                //        },
+                //        title: {
+                //            text: 'Rebate',
+                //            style: {
+                //                color: Highcharts.getOptions().colors[1]
+                //            }
+                //        }
+                //    }, { // Secondary yAxis
+                //        title: {
+                //            text: 'Total Rebste',
+                //            style: {
+                //                color: Highcharts.getOptions().colors[0]
+                //            }
+                //        },
+                //        labels: {
+                //            format: '£{value}',
+                //            style: {
+                //                color: Highcharts.getOptions().colors[0]
+                //            }
+                //        },
+                //        opposite: true
+                //    }],
+                //    series: _MultiSupplierRebateData
+                //    //[
+                //    //    _MultiSupplierData
+                //    //    , {
+                //    //    type: 'spline',
+                //    //    name: 'Total Spend',
+                //    //    data: _FinalTotalSpends,
+                //    //    marker: {
+                //    //        lineWidth: 2,
+                //    //        lineColor: Highcharts.getOptions().colors[3],
+                //    //        fillColor: 'white'
+                //    //    }
+                //    //    }
+                //    //, {
+                //    //    type: 'pie',
+                //    //    name: 'Total consumption',
+                //    //    data: [{
+                //    //        name: 'Jane',
+                //    //        y: 13,
+                //    //        color: Highcharts.getOptions().colors[0] // Jane's color
+                //    //    }, {
+                //    //        name: 'John',
+                //    //        y: 23,
+                //    //        color: Highcharts.getOptions().colors[1] // John's color
+                //    //    }, {
+                //    //        name: 'Joe',
+                //    //        y: 19,
+                //    //        color: Highcharts.getOptions().colors[2] // Joe's color
+                //    //    }],
+                //    //    center: [100, 80],
+                //    //    size: 100,
+                //    //    showInLegend: false,
+                //    //    dataLabels: {
+                //    //        enabled: false
+                //    //    }
+                //    //}
+                //    //]
+                //});
+                Counter++;
+                LoaderHide();
+                //$("#ajaxLoader").hide();
+            },
+            error: function (ex, st, text) {
+                $("#ajaxLoader").hide();
+                toastr["error"](text);
+            }
+        });
+    }
+
+    function SupplierMonthlySales(_MonthType, _SList) {
+        var _PharmacyName;
+        var _Duration;
+        var _Spends;
+        var _Rebates;
+        $.ajax({
+            type: 'get',
+            dataType: 'json',
+            cache: false,
+            url: '@Url.Action("GetSupplierSalesDetail", "Home")',
+            data: { DateRang: $("#DateFilter").val(), pMemberType: $("input[name='Member']:checked").val(), pDuration: $("input[name=MonthType]:checked").val(), pSupplierIdList: _SList },
+            beforeSend: function () {
+                //$("#ajaxLoader").show();
+            },
+            success: function (response) {
+
+                _SupplierName = $("#SupplierList").text();
+                _Duration = response.Duration;
+                _Spends = response.Spend;
+                _Rebates = response.Rebate;
+                _RebatePer = response.RebatePer;
+                var _DurationTitle;
+                //if ($("input[name=MonthType]:checked").val() == 'M')
+                //    _DurationTitle = "Monthly";
+                //else if ($("input[name=MonthType]:checked").val() == 'Q')
+                //    _DurationTitle = "Quarterly";
+                //else if ($("input[name=MonthType]:checked").val() == 'H')
+                //    _DurationTitle = "Half Yearly";
+                //else if ($("input[name=MonthType]:checked").val() == 'Y')
+                //    _DurationTitle = "Yearly";
+                var _MemberType;
+                if ($("input[name=Member]:checked").val() == -1)
+                    _MemberType = "All Members";
+                else if ($("input[name=Member]:checked").val() == 1)
+                    _MemberType = "DC Members";
+                else if ($("input[name=Member]:checked").val() == 0)
+                    _MemberType = "Non DC Members";
+                var _Data = [];
+                for (var i = 0; i < _RebatePer.length ; i++) {
+                    _Data[i] = [_Duration[i] + '<br/>(£' + _Rebates[i].toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + ') ', _RebatePer[i]]
+
+                };
+
+                //Line Chart
+                $('#SMPLineChart').highcharts({
+                    chart: {
+                        zoomType: 'xy'
+                    },
+                    title: {
+                        text: _MemberType + '-' + _MonthType + ' Spend and Rebate <br/>' + moment($("#DateFilter").val().split("-")[0].trim()).format('MMM/YYYY') + ' - ' + moment($("#DateFilter").val().split("-")[1].trim()).format('MMM/YYYY')
+                    },
+                    subtitle: {
+                        text: ''
+                    },
+                    xAxis: [{
+                        categories: _Duration,
+                        crosshair: true
+                    }],
+                    yAxis: [{ // Primary yAxis
+                        labels: {
+                            format: '£{value}',
+                            style: {
+                                color: Highcharts.getOptions().colors[0]
+                            }
+                        },
+                        title: {
+                            text: 'Spend',
+                            style: {
+                                color: Highcharts.getOptions().colors[0]
+                            }
+                        }
+                    }, { // Secondary yAxis
+                        title: {
+                            text: 'Rebate',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                        },
+                        labels: {
+                            format: '£{value}',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                        },
+                        opposite: true
+                    }],
+                    tooltip: {
+                        shared: true
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'left',
+                        x: 0,
+                        verticalAlign: 'top',
+                        y: -10,
+                        floating: true,
+                        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+                    },
+                    series: [{
+                        name: 'Spend',
+                        type: 'column',
+
+                        data: _Spends,
+                        tooltip: {
+                            valuePrefix: '£'
+                        }
+
+                    }, {
+                        name: 'Rebate',
+                        type: 'spline',
+                        yAxis: 1,
+                        data: _Rebates,
+                        tooltip: {
+                            valueDecimals: 0,
+                            valuePrefix: '£'
+                        }
+                    }]
+                });
+
+                //Pie chart
+                $('#SMPPieChart').highcharts({
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
+                        type: 'pie'
+                    },
+                    title: {
+                        text: _MemberType + '-' + _MonthType + ' Spend and Rebate <br/>' + moment($("#DateFilter").val().split("-")[0].trim()).format('MMM/YYYY') + ' - ' + moment($("#DateFilter").val().split("-")[1].trim()).format('MMM/YYYY')
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                style: {
+                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                }
+                            }
+                        }
+                    },
+                    series: [{
+                        name: 'Rebate',
+                        colorByPoint: true,
+                        data: _Data
+                    }]
+                });
+                Counter++;
+                LoaderHide();
+                //$("#ajaxLoader").hide();
+            },
+            error: function (ex, st, text) {
+                $("#ajaxLoader").hide();
+                toastr["error"](text);
+            }
+        });
+    }
+
+    function PharmacyPurchaseBaseOnSupplier(_MonthType, _SList) {
+        var _PharmacyName;
+        var _Pharmacy;
+        var _Spends;
+        var _Rebates;
+        $.ajax({
+            type: 'get',
+            dataType: 'json',
+            cache: false,
+            url: '@Url.Action("GetPharmacyPurchaseBaseOnSupplier", "Home")',
+            data: { DateRang: $("#DateFilter").val(), pSupplierIdList: _SList, pMemberType: $("input[name=Member]:checked").val() },
+            beforeSend: function () {
+                //$("#ajaxLoader").show();
+                //debugger;
+            },
+            success: function (response) {
+                //debugger;
+
+                _Pharmacy = response.Pharmacy;
+                _Spends = response.Spend;
+                _Rebates = response.Rebate;
+                _RebatePer = response.RebatePer;
+                var _MemberType;
+                if ($("input[name=Member]:checked").val() == -1)
+                    _MemberType = "All Members";
+                else if ($("input[name=Member]:checked").val() == 1)
+                    _MemberType = "DC Members";
+                else if ($("input[name=Member]:checked").val() == 0)
+                    _MemberType = "Non DC Members";
+                var _Data = [];
+                for (var i = 0; i < _RebatePer.length ; i++) {
+                    _Data[i] = [_Pharmacy[i] + '<br/>(£' + _Rebates[i] + ') ', _RebatePer[i]]
+
+                };
+
+                //Line Chart
+                $('#PBSLineChart').highcharts({
+                    chart: {
+                        zoomType: 'xy'
+                    },
+                    title: {
+                        text: _MemberType + '-' + _MonthType + ' Spend and Rebate <br/>' + moment($("#DateFilter").val().split("-")[0].trim()).format('MMM/YYYY') + ' - ' + moment($("#DateFilter").val().split("-")[1].trim()).format('MMM/YYYY')
+                    },
+                    subtitle: {
+                        text: ''
+                    },
+                    xAxis: [{
+                        categories: _Pharmacy,
+                        crosshair: true
+                    }],
+                    yAxis: [{ // Primary yAxis
+                        labels: {
+                            format: '£{value}',
+                            style: {
+                                color: Highcharts.getOptions().colors[0]
+                            }
+                        },
+                        title: {
+                            text: 'Spend',
+                            style: {
+                                color: Highcharts.getOptions().colors[0]
+                            }
+                        }
+                    }, { // Secondary yAxis
+                        title: {
+                            text: 'Rebate',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                        },
+                        labels: {
+                            format: '£{value}',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                        },
+                        opposite: true
+                    }
+
+                    ],
+                    tooltip: {
+                        shared: true
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'left',
+                        x: 0,
+                        verticalAlign: 'top',
+                        y: -10,
+                        floating: true,
+                        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+                    },
+                    series: [{
+                        name: 'Spend',
+                        type: 'column',
+
+                        data: _Spends,
+                        tooltip: {
+                            valuePrefix: '£'
+                        }
+
+                    }, {
+                        name: 'Rebate',
+                        type: 'spline',
+                        yAxis: 1,
+                        data: _Rebates,
+                        tooltip: {
+                            valueDecimals: 0,
+                            valuePrefix: '£'
+                        }
+                    }]
+                });
+
+                ////Pie chart
+                //$('#PBSPieChart').highcharts({
+                //    chart: {
+                //        plotBackgroundColor: null,
+                //        plotBorderWidth: null,
+                //        plotShadow: false,
+                //        type: 'pie'
+                //    },
+                //    title: {
+                //        text: _MemberType + '-' + _MonthType + ' Spend and Rebate <br/>' + moment($("#DateFilter").val().split("-")[0].trim()).format('MMM/YYYY') + ' - ' + moment($("#DateFilter").val().split("-")[1].trim()).format('MMM/YYYY')
+                //    },
+                //    tooltip: {
+                //        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                //    },
+                //    plotOptions: {
+                //        pie: {
+                //            allowPointSelect: true,
+                //            cursor: 'pointer',
+                //            dataLabels: {
+                //                enabled: true,
+                //                format: '<b>{point.name}</b>: {point.percentage:.1f} % (' + '' + ')',
+                //                style: {
+                //                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                //                }
+                //            }
+                //        }
+                //    },
+                //    series: [{
+                //        name: 'Rebate',
+                //        colorByPoint: true,
+                //        data: _Data
+                //    }]
+                //});
+                Counter++;
+                LoaderHide();
+                //$("#ajaxLoader").hide();
+            },
+            error: function (ex, st, text) {
+                debugger;
+                $("#ajaxLoader").hide();
+                toastr["error"](text);
+            }
+        });
+    }
+
+</script>
+
+
+
+
+@*_SupplierName = $("#SupplierList").text();
+    _Duration = response.Duration;
+    _MultiSupplierData = response.SupplierData;
+    _MultiSupplierRebateData = response.MultiSupplierRebateData;
+
+    debugger;
+    //console.log(_MultiSupplierData);
+    var _DurationTitle;
+
+    var _MemberType;
+    if ($("input[name=Member]:checked").val() == -1)
+        _MemberType = "All Members";
+    else if ($("input[name=Member]:checked").val() == 1)
+        _MemberType = "DC Members";
+    else if ($("input[name=Member]:checked").val() == 0)
+        _MemberType = "Non DC Members";
+    //var _Data = [];
+    //for (var i = 0; i < _RebatePer.length ; i++) {
+    //    _Data[i] = [_Duration[i] + '<br />(£' + _Rebates[i] + ') ', _RebatePer[i]]
+
+    //};
+
+    //Multi for Spend Line Chart
+    $('#SSMSLineChart').highcharts({
+        title: {
+            text: _MemberType + '-' + _MonthType + ' Spend <br />' + moment($("#DateFilter").val().split("-")[0].trim()).format('MMM/YYYY') + ' - ' + moment($("#DateFilter").val().split("-")[1].trim()).format('MMM/YYYY')
+        },
+        xAxis: {
+            categories: _Duration
+        },
+        labels: {
+            //items: [{
+            //    html: 'Total Spend',
+            //    style: {
+            //        left: '50px',
+            //        top: '18px',
+            //        color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+            //    }
+            //}]
+        },
+        yAxis: [{ // Primary yAxis
+            labels: {
+                format: '£{value}',
+                style: {
+                    color: Highcharts.getOptions().colors[1]
+                }
+            },
+            title: {
+                text: 'Spend',
+                style: {
+                    color: Highcharts.getOptions().colors[1]
+                }
+            }
+        }, { // Secondary yAxis
+            title: {
+                text: 'Total Spend',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
+            },
+            labels: {
+                format: '£{value}',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
+            },
+            opposite: true
+        }],
+        series: _MultiSupplierData
+            //[
+        //    _MultiSupplierData
+        //    , {
+        //    type: 'spline',
+        //    name: 'Total Spend',
+        //    data: _FinalTotalSpends,
+        //    marker: {
+        //        lineWidth: 2,
+        //        lineColor: Highcharts.getOptions().colors[3],
+        //        fillColor: 'white'
+        //    }
+        //    }
+        //, {
+        //    type: 'pie',
+        //    name: 'Total consumption',
+        //    data: [{
+        //        name: 'Jane',
+        //        y: 13,
+        //        color: Highcharts.getOptions().colors[0] // Jane's color
+        //    }, {
+        //        name: 'John',
+        //        y: 23,
+        //        color: Highcharts.getOptions().colors[1] // John's color
+        //    }, {
+        //        name: 'Joe',
+        //        y: 19,
+        //        color: Highcharts.getOptions().colors[2] // Joe's color
+        //    }],
+        //    center: [100, 80],
+        //    size: 100,
+        //    showInLegend: false,
+        //    dataLabels: {
+        //        enabled: false
+        //    }
+        //}
+    //]
+    });
+
+    //Multi for Rebate Line Chart
+    $('#SSMRLineChart').highcharts({
+        title: {
+            text: _MemberType + '-' + _MonthType + ' Rebate <br />' + moment($("#DateFilter").val().split("-")[0].trim()).format('MMM/YYYY') + ' - ' + moment($("#DateFilter").val().split("-")[1].trim()).format('MMM/YYYY')
+        },
+        xAxis: {
+            categories: _Duration
+        },
+        labels: {
+            //items: [{
+            //    html: 'Total Spend',
+            //    style: {
+            //        left: '50px',
+            //        top: '18px',
+            //        color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+            //    }
+            //}]
+        },
+        yAxis: [{ // Primary yAxis
+            labels: {
+                format: '£{value}',
+                style: {
+                    color: Highcharts.getOptions().colors[1]
+                }
+            },
+            title: {
+                text: 'Rebate',
+                style: {
+                    color: Highcharts.getOptions().colors[1]
+                }
+            }
+        }, { // Secondary yAxis
+            title: {
+                text: 'Total Rebste',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
+            },
+            labels: {
+                format: '£{value}',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
+            },
+            opposite: true
+        }],
+        series: _MultiSupplierRebateData
+        //[
+        //    _MultiSupplierData
+        //    , {
+        //    type: 'spline',
+        //    name: 'Total Spend',
+        //    data: _FinalTotalSpends,
+        //    marker: {
+        //        lineWidth: 2,
+        //        lineColor: Highcharts.getOptions().colors[3],
+        //        fillColor: 'white'
+        //    }
+        //    }
+        //, {
+        //    type: 'pie',
+        //    name: 'Total consumption',
+        //    data: [{
+        //        name: 'Jane',
+        //        y: 13,
+        //        color: Highcharts.getOptions().colors[0] // Jane's color
+        //    }, {
+        //        name: 'John',
+        //        y: 23,
+        //        color: Highcharts.getOptions().colors[1] // John's color
+        //    }, {
+        //        name: 'Joe',
+        //        y: 19,
+        //        color: Highcharts.getOptions().colors[2] // Joe's color
+        //    }],
+        //    center: [100, 80],
+        //    size: 100,
+        //    showInLegend: false,
+        //    dataLabels: {
+        //        enabled: false
+        //    }
+        //}
+        //]
+    });*@

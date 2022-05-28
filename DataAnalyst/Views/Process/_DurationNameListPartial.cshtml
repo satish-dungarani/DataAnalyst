@@ -1,0 +1,10 @@
+﻿@{
+    Layout = "";
+}
+
+@Html.DropDownList("DurationNameList", new SelectList((IEnumerable<SelectListItem>)ViewData["DurationNameList"], "Value", "Text"), new { @class = "form-control" })
+
+@*<script type="text/javascript">
+    $(document).ready(function () {
+    });
+</script>*@

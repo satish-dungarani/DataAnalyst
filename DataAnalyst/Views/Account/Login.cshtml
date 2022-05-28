@@ -1,0 +1,204 @@
+﻿@model DataAnalyst.Models.LoginViewModel
+
+@{
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+    ViewBag.Title = "Log in";
+}
+
+@*<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>*@
+@*<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>*@
+
+<div class="col-md-12">
+    <section id="loginForm">
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "", id ="frmlogin" }))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true)
+
+            <div class="form-group has-feedback">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "User Name" })
+                    @*@Html.ValidationMessageFor(m => m.UserName)*@
+                </div>
+            </div>
+
+            <div class="form-group has-feedback">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-key"></i>
+                    </div>
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+                    @*@Html.ValidationMessageFor(m => m.Password)*@
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="form-group">
+                        <label for="RememberMe" id="RememberMeLabel">
+                            @*@Html.HiddenFor(m => m.RememberMe)*@
+                            @*@Html.CheckBoxFor(m => m.RememberMe, new { @class = "minimal", id = "RememberMe"})*@
+                            @Html.CheckBoxFor(m => m.RememberMe, new { @class = ""})
+                            Remember Me?
+                        </label>
+                    </div>
+                </div><!-- /.col -->
+                <div class="col-xs-4">
+                    <input id="btnsignin" type="submit" value="Sign In" class="btn btn-primary btn-block btn-flat" onclick="return Validation();" />
+                    @*<button type="button" class="btn btn-primary btn-block btn-flat">Sign In</button>*@
+                </div><!-- /.col -->
+            </div>
+        }
+    </section>
+</div>
+@*<div class="col-md-4">
+        <section id="socialLoginForm">
+            @Html.Partial("_ExternalLoginsListPartial", new { Action = "ExternalLogin", ReturnUrl = ViewBag.ReturnUrl })
+        </section>
+    </div>*@
+
+
+<script>
+    $(document).ready(function () {
+        $("#RememberMeLabel").css('display', 'none');
+
+        $("#UserName").focus();
+        toastr.options = {
+            "closeButton": true
+        }
+        if ('@TempData["Warning"]' != '') {
+            toastr["warning"]('@TempData["Warning"]');
+            $("#Password").focus();
+        }
+    })
+
+    function Validation() {
+        try {
+
+            debugger;
+            var _UserName = $("#UserName").val();
+            var _Password = $("#Password").val();
+            if (_UserName == "" || _UserName == undefined) {
+                //toastr.warning('User Name can not left blank!');
+                toastr["warning"]("User Name can not left blank!")
+                $("#UserName").focus();
+                return false;
+            }
+            else if (_Password == "" || _Password == undefined) {
+                toastr["warning"]('Password can not left blank!');
+                $("#Password").focus();
+                return false;
+            }
+            
+            else if (_Password.length < 6)
+            {
+                toastr["warning"]('Password must be greater than 5 digit!');
+                $("#Password").focus();
+                return false;
+            }
+            return true;
+
+        } catch (e) {
+            toastr["error"](e.message);
+        }
+    }
+
+    function AjaxLoader() {
+        try {
+
+            $("#ajaxLoader").hide();
+        } catch (e) {
+            toastr["error"](e.message);
+        }
+    }
+
+    function Success() {
+        debugger;
+        try {
+
+            toastr["success"]('Successfully Logined!');
+
+        } catch (e) {
+            toastr["error"](e.message);
+        }
+
+    }
+
+    function Warning() {
+        debugger;
+        try {
+
+            toastr["error"]('Invalid Login details!');
+        } catch (e) {
+            toastr["error"](e.message);
+        }
+    }
+
+    function Failed() {
+        debugger;
+        try {
+
+            toastr["error"]('Login Failed.');
+        } catch (e) {
+            toastr["error"](e.message);
+        }
+    }
+
+    function ValidationFGPWD(e) {
+
+        var _UserName = $("#GetUserName");
+        if (_UserName.val() == '' || _UserName == undefined) {
+            _UserName.focus();
+            toastr["warning"]('User Name can not left blank!');
+            return false;
+        }
+        $("#divFgPwd").modal('hide');
+        $.ajax({
+            type: 'post',
+            dataType: 'json',
+            cache: false,
+            async: true,
+            url: '@Url.Action("ForgetPassword", "Account")',
+            data: { UserName : $("#GetUserName").val()},
+            beforeSend: function () {
+                debugger;
+                $("#ajaxLoader").show();
+            },
+            success: function (response) {
+                debugger;
+                $("#ajaxLoader").hide();
+                if (response.Result)
+                    toastr["success"](response.Message);
+                else
+                    toastr["warning"](response.Message);
+
+                $("#GetUserName").val('');
+                
+            },
+            error: function (ex, th, st) {
+                debugger;
+                $("#ajaxLoader").hide();
+                toastr["error"](th);
+            }
+        });
+
+        
+        return false;
+    }
+
+    function BeginFg() {
+    }
+
+    function SuccessFg(response) {
+        debugger;
+    }
+
+    function FailureFg() {
+        debugger;
+    }
+
+</script>

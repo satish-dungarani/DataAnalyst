@@ -1,0 +1,149 @@
+﻿@using System.Globalization;
+@using DataAnalyst.Models
+@model List<ImportDataModel>
+
+<link href="~/Content/plugins/datatables/extensions/ColVis/css/dataTables.colVis.min.css" rel="stylesheet" />
+<script src="~/Content/plugins/datatables/extensions/ColVis/js/dataTables.colVis.min.js"></script>
+<div class="box-body">
+
+    <table class="table table-bordered table-striped " id="tblMaster">
+        <thead>
+            <tr>
+                <th>Pharmacy Name</th>
+                <th>Account No</th>
+                @*<th>Generic</th>
+                <th>EthicalPI</th>
+                <th>Surgical Dressing</th>
+                <th>Non Generic</th>
+                <th>Non Prescription</th>
+                <th>Insulin</th>
+                <th>Status</th>
+                <th>Electrical</th>
+                <th>Drinks</th>
+                <th>Non Discount</th>
+                <th>OTC</th>
+                <th>Mobility</th>
+                <th>Specials</th>
+                <th>NP8</th>
+                <th>Other1</th>
+                <th>Other2</th>
+                <th>Other3</th>*@
+                <th>Total Spend</th>
+                <th>Total Rebate</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Model[i].PharmacyName
+                    </td>
+                    <td>
+                        @Model[i].AccountNo
+                    </td>
+                    @*<td>
+                        @Model[i].Generic
+                    </td>
+                    <td>
+                        @Model[i].EthicalPI
+                    </td>
+                    <td>
+                        @Model[i].SurgicalDressing
+                    </td>
+                    <td>
+                        @Model[i].NonGeneric
+                    </td>
+                    <td>
+                        @Model[i].NonPrescription
+                    </td>
+                    <td>
+                        @Model[i].Insulin
+                    </td>
+                    <td>
+                        @Model[i].Status
+                    </td>
+                    <td>
+                        @Model[i].Electrical
+                    </td>
+                    <td>
+                        @Model[i].Drinks
+                    </td>
+                    <td>
+                        @Model[i].NonDiscount
+                    </td>
+                    <td>
+                        @Model[i].OTC
+                    </td>
+                    <td>
+                        @Model[i].Mobility
+                    </td>
+                    <td>
+                        @Model[i].Specials
+                    </td>
+                    <td>
+                        @Model[i].NP8
+                    </td>
+                    <td>
+                        @Model[i].Other1
+                    </td>
+                    <td>
+                        @Model[i].Other2
+                    </td>
+                    <td>
+                        @Model[i].Other3
+                    </td>*@
+                    <td style="text-align:right">
+                        @(((decimal)Model[i].TotalSpend).ToString("C2",CultureInfo.CreateSpecificCulture("en-GB")))
+                    </td>
+                    <td style="text-align:right">
+                        @(((decimal)Model[i].TotalRebate).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        fillGrid();
+    });
+
+    function fillGrid() {
+
+        //
+        jQuery('#tblMaster').dataTable().fnDestroy();
+        var oTable = jQuery('#tblMaster').dataTable({
+            "bServerSide": false,
+            "bProcessing": true,
+            "responsive": true,
+            "searching": true,
+            "ordering": true,
+            "paging": true,
+            "autoWidth": true,
+            //"dom": 'C<"clear">lfrtip',
+            //"colVis": {
+            //    "buttonText": "Change columns"
+            //},
+            dom: 'Bfrtip',
+            buttons: [
+                 {
+                     extend: 'excelFlash',
+                     title: 'Import Data'
+                 },
+                {
+                    extend: 'pdfFlash',
+                    title: 'Import Data.pdf'
+                },
+                {
+                    extend: 'csvFlash',
+                    title: 'Import Data'
+                },
+                'copy',
+                'print'
+            ],
+        })
+    }
+</script>

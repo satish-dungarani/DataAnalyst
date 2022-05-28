@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8b7b2cfe5cb4414983316bfdacc67694" Name="Diagram1" ZoomLevel="67">
+        <EntityTypeShape EntityType="DataAnalystDBModel.CustSuppAssociation" Width="1.5" PointX="3" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataAnalystDBModel.ImportData" Width="1.5" PointX="8.75" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataAnalystDBModel.MastersList" Width="1.5" PointX="8.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataAnalystDBModel.PharmacyMas" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataAnalystDBModel.ProcessData" Width="1.5" PointX="6" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataAnalystDBModel.SupplierMas" Width="1.5" PointX="0.75" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataAnalystDBModel.UserMaster" Width="1.5" PointX="2.75" PointY="11.875" IsExpanded="true" />
+        <AssociationConnector Association="DataAnalystDBModel.FK_CustSuppAssociation_CustSuppAssociation" ManuallyRouted="false" />
+        <AssociationConnector Association="DataAnalystDBModel.FK_CustSuppAssociation_SupplierMas" ManuallyRouted="false" />
+        <AssociationConnector Association="DataAnalystDBModel.FK_ProcessData_PharmacyMas" ManuallyRouted="false" />
+        <AssociationConnector Association="DataAnalystDBModel.FK_ProcessData_SupplierMas" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DataAnalystDBModel.MasterValue" Width="1.5" PointX="11" PointY="3.25" />
+        <AssociationConnector Association="DataAnalystDBModel.FK_MasterValue_MastersList" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,226 @@
+﻿@using System.Globalization;
+@using DataAnalyst.Models;
+@model List<ProcessDataModel>
+
+<table class="table table-bordered table-striped " id="tblMaster" style="width: auto !important;">
+    <thead>
+        <tr style="width: auto !important;">
+            <th >Supplier Name</th>
+            <th style="text-align:right">Total Spend</th>
+            <th style="text-align:right">Total Rebate</th>
+            <th style="text-align:right">Generic</th>
+            <th style="text-align:right">EthicalPI</th>
+            <th style="text-align:right">Surgical Dressing</th>
+            <th style="text-align:right">Non Generic</th>
+            <th style="text-align:right">Non Prescription</th>
+            <th style="text-align:right">Insulin</th>
+            <th style="text-align:right">Status</th>
+            <th style="text-align:right">Electrical</th>
+            <th style="text-align:right">Drinks</th>
+            <th style="text-align:right">Non Discount</th>
+            <th style="text-align:right">OTC</th>
+            <th style="text-align:right">Mobility</th>
+            <th style="text-align:right">Specials</th>
+            <th style="text-align:right">NP8</th>
+            <th style="text-align:right">Other1</th>
+            <th style="text-align:right">Other2</th>
+            <th style="text-align:right">Other3</th>
+
+        </tr>
+    </thead>
+    <tbody>
+       
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            if (@Model[i].SupplierName == "Total")
+            {
+                <tr style="width: auto !important;">
+                    <th>
+                        @Model[i].SupplierName
+                    </th>
+                    <th style="text-align: right; ">
+                        @Model[i].TotalSpend.ToString("C2", CultureInfo.CreateSpecificCulture("en-GB"))
+                    </th>
+                    <th style="text-align:right">
+                        @Model[i].TotalRebate.ToString("C2", CultureInfo.CreateSpecificCulture("en-GB"))
+                    </th>
+                    <th style="text-align:right">
+                        @(((decimal)@Model[i].Generic).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </th>
+                    <th style="text-align:right">
+                        @(((decimal)@Model[i].EthicalPI).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </th>
+                    <th style="text-align:right">
+                        @(((decimal)@Model[i].SurgicalDressing).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </th>
+                    <th style="text-align:right">
+                        @(((decimal)@Model[i].NonGeneric).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </th>
+                    <th style="text-align:right">
+                        @(((decimal)@Model[i].NonPrescription).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </th>
+                    <th style="text-align:right">
+                        @(((decimal)@Model[i].Insulin).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </th>
+                    <th style="text-align:right">
+                        @(((decimal)@Model[i].Status).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </th>
+                    <th style="text-align:right">
+                        @(((decimal)@Model[i].Electrical).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </th>
+                    <th style="text-align:right">
+                        @(((decimal)@Model[i].Drinks).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </th>
+                    <th style="text-align:right">
+                        @(((decimal)@Model[i].NonDiscount).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </th>
+                    <th style="text-align:right">
+                        @(((decimal)@Model[i].OTC).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </th>
+                    <th style="text-align:right">
+                        @(((decimal)@Model[i].Mobility).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </th>
+                    <th style="text-align:right">
+                        @(((decimal)@Model[i].Specials).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </th>
+                    <th style="text-align:right">
+                        @(((decimal)@Model[i].NP8).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </th>
+                    <th style="text-align:right">
+                        @(((decimal)@Model[i].Other1).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </th>
+                    <th style="text-align:right">
+                        @(((decimal)@Model[i].Other2).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </th>
+                    <th style="text-align:right">
+                        @(((decimal)@Model[i].Other3).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </th>
+
+                </tr>
+            }
+            else
+            {
+                <tr style="width: auto !important;">
+                    <th>
+                        @Model[i].SupplierName
+                    </th>
+                    <th style="text-align: right; ">
+                        @Model[i].TotalSpend.ToString("C2", CultureInfo.CreateSpecificCulture("en-GB"))
+                    </th>
+                    <th style="text-align:right">
+                        @Model[i].TotalRebate.ToString("C2", CultureInfo.CreateSpecificCulture("en-GB"))
+                    </th>
+                    <td style="text-align:right">
+                        @(((decimal)@Model[i].Generic).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </td>
+                    <td style="text-align:right">
+                        @(((decimal)@Model[i].EthicalPI).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </td>
+                    <td style="text-align:right">
+                        @(((decimal)@Model[i].SurgicalDressing).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </td>
+                    <td style="text-align:right">
+                        @(((decimal)@Model[i].NonGeneric).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </td>
+                    <td style="text-align:right">
+                        @(((decimal)@Model[i].NonPrescription).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </td>
+                    <td style="text-align:right">
+                        @(((decimal)@Model[i].Insulin).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </td>
+                    <td style="text-align:right">
+                        @(((decimal)@Model[i].Status).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </td>
+                    <td style="text-align:right">
+                        @(((decimal)@Model[i].Electrical).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </td>
+                    <td style="text-align:right">
+                        @(((decimal)@Model[i].Drinks).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </td>
+                    <td style="text-align:right">
+                        @(((decimal)@Model[i].NonDiscount).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </td>
+                    <td style="text-align:right">
+                        @(((decimal)@Model[i].OTC).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </td>
+                    <td style="text-align:right">
+                        @(((decimal)@Model[i].Mobility).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </td>
+                    <td style="text-align:right">
+                        @(((decimal)@Model[i].Specials).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </td>
+                    <td style="text-align:right">
+                        @(((decimal)@Model[i].NP8).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </td>
+                    <td style="text-align:right">
+                        @(((decimal)@Model[i].Other1).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </td>
+                    <td style="text-align:right">
+                        @(((decimal)@Model[i].Other2).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </td>
+                    <td style="text-align:right">
+                        @(((decimal)@Model[i].Other3).ToString("C2", CultureInfo.CreateSpecificCulture("en-GB")))
+                    </td>
+
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+<script type="text/javascript">
+    $(document).ready(function () {
+        jQuery('#tblMaster').dataTable().fnDestroy();
+        var oTable = jQuery('#tblMaster').dataTable({
+            "bServerSide": false,
+            "bProcessing": true,
+            scrollX: true,
+            scrollCollapse: true,
+            //"responsive": true,
+            "searching": true,
+            "ordering": false,
+            "paging": true,
+            "autoWidth": true,
+            //"columnDefs": [
+            //    {"width":"25%", "targets": 1}
+            //],
+            //"dom": 'C<"clear">lfrtip',
+            //"colVis": {
+            //    "buttonText": "Change columns"
+            //},
+            dom: 'Bfrtip',
+            lengthMenu: [
+                                [10, 25, 50, -1],
+                                ['10 rows', '25 rows', '50 rows', 'Show all']
+            ],
+            buttons: ['pageLength',
+                {
+                    extend: 'excelFlash',
+                    title: 'Pharmacy Category Spend Data'
+                },
+                {
+                    extend: 'pdfFlash',
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    title: 'Pharmacy Category Spend Data.pdf'
+                },
+                {
+                    extend: 'csvFlash',
+                    title: 'Pharmacy Category Spend Data'
+                },
+                'copy',
+                'print'
+            ],
+            fixedColumns: {
+                leftColumns: 1,
+                leftColumns: 2,
+                leftColumns: 3,
+            },
+        });
+    });
+</script>
+
+<style>
+
+
+</style>

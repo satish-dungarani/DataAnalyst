@@ -1,0 +1,359 @@
+﻿@model DataAnalyst.Models.SupplierMasterModel
+
+@{
+    ViewBag.Title = "Supplier";
+}
+
+
+<div class="content-wrapper" style="min-height: 946px;">
+    <section class="content-header">
+        <h1>
+            Supplier
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/Home/Index"><i class="fa fa-dashboard"></i>Home</a></li>
+            <li><a href="/Supplier/Index">Supplier</a></li>
+            @*<li class="active">Manage</li>*@
+        </ol>
+    </section>
+
+
+    <section class="content">
+
+        @using (Html.BeginForm("Save", "Supplier", FormMethod.Post, new { id = "myform", enctype = "multipart/form-data" }))
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+
+                        <div class="box-body">
+
+                            @Html.HiddenFor(Model => Model.SupplierId)
+                            @Html.HiddenFor(Model => Model.InsUser)
+                            @Html.HiddenFor(Model => Model.InsDate)
+                            @Html.HiddenFor(Model => Model.InsTerminal)
+                            @Html.HiddenFor(Model => Model.UpdUser)
+                            @Html.HiddenFor(Model => Model.UpdDate)
+                            @Html.HiddenFor(Model => Model.UpdTerminal)
+
+                            <div class="col-md-12">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title text-blue text-bold">Basic Information</h3>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Supplier Name<span class="text-red">*</span></label>
+                                            @Html.TextBoxFor(Model => Model.SupplierName, new { @class = "form-control", @maxlength = 70 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Address 1</label>
+                                            @Html.TextBoxFor(Model => Model.Address1, new { @class = "form-control", @maxlength = 70 })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Address 2</label>
+                                            @Html.TextBoxFor(Model => Model.Address2, new { @class = "form-control", @maxlength = 70 })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>City</label>
+                                            @Html.TextBoxFor(Model => Model.City, new { @class = "form-control", @maxlength = 30 })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Post Code</label>
+                                            @Html.TextBoxFor(Model => Model.PostCode, new { @class = "form-control", @maxlength = 15 })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Responsible Person</label>
+                                            @Html.TextBoxFor(Model => Model.RespPerson, new { @class = "form-control", @maxlength = 30 })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Telephone</label>
+                                            @Html.TextBoxFor(Model => Model.Telephone, new { @class = "form-control", @maxlength = 15 })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Fax No</label>
+                                            @Html.TextBoxFor(Model => Model.FaxNo, new { @class = "form-control", @maxlength = 15 })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Email Id</label>
+                                            @Html.TextBoxFor(Model => Model.EmailID, new { @class = "form-control", @maxlength = 100 })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <br />
+                                            <label>
+                                                Is Active
+                                                @Html.CheckBoxFor(Model => Model.IsActive, new { @class = "minimal" })
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="box-footer">
+                                <input id="btnSubmit" type="submit" value="Submit" class="btn btn-primary btnSubmit " /> &nbsp; &nbsp;
+                                @*onclick="return Validation();"*@
+                                @Html.ActionLink("Cancel", "index", new { @class = "" })
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </section>
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+
+        SetDatePicker("DOB");
+
+        //$("#SupplierName").focus();
+
+        $("#SupplierName").focusout(function () {
+            if ($("#SupplierId").val() == 0 || $("#SupplierId").val() == "") {
+                $.ajax({
+                    type: 'get',
+                    dataType: 'json',
+                    cache: false,
+                    url: '@Url.Action("ValidateDuplicatevalue", "Supplier")',
+                    data: { pName: $("#SupplierName").val() },
+                    beforeSend: function () {
+                        //$("#ajaxLoader").show();
+                    },
+                    success: function (Response) {
+                        //$("#ajaxLoader").hide();
+
+                        if (Response.Result) {
+                            debugger;
+                            $("#SupplierName").focus();
+                            toastr["warning"]('Supplier already exiest.');
+                        }
+                    },
+                    error: function (ex, stext, status) {
+                        //$("#ajaxLoader").hide();
+                        toastr["error"](Status + " " + stext);
+                    },
+
+                })
+            }
+        });
+
+
+    });
+
+    //function for DateRange Picker
+    function SetDatePicker(_ControlName, _ClearBtn) {
+
+
+        $('input[name="' + _ControlName + '"]').datepicker({
+            showOnFocus: true,
+            format: 'dd/M/yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            todayBtn: true,
+            clearBtn: _ClearBtn,
+            position: "relative",
+
+
+            //defaultViewDate: { year: 2015, month: 01, day: 01 }
+        });
+        SetDefaultValue(_ControlName);
+    }
+
+    function SetDefaultValue(_ControlName) {
+        debugger;
+        var _val = $("#" + _ControlName).val()
+        if (_val == "01-01-0001") {
+            _val = '';
+        }
+        $('input[name="' + _ControlName + '"]').datepicker("setDate", _val)
+    }
+
+    @*function Validation() {
+
+        var _SupplierName = $("#SupplierName");
+        // To validate supplier name
+        if (_SupplierName.val() == '' || _SupplierName == undefined) {
+            _SupplierName.focus();
+            toastr["warning"]('Supplier Name can not left blank!');
+            return false;
+        }
+
+        var _Address1 = $("#Address1");
+        // To validate mobile number
+        if (_Address1.val() == '' || _Address1 == undefined) {
+            _Address1.focus();
+            toastr["warning"]('Address 1 can not left blank!');
+            return false;
+        }
+
+        var _Address1 = $("#Address1");
+        // To validate mobile number
+        if (_Address1.val() == '' || _Address1 == undefined) {
+            _Address1.focus();
+            toastr["warning"]('Address 1 can not left blank!');
+            return false;
+        }
+
+        var _City = $("#City");
+        // To validate City
+        if (_City.val() == '' || _City == undefined) {
+            _City.focus();
+            toastr["warning"]('City can not left blank!');
+            return false;
+        }
+
+        var _PostCode = $("#PostCode");
+        // To validate Post Code
+        if (_PostCode.val() == '' || _PostCode == undefined) {
+            _PostCode.focus();
+            toastr["warning"]('Post Code can not left blank!');
+            return false;
+        }
+
+        var _RespPerson = $("#RespPerson");
+        // To validate Resp Person
+        if (_RespPerson.val() == '' || _RespPerson == undefined) {
+            _RespPerson.focus();
+            toastr["warning"]('Responsible Person can not left blank!');
+            return false;
+        }
+
+        var _Telephone = $("#Telephone");
+        // To validate Telephone
+        if (_Telephone.val() == '' || _Telephone == undefined) {
+            _Telephone.focus();
+            toastr["warning"]('Telephone can not left blank!');
+            return false;
+        }
+
+        var _EmailID = $("#EmailID");
+        // To validate Telephone
+        if (_EmailID.val() == '' || _EmailID == undefined) {
+            _EmailID.focus();
+            toastr["warning"]('Email Id can not left blank!');
+            return false;
+        }
+        return true;
+
+        @*if ($("#SupplierId").val() == 0 || $("#SupplierId").val() == "") {
+            $.ajax({
+                type: 'get',
+                dataType: 'json',
+                cache: false,
+                url: '@Url.Action("ValidateDuplicatevalue", "Supplier")',
+                data: { pName: $("#SupplierName").val() },
+                beforeSend: function () {
+                    $("#ajaxLoader").show();
+                },
+                success: function (Response) {
+                    $("#ajaxLoader").hide();
+
+                    if (Response.Result)
+                    {
+                        debugger;
+                        $("#SupplierName").focus();
+                        toastr["warning"]('Supplier already exiest.');
+                        return false;
+                    }
+                    else
+                        return true;
+                },
+                error: function (ex, stext, status) {
+                    $("#ajaxLoader").hide();
+                    toastr["error"](Status + " " + stext);
+                    return false;
+                },
+
+            })
+        }
+        else
+        {
+            return true;
+        }
+
+
+    }*@
+    $(function () {
+        $("#myform").validate({
+            errorClass: 'has-error',
+            validClass: 'has-success',
+            onfocusout: function (element) { $(element).valid(); },
+            // Rules for form validation
+            rules: {
+                //EntityCode: {
+                //    remote: { url: "<?= base_url('masters/check/' . $menuaction) ?>", type: "get" }
+                //},
+                SupplierName: {
+                    required: true
+                },
+            },
+
+            // Messages for form validation
+            messages: {
+                //EntityCode: {
+                //    remote: jQuery.validator.format("{0} is already in use")
+                //},
+                SupplierName: {
+                    required: 'Enter Supplier  Name'
+                },
+            },
+
+            submitHandler: function (form) {
+                form.submit();
+            },
+
+            //        // Do not change code below
+            errorPlacement: function (error, element) {
+                $(element).parent('div').addClass('has-error');
+                error.insertAfter(element);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).parent('div').addClass(errorClass).removeClass(validClass);
+                //$(element).parent('div .form-group').addClass(errorClass).removeClass(validClass);
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).parent('div').removeClass(errorClass).addClass(validClass);
+                //$(element).parent('div .form-group').removeClass(errorClass).addClass(validClass);
+            }
+
+        });
+    });
+
+
+</script>

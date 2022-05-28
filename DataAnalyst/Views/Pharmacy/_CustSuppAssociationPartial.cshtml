@@ -1,0 +1,52 @@
+﻿@using DataAnalyst.Models
+@model PharmacyMasterModel
+
+
+<div class="col-md-12">
+    <div class="box box-primary">
+        <div class="box-header">
+            <h3 class="box-title"><label>Customer/Supplier Association</label></h3>
+        </div>
+        <div class="box-body">
+            <table class="table table-bordered table-responsive">
+                <thead>
+                    <tr>
+                        <th>Supplier Name</th>
+                        <th>Account No</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @for (int i = 0; i < Model.CSAssociation.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(model => Model.CSAssociation[i].SupplierName)
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => Model.CSAssociation[i].AccountNo, new { @class = "form-control" })
+                                @Html.HiddenFor(model => Model.CSAssociation[i].refSupplierId)
+                                @Html.HiddenFor(model => Model.CSAssociation[i].Id)
+                                @Html.HiddenFor(model => Model.CSAssociation[i].refPharmacyId)
+                                @Html.Hidden("SupplierCounter", Model.CSAssociation.Count)
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+
+        </div><!-- /.box-body -->
+    </div><!-- /.box -->
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //for (var i = 0; i < $("#SupplierCounter").val() ; i++) {
+        //    debugger;
+        //    $("#CSAssociation_" + i + "__AccountNo").on('change', function () {
+                
+        //    });
+        //}
+    });
+</script>
